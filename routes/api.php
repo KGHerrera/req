@@ -15,6 +15,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Cerrar sesión del usuario
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::get('/folios/usuario/{userId}', [FolioRequisicionController::class, 'getFoliosByUser']);
+
     // Obtener información del usuario autenticado
     Route::get('/user', function (Request $request) {
         return $request->user();

@@ -20,5 +20,11 @@ class Folio extends Model
         'total_estimado',
         'estado',
         'clave_departamento',
+        'user_id',
     ];
+
+    public function requisiciones()
+    {
+        return $this->hasMany(Requisicion::class, 'folio', 'folio');
+    }
 }

@@ -67,7 +67,7 @@ const Login = () => {
     return (
         <div className="container d-flex align-items-center min-vh-100">
             <div className="row justify-content-center w-100">
-                <div className="col-md-6">
+                <div className="col-12 col-md-7 col-lg-5 col-xl-4">
                     <div className="card shadow p-4">
                         <h2 className="text-center mb-4">Iniciar Sesión</h2>
                         <form onSubmit={handleSubmit}>
@@ -82,7 +82,7 @@ const Login = () => {
                                     onChange={handleEmailChange}
                                 />
                                 {errors && errors.email && (
-                                    <p className="text-danger mt-1">{errors.email}</p>
+                                    <p className="text-danger small mb-0">{errors.email}</p>
                                 )}
                             </div>
                             <div className="mb-3">
@@ -96,10 +96,10 @@ const Login = () => {
                                     onChange={handlePasswordChange}
                                 />
                                 {errors && errors.password && (
-                                    <p className="text-danger mt-1">{errors.password}</p>
+                                    <p className="text-danger small mb-0">{errors.password}</p>
                                 )}
                                 {errors && errors.message && (
-                                    <p className="text-danger mt-1">{errors.message}</p>
+                                    <p className="text-danger small mb-0">{errors.message}</p>
                                 )}
                             </div>
                             <button type="submit" className="btn btn-primary w-100">Iniciar Sesión</button>

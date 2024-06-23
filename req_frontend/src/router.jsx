@@ -4,15 +4,24 @@ import Register from './views/Register'
 import DefaulyLayout from './components/DefaulyLayout';
 import GuestLayout from './components/GuestLayout';
 import Requisiciones from './views/Requisiciones';
+import Folios from './views/Folios';
 
 const router = createBrowserRouter([
     {
         path: '/',
         element:<DefaulyLayout/>,
-        children: [{
+        children: [
+            
+        {
             path: '/requisiciones',
             element: <Requisiciones/>
-        }]     
+        },
+        {
+            path: '/folios',
+            element: <Folios/>
+        }
+    
+    ]     
     }, 
 
     {

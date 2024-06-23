@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+namespace App\Http\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -33,4 +35,35 @@ class RegisterRequest extends FormRequest
             ]
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'El campo nombre es obligatorio.',
+            'name.string' => 'El campo nombre debe ser una cadena de texto.',
+            'name.max' => 'El campo nombre no debe exceder los 255 caracteres.',
+            
+            'email.required' => 'El campo correo electrónico es obligatorio.',
+            'email.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
+            'email.unique' => 'El correo electrónico ya está registrado.',
+            
+            'rol.required' => 'El campo rol es obligatorio.',
+            'rol.string' => 'El campo rol debe ser una cadena de texto.',
+            'rol.max' => 'El campo rol no debe exceder los 255 caracteres.',
+            
+            'clave_departamento.required' => 'El campo clave de departamento es obligatorio.',
+            'clave_departamento.string' => 'El campo clave de departamento debe ser una cadena de texto.',
+            'clave_departamento.exists' => 'La clave de departamento no existe.',
+            
+            'password.required' => 'El campo contraseña es obligatorio.',
+            'password.min' => 'El campo contraseña debe tener al menos 8 caracteres.',
+            'password.letters' => 'El campo contraseña debe contener al menos una letra.'
+        ];
+    }
 }
+
