@@ -97,11 +97,29 @@ class FolioRequisicionController extends Controller
         }
     }
 
-    public function getFoliosByUser($userId)
+    public function getFoliosByUser(Request $request, $userId)
     {
         try {
-            // Obtener los folios del usuario con sus requisiciones paginados y ordenados por fecha de creación descendente
-            $folios = Folio::where('user_id', $userId)->with('requisiciones')->orderBy('created_at', 'desc')->paginate(5); // Ejemplo: 10 registros por página
+            $query = Folio::where('user_id', $userId)->with('requisiciones')->orderBy('created_at', 'desc');
+
+            // Búsqueda por término
+            if ($request->has('search') && !empty($request->search)) {
+                $searchTerm = $request->search;
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->where('folio', 'like', "%$searchTerm%")
+                        ->orWhere('fecha_solicitud', 'like', "%$searchTerm%")
+                        ->orWhere('fecha_entrega', 'like', "%$searchTerm%")
+                        ->orWhere('total_estimado', 'like', "%$searchTerm%")
+                        ->orWhere('estado', 'like', "%$searchTerm%")
+                        ->orWhere('clave_departamento', 'like', "%$searchTerm%")
+                        ->orWhereHas('requisiciones', function ($qr) use ($searchTerm) {
+                            $qr->where('descripcion_bienes_servicios', 'like', "%$searchTerm%");
+                        });
+                });
+            }
+
+            // Paginación
+            $folios = $query->paginate(6); // 5 registros por página por defecto
 
             // Si no se encuentran folios, devolver un mensaje apropiado
             if ($folios->isEmpty()) {
@@ -111,7 +129,6 @@ class FolioRequisicionController extends Controller
             // Devolver los folios paginados con sus requisiciones
             return response()->json($folios, 200);
         } catch (\Exception $e) {
-            // Registro de error en el log
             Log::error('Error al obtener folios y requisiciones por usuario.', [
                 'message' => $e->getMessage(),
                 'user_id' => $userId

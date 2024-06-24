@@ -2,18 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axiosClient from '../axiosClient'; // Importa tu cliente axios configurado
 import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
-import SuccessModal from '../components/SuccessModal';
+import Swal from 'sweetalert2';
 
 const Requisiciones = () => {
     const { user } = useStateContext();
     const year = new Date().getFullYear();
 
     const [errors, setErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState('');
 
-    const [showModal, setShowModal] = useState(false);
 
-    const handleCloseModal = () => setShowModal(false);
 
     const [folioData, setFolioData] = useState({
         folio: '',
@@ -139,24 +136,30 @@ const Requisiciones = () => {
 
         axiosClient.post('/folio-requisicion', data)
             .then(() => {
-                setSuccessMessage('Folio y Requisiciones guardados con éxito');
-                setShowModal(true);
-                setFolioData({
 
-                    ...folioData,
-                    total_estimado: '',
-                    estado: 'enviada',
-
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Folio y Requisiciones enviados con éxito',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    setFolioData({
+                        ...folioData,
+                        total_estimado: '',
+                        estado: 'enviada'
+                    });
+                    setRequisiciones([]);
+                    setNewRequisicion({
+                        partida_presupuestal: '',
+                        cantidad: '',
+                        unidad: '',
+                        descripcion_bienes_servicios: '',
+                        costo_estimado: ''
+                    });
+                    setErrors({});
                 });
-                setRequisiciones([]);
-                setNewRequisicion({
-                    partida_presupuestal: '',
-                    cantidad: '',
-                    unidad: '',
-                    descripcion_bienes_servicios: '',
-                    costo_estimado: ''
-                });
-                setErrors({});
             })
             .catch((err) => {
                 const response = err.response;
@@ -173,11 +176,7 @@ const Requisiciones = () => {
 
             <Navbar></Navbar>
             <div className="container mt-3 mb-5">
-                <SuccessModal
-                    show={showModal}
-                    handleClose={handleCloseModal}
-                    message={successMessage}
-                />
+
 
                 <div className="row">
                     <div className="col-12">
@@ -214,103 +213,103 @@ const Requisiciones = () => {
                                         <input type="number" className="form-control" id="costo_estimado" name="costo_estimado" value={newRequisicion.costo_estimado} onChange={handleChangeRequisicion} required />
                                         {errors.costo_estimado && <p className="text-danger small mb-0">{errors.costo_estimado}</p>}
                                     </div>
+                                    
 
                                 </div>
+                                
                                 <button type="button" className="btn btn-primary btn-block float-end mb-3" onClick={addRequisicion}>Añadir Requisición</button>
+                                {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
                                 <div className="col-12 mt-3">
-                                    {requisiciones.length > 0 &&   <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Partida Presupuestal</th>
-                                            <th scope="col">Cantidad</th>
-                                            <th scope="col">Unidad</th>
-                                            <th scope="col">Descripción</th>
-                                            <th scope="col">Costo Estimado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {requisiciones.map((req, index) => (
-                                            <tr key={index}>
-                                                <td>{req.partida_presupuestal}</td>
-                                                <td>{req.cantidad}</td>
-                                                <td>{req.unidad}</td>
-                                                <td>{req.descripcion_bienes_servicios}</td>
-                                                <td>{req.costo_estimado}</td>
+                                    {requisiciones.length > 0 && <table className="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Partida Presupuestal</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Unidad</th>
+                                                <th scope="col">Descripción</th>
+                                                <th scope="col">Costo Estimado</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                }
+                                        </thead>
+                                        <tbody>
+                                            {requisiciones.map((req, index) => (
+                                                <tr key={index}>
+                                                    <td>{req.partida_presupuestal}</td>
+                                                    <td>{req.cantidad}</td>
+                                                    <td>{req.unidad}</td>
+                                                    <td>{req.descripcion_bienes_servicios}</td>
+                                                    <td>{req.costo_estimado}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    }
 
 
+                                </div>
                             </div>
 
-                            {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
-
-
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="row">
-                <div className="col-12">
-                    <div className="card mb-3">
-                        <div className="card-header">
-                            Información del Folio
-                        </div>
-                        <div className="card-body">
-                            <form>
-                                <div className="row">
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="folio" className="form-label">Folio</label>
-                                        <input type="text" className="form-control" id="folio" name="folio" value={folioData.folio} readOnly />
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card mb-3">
+                            <div className="card-header">
+                                Información del Folio
+                            </div>
+                            <div className="card-body">
+                                <form>
+                                    <div className="row">
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="folio" className="form-label">Folio</label>
+                                            <input type="text" className="form-control" id="folio" name="folio" value={folioData.folio} readOnly />
+                                        </div>
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="fecha_solicitud" className="form-label">Fecha de Solicitud</label>
+                                            <input type="date" className="form-control" id="fecha_solicitud" name="fecha_solicitud" value={folioData.fecha_solicitud} readOnly />
+                                        </div>
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="fecha_entrega" className="form-label">Fecha de Entrega estimada</label>
+                                            <input type="date" className="form-control" id="fecha_entrega" name="fecha_entrega" value={folioData.fecha_entrega} readOnly />
+                                        </div>
                                     </div>
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="fecha_solicitud" className="form-label">Fecha de Solicitud</label>
-                                        <input type="date" className="form-control" id="fecha_solicitud" name="fecha_solicitud" value={folioData.fecha_solicitud} readOnly />
+                                    <div className="row">
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="total_estimado" className="form-label">Total Estimado</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                id="total_estimado"
+                                                name="total_estimado"
+                                                value={folioData.total_estimado}
+                                                onChange={(e) => setFolioData({ ...folioData, total_estimado: e.target.value })}
+                                                min="0"
+                                                onInvalid={(e) => e.target.setCustomValidity('Por favor, ingrese un costo estimado válido.')}
+                                                onInput={(e) => e.target.setCustomValidity('')}
+                                            />
+                                            {errors.total_estimado && <p className="text-danger small mb-0">{errors.total_estimado}</p>}
+                                        </div>
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="estado" className="form-label">Estado</label>
+                                            <input type="text" className="form-control" id="estado" name="estado" value={folioData.estado} readOnly />
+                                        </div>
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="clave_departamento" className="form-label">Clave de Departamento</label>
+                                            <input type="text" className="form-control" id="clave_departamento" name="clave_departamento" value={folioData.clave_departamento} readOnly />
+                                        </div>
                                     </div>
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="fecha_entrega" className="form-label">Fecha de Entrega estimada</label>
-                                        <input type="date" className="form-control" id="fecha_entrega" name="fecha_entrega" value={folioData.fecha_entrega} readOnly />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="total_estimado" className="form-label">Total Estimado</label>
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            id="total_estimado"
-                                            name="total_estimado"
-                                            value={folioData.total_estimado}
-                                            onChange={(e) => setFolioData({ ...folioData, total_estimado: e.target.value })}
-                                            min="0"
-                                            onInvalid={(e) => e.target.setCustomValidity('Por favor, ingrese un costo estimado válido.')}
-                                            onInput={(e) => e.target.setCustomValidity('')}
-                                        />
-                                        {errors.total_estimado && <p className="text-danger small mb-0">{errors.total_estimado}</p>}
-                                    </div>
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="estado" className="form-label">Estado</label>
-                                        <input type="text" className="form-control" id="estado" name="estado" value={folioData.estado} readOnly />
-                                    </div>
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="clave_departamento" className="form-label">Clave de Departamento</label>
-                                        <input type="text" className="form-control" id="clave_departamento" name="clave_departamento" value={folioData.clave_departamento} readOnly />
-                                    </div>
-                                </div>
 
-                            </form>
-                            <button type="submit" className="btn btn-primary float-end" onClick={handleSubmit}>Enviar folio y requisiciones</button>
+                                </form>
+                                <button type="submit" className="btn btn-primary float-end" onClick={handleSubmit}>Enviar folio y requisiciones</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
 
-        </div >
+            </div >
 
         </>
 
