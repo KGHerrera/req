@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FolioController;
 use App\Http\Controllers\FolioRequisicionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -17,6 +18,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
     Route::get('/folios/usuario/{userId}', [FolioRequisicionController::class, 'getFoliosByUser']);
+
+    Route::get('/folio-requisicion/user-role', [FolioRequisicionController::class, 'getFoliosByUserRole']);
+    Route::patch('/folios/{id}/estado', [FolioController::class, 'updateFolioEstado']);
 
     // Obtener información del usuario autenticado
     Route::get('/user', function (Request $request) {

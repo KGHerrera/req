@@ -5,7 +5,7 @@ import './index.css'
 import router from './router.jsx'
 import { RouterProvider } from 'react-router-dom'
 import { ContextProvider } from './context/contextprovider.jsx'
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/js/bootstrap.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

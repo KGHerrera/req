@@ -137,4 +137,62 @@ class FolioRequisicionController extends Controller
             return response()->json(['message' => 'Hubo un problema al obtener los folios y las requisiciones.'], 500);
         }
     }
+
+    public function getFoliosByUserRole(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $role = $user->rol; // Asume que el rol del usuario está almacenado en el atributo 'role'
+
+            // Determina el estado según el rol del usuario
+            $estado = match ($role) {
+                'financiero' => 'enviada',
+                'vinculacion' => 'primera_autorizacion',
+                'direccion' => 'segunda_autorizacion',
+                default => null,
+            };
+
+            if (is_null($estado)) {
+                return response()->json(['message' => 'Rol de usuario no válido.'], 403);
+            }
+
+            $query = Folio::where('estado', $estado)
+                          ->with('requisiciones')
+                          ->orderBy('created_at', 'desc');
+
+            // Búsqueda por término
+            if ($request->has('search') && !empty($request->search)) {
+                $searchTerm = $request->search;
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->where('folio', 'like', "%$searchTerm%")
+                      ->orWhere('fecha_solicitud', 'like', "%$searchTerm%")
+                      ->orWhere('fecha_entrega', 'like', "%$searchTerm%")
+                      ->orWhere('total_estimado', 'like', "%$searchTerm%")
+                      ->orWhere('estado', 'like', "%$searchTerm%")
+                      ->orWhere('clave_departamento', 'like', "%$searchTerm%")
+                      ->orWhereHas('requisiciones', function ($qr) use ($searchTerm) {
+                          $qr->where('descripcion_bienes_servicios', 'like', "%$searchTerm%");
+                      });
+                });
+            }
+
+            // Paginación
+            $folios = $query->paginate(6); // 6 registros por página
+
+            // Si no se encuentran folios, devolver un mensaje apropiado
+            if ($folios->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron folios para este usuario con el estado especificado.'], 404);
+            }
+
+            // Devolver los folios paginados con sus requisiciones
+            return response()->json($folios, 200);
+        } catch (\Exception $e) {
+            Log::error('Error al obtener folios y requisiciones por rol de usuario.', [
+                'message' => $e->getMessage(),
+                'user_id' => $user->id
+            ]);
+
+            return response()->json(['message' => 'Hubo un problema al obtener los folios y las requisiciones.'], 500);
+        }
+    }
 }
