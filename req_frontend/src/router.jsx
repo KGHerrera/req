@@ -5,6 +5,7 @@ import DefaulyLayout from './components/DefaulyLayout';
 import GuestLayout from './components/GuestLayout';
 import Requisiciones from './views/Requisiciones';
 import Folios from './views/Folios';
+import OrdenCompra from './views/OrdenCompra';
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
         {
             path: '/folios',
             element: <Folios/>
+        },
+        {
+            path: '/orden_compra',
+            element: <OrdenCompra/>
         }
     
     ]     

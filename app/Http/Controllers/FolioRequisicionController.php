@@ -149,6 +149,7 @@ class FolioRequisicionController extends Controller
                 'financiero' => 'enviada',
                 'vinculacion' => 'primera_autorizacion',
                 'direccion' => 'segunda_autorizacion',
+                'materiales' => 'tercera_autorizacion',
                 default => null,
             };
 

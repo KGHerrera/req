@@ -176,8 +176,6 @@ const Requisiciones = () => {
 
             <Navbar></Navbar>
             <div className="container mt-3 mb-5">
-
-
                 <div className="row">
                     <div className="col-12">
                         <div className="card mb-3">
@@ -213,14 +211,24 @@ const Requisiciones = () => {
                                         <input type="number" className="form-control" id="costo_estimado" name="costo_estimado" value={newRequisicion.costo_estimado} onChange={handleChangeRequisicion} required />
                                         {errors.costo_estimado && <p className="text-danger small mb-0">{errors.costo_estimado}</p>}
                                     </div>
-                                    
-
                                 </div>
-                                
                                 <button type="button" className="btn btn-primary btn-block float-end mb-3" onClick={addRequisicion}>Añadir Requisición</button>
-                                {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
-                                <div className="col-12 mt-3">
-                                    {requisiciones.length > 0 && <table className="table table-striped">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card mb-3">
+                            <div className="card-header">
+                                Requisiciones Agregadas
+                            </div>
+                            <div className="card-body">
+                                {requisiciones.length > 0 &&
+                                    <table className="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Partida Presupuestal</th>
@@ -242,15 +250,14 @@ const Requisiciones = () => {
                                             ))}
                                         </tbody>
                                     </table>
-                                    }
+                                }
 
-
-                                </div>
+                                {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
                             </div>
-
                         </div>
                     </div>
                 </div>
+
 
                 <div className="row">
                     <div className="col-12">
@@ -299,17 +306,14 @@ const Requisiciones = () => {
                                             <input type="text" className="form-control" id="clave_departamento" name="clave_departamento" value={folioData.clave_departamento} readOnly />
                                         </div>
                                     </div>
-
                                 </form>
                                 <button type="submit" className="btn btn-primary float-end" onClick={handleSubmit}>Enviar folio y requisiciones</button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-
-
-            </div >
 
         </>
 

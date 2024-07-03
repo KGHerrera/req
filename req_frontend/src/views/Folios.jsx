@@ -3,8 +3,10 @@ import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
 import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const Folios = () => {
+
     const { user } = useStateContext();
     const [folios, setFolios] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -25,7 +27,7 @@ const Folios = () => {
             let url = `/folios/usuario/${user.id}`;
 
             // Determina la ruta según el rol del usuario
-            if (['financiero', 'vinculacion', 'direccion'].includes(user.rol)) {
+            if (['financiero', 'vinculacion', 'direccion', 'materiales'].includes(user.rol)) {
                 url = '/folio-requisicion/user-role';
             }
 
@@ -101,9 +103,9 @@ const Folios = () => {
     };
 
     const handleModalAccept = (folioId) => {
-        
-        
-        
+
+
+
 
         Swal.fire({
             title: 'Aceptar Folio',
@@ -122,8 +124,8 @@ const Folios = () => {
     };
 
     const handleModalReject = (folioId) => {
-        
-        
+
+
         Swal.fire({
             title: 'Rechazar Folio',
             html: '<textarea id="motivoRechazo" class="form-control" rows="3" placeholder="Motivo de rechazo"></textarea>',
@@ -142,12 +144,12 @@ const Folios = () => {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                
+
                 handleRejectFolio(folioId, result.value);
             }
         });
     };
-    
+
 
     return (
         <>
@@ -190,7 +192,7 @@ const Folios = () => {
                                                 <p><strong>Fecha de Entrega:</strong> {folio.fecha_entrega}</p>
                                                 <p><strong>Total Estimado:</strong> {folio.total_estimado}</p>
                                                 <p><strong>Clave de Departamento:</strong> {folio.clave_departamento}</p>
-                                                { folio.motivo_rechazo && <p className="text-danger"><strong>Motivo de rechazo:</strong> {folio.motivo_rechazo}</p>}
+                                                {folio.motivo_rechazo && <p className="text-danger"><strong>Motivo de rechazo:</strong> {folio.motivo_rechazo}</p>}
                                                 <h5>Requisiciones:</h5>
                                                 <div className="table-responsive">
                                                     <table className="table table-striped">
@@ -211,57 +213,68 @@ const Folios = () => {
                                                                     <td>{requisicion.unidad}</td>
                                                                     <td>{requisicion.descripcion_bienes_servicios}</td>
                                                                     <td>{requisicion.costo_estimado} </td>
-                                                                    </tr>
-                                                               ))}
-                                                           </tbody>
-                                                       </table>
-                                                   </div>
-                                               </div>
-                                               <div className="card-footer text-muted">
-                                                   Estado: <span className="badge bg-primary">{folio.estado}</span>
-                                                   <br />
-                                                   {/* Botones de acciones */}
-                                                   {['financiero', 'vinculacion', 'direccion'].includes(user.rol) && (
-                                                       <>
-                                                           <button className="btn btn-success mt-2 me-2" onClick={() => handleModalAccept(folio.folio)}>
-                                                               Aceptar
-                                                           </button>
-                                                           <button className="btn btn-danger mt-2" onClick={() => handleModalReject(folio.folio)}>
-                                                               Rechazar
-                                                           </button>
-                                                       </>
-                                                   )}
-                                               </div>
-                                           </div>
-                                       </div>
-                                   ))
-                               ) : (
-                                   <div className="col">
-                                       <p>No se encontraron folios para este usuario.</p>
-                                   </div>
-                               )}
-                           </div>
-                           {/* Paginación */}
-                           {folios.length > 0 && (
-                               <nav aria-label="Page navigation example">
-                                   <p className="text-center mt-3">Total de folios: {folios.length}</p>
-                                   <ul className="pagination mt-3 justify-content-center">
-                                       {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
-                                           <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
-                                               <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
-                                           </li>
-                                       ))}
-                                   </ul>
-                               </nav>
-                           )}
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div className="card-footer text-muted">
+                                                Estado: <span className="badge bg-primary">{folio.estado}</span>
+                                                <br />
+                                                {/* Botones de acciones */}
+                                                {['financiero', 'vinculacion', 'direccion'].includes(user.rol) && (
+                                                    <>
+                                                        <button className="btn btn-success mt-2 me-2" onClick={() => handleModalAccept(folio.folio)}>
+                                                            Aceptar
+                                                        </button>
+                                                        <button className="btn btn-danger mt-2" onClick={() => handleModalReject(folio.folio)}>
+                                                            Rechazar
+                                                        </button>
+                                                    </>
+                                                )}
 
-                   
-                       </>
-                   )}
-               </div>
-           </>
-       );
-   };
+                                                {/* Botones de acciones */}
+                                                {['materiales'].includes(user.rol) && (
+                                                    <>
+                                                        <Link to={`/orden_compra`} state={{ folio }}>
+                                                            <button className="btn btn-success mt-2 me-2">
+                                                                Crear orden de entrega
+                                                            </button>
+                                                        </Link>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="col">
+                                    <p>No se encontraron folios para este usuario.</p>
+                                </div>
+                            )}
+                        </div>
+                        {/* Paginación */}
+                        {folios.length > 0 && (
+                            <nav aria-label="Page navigation example">
+                                <p className="text-center mt-3">Total de folios: {folios.length}</p>
+                                <ul className="pagination mt-3 justify-content-center">
+                                    {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
+                                        <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                                            <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </nav>
+                        )}
 
-   export default Folios;
+
+                    </>
+                )}
+            </div>
+        </>
+    );
+};
+
+export default Folios;
 

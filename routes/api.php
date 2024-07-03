@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompraController;
 use App\Http\Controllers\FolioController;
 use App\Http\Controllers\FolioRequisicionController;
 use App\Http\Controllers\UserController;
@@ -30,6 +31,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Ruta para crear folio y requisiciones
     Route::post('folio-requisicion', [FolioRequisicionController::class, 'store']);
+
+    Route::post('orden-compra', [CompraController::class, 'store']);
 
     
 });
