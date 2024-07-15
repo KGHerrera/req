@@ -6,6 +6,7 @@ import GuestLayout from './components/GuestLayout';
 import Requisiciones from './views/Requisiciones';
 import Folios from './views/Folios';
 import OrdenCompra from './views/OrdenCompra';
+import Compra from './views/Compra';
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
         {
             path: '/orden_compra',
             element: <OrdenCompra/>
+        }
+        ,
+        {
+            path: '/compra',
+            element: <Compra/>
         }
     
     ]     

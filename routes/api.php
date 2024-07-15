@@ -33,6 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('folio-requisicion', [FolioRequisicionController::class, 'store']);
 
     Route::post('orden-compra', [CompraController::class, 'store']);
+    Route::get('ordenes-compra', [CompraController::class, 'index']);
+
+    Route::post('ordenes-compra/{id_compra}/subir-evidencia', [CompraController::class, 'subirEvidencia']);
 
     
 });

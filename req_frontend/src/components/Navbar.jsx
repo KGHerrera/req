@@ -35,10 +35,13 @@ const Navbar = () => {
                     <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
                         <li className="nav-item">
 
-                        <NavLink className="nav-link" activeclassname="active" to="/requisiciones">Agregar requisiciones</NavLink>
+                            <NavLink className="nav-link" activeclassname="active" to="/requisiciones">Agregar requisiciones</NavLink>
                         </li>
                         <li className="nav-item">
-                        <NavLink className="nav-link" activeclassname="active" to="/folios">Folios</NavLink>
+                            <NavLink className="nav-link" activeclassname="active" to="/folios">Folios</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" activeclassname="active" to="/compra">Ordenes de compra</NavLink>
                         </li>
                     </ul>
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">

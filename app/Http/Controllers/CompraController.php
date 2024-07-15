@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Compra;
 use App\Models\OrdenCompra;
+use Illuminate\Support\Facades\Storage;
 
 class CompraController extends Controller
 {
@@ -65,6 +66,94 @@ class CompraController extends Controller
             ]);
 
             return response()->json(['message' => 'Hubo un problema al crear la compra y las órdenes de compra.'], 500);
+        }
+    }
+
+    public function index(Request $request)
+    {
+        try {
+            // Obtener los parámetros de búsqueda y paginación
+            $search = $request->query('search', '');
+            $perPage = $request->query('per_page', 10); // Número de elementos por página, puedes ajustar el valor por defecto
+            $page = $request->query('page', 1);
+
+            // Construir la consulta de compras
+            $query = Compra::with('ordenesCompra.requisicion');
+
+            // Aplicar filtro de búsqueda si se proporciona
+            if (!empty($search)) {
+                $query->where('proveedor', 'like', '%' . $search . '%');
+            }
+
+            // Obtener los resultados paginados
+            $compras = $query->paginate($perPage, ['*'], 'page', $page);
+
+            // Transformar los datos en el formato deseado
+            $data = $compras->map(function ($compra) {
+                return [
+                    'no_orden_compra' => $compra->no_orden_compra,
+                    'proveedor' => $compra->proveedor,
+                    'fecha_entrega' => $compra->fecha_entrega,
+                    'IVA' => $compra->IVA,
+                    'total' => $compra->total,
+                    'ordenes_compra' => $compra->ordenesCompra->map(function ($orden) {
+                        return [
+                            'id_compra' => $orden->id_compra,
+                            'precio_unitario' => $orden->precio_unitario,
+                            'importe_parcial' => $orden->importe_parcial,
+                            'id_requisicion' => $orden->id_requisicion,
+                            'evidencia_de_entrega' => $orden->evidencia_de_entrega,
+                        ];
+                    }),
+                ];
+            });
+
+            return response()->json([
+                'data' => $data,
+                'current_page' => $compras->currentPage(),
+                'last_page' => $compras->lastPage(),
+                'per_page' => $compras->perPage(),
+                'total' => $compras->total(),
+            ], 200);
+        } catch (\Exception $e) {
+            // Registro de error en el log
+            Log::error('Error al obtener las compras.', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json(['message' => 'Hubo un problema al obtener las compras.'], 500);
+        }
+    }
+
+    public function subirEvidencia($id_compra, Request $request)
+    {
+        try {
+            // Validar la solicitud y la existencia de la orden de compra
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Ajusta los tipos de archivo y el tamaño según tus requisitos
+            ]);
+
+            // Obtener la orden de compra por su ID
+            $ordenCompra = OrdenCompra::where('id_compra', $id_compra)->firstOrFail();
+
+            // Guardar la imagen en el servidor
+            $imagen = $request->file('image');
+            $imageName = 'requisicion_' . time() . '.' . $imagen->getClientOriginalExtension();
+            $path = $imagen->storeAs('public/evidencias', $imageName);
+
+            // Actualizar el campo de evidencia_entrega en la orden de compra
+            $ordenCompra->evidencia_de_entrega = $path;
+            $ordenCompra->save();
+
+            return response()->json(['message' => 'Evidencia de entrega subida correctamente.'], 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Devolver errores de validación
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            // Registro de error en el log con detalles adicionales
+            
+
+            return response()->json(['message' => 'Hubo un problema al subir la evidencia de entrega.'], 500);
         }
     }
 }
