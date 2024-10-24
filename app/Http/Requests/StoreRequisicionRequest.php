@@ -31,7 +31,7 @@ class StoreRequisicionRequest extends FormRequest
             'unidad' => 'required|string|max:20',
             'descripcion_bienes_servicios' => 'required|string|max:100',
             'costo_estimado' => 'required|numeric|min:0',
-            'folio' => 'required|string|exists:folios,folio|max:10',
+            'folio' => 'required|string|exists:folios,folio|max:15',
         ];
     }
 

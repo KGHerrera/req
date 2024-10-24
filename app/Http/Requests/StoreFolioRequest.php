@@ -26,7 +26,7 @@ class StoreFolioRequest extends FormRequest
     public function rules()
     {
         return [
-            'folio' => 'required|string|max:10|unique:folios,folio',
+            'folio' => 'required|string|max:15|unique:folios,folio',
             'fecha_solicitud' => 'required|date',
             'fecha_entrega' => 'nullable|date|after_or_equal:fecha_solicitud',
             'total_estimado' => 'required|numeric|min:0',
@@ -45,7 +45,7 @@ class StoreFolioRequest extends FormRequest
         return [
             'folio.required' => 'El folio es obligatorio.',
             'folio.string' => 'El folio debe ser una cadena de texto.',
-            'folio.max' => 'El folio no puede tener más de 10 caracteres.',
+            'folio.max' => 'El folio no puede tener más de 15 caracteres.',
             'folio.unique' => 'El folio ya existe.',
             'fecha_solicitud.required' => 'La fecha de solicitud es obligatoria.',
             'fecha_solicitud.date' => 'La fecha de solicitud no tiene un formato válido.',
