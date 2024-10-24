@@ -3,6 +3,7 @@ import axiosClient from '../axiosClient'; // Importa tu cliente axios configurad
 import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
+import { Navigate} from "react-router-dom"
 
 const Requisiciones = () => {
     const { user } = useStateContext();
@@ -23,6 +24,7 @@ const Requisiciones = () => {
     });
 
     useEffect(() => {
+
         if (user.clave_departamento !== undefined) {
             const fechaSolicitud = new Date();
             const fechaEntrega = new Date(fechaSolicitud);

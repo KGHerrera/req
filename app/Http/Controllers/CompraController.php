@@ -74,7 +74,7 @@ class CompraController extends Controller
         try {
             // Obtener los parámetros de búsqueda y paginación
             $search = $request->query('search', '');
-            $perPage = $request->query('per_page', 10); // Número de elementos por página, puedes ajustar el valor por defecto
+            $perPage = $request->query('per_page', 10); // Número de elementos por página
             $page = $request->query('page', 1);
 
             // Construir la consulta de compras
@@ -84,6 +84,9 @@ class CompraController extends Controller
             if (!empty($search)) {
                 $query->where('proveedor', 'like', '%' . $search . '%');
             }
+
+            // Ordenar por la fecha de creación en orden descendente
+            $query->orderBy('created_at', 'desc'); // Cambia 'created_at' por el campo que desees ordenar
 
             // Obtener los resultados paginados
             $compras = $query->paginate($perPage, ['*'], 'page', $page);
@@ -125,6 +128,7 @@ class CompraController extends Controller
         }
     }
 
+
     public function subirEvidencia($id_compra, Request $request)
     {
         try {
@@ -151,7 +155,7 @@ class CompraController extends Controller
             return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             // Registro de error en el log con detalles adicionales
-            
+
 
             return response()->json(['message' => 'Hubo un problema al subir la evidencia de entrega.'], 500);
         }

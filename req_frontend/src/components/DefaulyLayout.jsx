@@ -24,7 +24,6 @@ const DefaulyLayout = () => {
 
   return (
     <div>
-
       <Outlet></Outlet>
     </div>
   )

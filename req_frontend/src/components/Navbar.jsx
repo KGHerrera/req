@@ -33,17 +33,35 @@ const Navbar = () => {
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
 
-                            <NavLink className="nav-link" activeclassname="active" to="/requisiciones">Agregar requisiciones</NavLink>
-                        </li>
+                        {/* Mostrar "Agregar requisiciones" solo para roles que pueden verlas */}
+                        {!['direccion', 'financiero', 'vinculacion', 'materiales'].includes(user?.rol) && (
+                            <li className="nav-item">
+                                <NavLink className="nav-link" activeclassname="active" to="/requisiciones">
+                                    Agregar requisiciones
+                                </NavLink>
+                            </li>
+                        )}
+
+                        {/* Mostrar "Folios" para todos los roles */}
                         <li className="nav-item">
-                            <NavLink className="nav-link" activeclassname="active" to="/folios">Folios</NavLink>
+                            <NavLink className="nav-link" activeclassname="active" to="/folios">
+                                Folios
+                            </NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" activeclassname="active" to="/compra">Ordenes de compra</NavLink>
-                        </li>
+
+                        {/* Mostrar "Ordenes de compra" solo para el rol "materiales" */}
+                        {user?.rol === 'materiales' && (
+                            <li className="nav-item">
+                                <NavLink className="nav-link" activeclassname="active" to="/compra">
+                                    Ordenes de compra
+                                </NavLink>
+                            </li>
+                        )}
+
                     </ul>
+
+                    {/* Botón de Cerrar Sesión */}
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <button className="btn btn-dark" onClick={onLogout}>Cerrar Sesión</button>
