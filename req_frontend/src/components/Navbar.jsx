@@ -2,7 +2,7 @@ import React from 'react';
 import { useStateContext } from '../context/contextprovider';
 import axiosClient from '../axiosClient';
 import { NavLink } from 'react-router-dom';
-import { FaPlusSquare, FaFolderOpen, FaSignOutAlt, FaUser, FaClipboardList } from 'react-icons/fa';
+import { FaPlusSquare, FaFolderOpen, FaSignOutAlt, FaUser, FaClipboardList, FaUserAstronaut } from 'react-icons/fa';
 
 const Navbar = () => {
     const { user, setUser, setToken } = useStateContext();
@@ -39,22 +39,33 @@ const Navbar = () => {
 
                 <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <ul className="navbar-nav mb-2 mb-lg-0">
-                        {!['direccion', 'financiero', 'vinculacion', 'materiales'].includes(user?.rol) && (
+                        {!['direccion', 'financiero', 'vinculacion', 'materiales', 'admin'].includes(user?.rol) && (
                             <li className="nav-item">
                                 <NavLink className="nav-link" activeclassname="active" to="/requisiciones">
                                     <FaPlusSquare className="me-1" /> Agregar requisiciones
                                 </NavLink>
                             </li>
                         )}
-                        <li className="nav-item">
-                            <NavLink className="nav-link" activeclassname="active" to="/folios">
-                                <FaFolderOpen className="me-1" /> Folios
-                            </NavLink>
-                        </li>
+                        {user?.rol !== 'admin' && (
+                            <li className="nav-item">
+                                <NavLink className="nav-link" activeclassname="active" to="/folios">
+                                    <FaFolderOpen className="me-1" /> Folios
+                                </NavLink>
+                            </li>
+                        )
+                        }
+                        
                         {user?.rol === 'materiales' && (
                             <li className="nav-item">
                                 <NavLink className="nav-link" activeclassname="active" to="/compra">
                                     <FaClipboardList className="me-1" /> Ordenes de compra
+                                </NavLink>
+                            </li>
+                        )}
+                        {user?.rol === 'admin' && (
+                            <li className="nav-item">
+                                <NavLink className="nav-link" activeclassname="active" to="/usuarios">
+                                    <FaUserAstronaut className="me-1" /> Usuarios
                                 </NavLink>
                             </li>
                         )}

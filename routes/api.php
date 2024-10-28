@@ -27,7 +27,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-   
+    // Otras rutas...
+    Route::get('users', [UserController::class, 'index']);
+    Route::post('users', [UserController::class, 'store']);
+    Route::put('users/{user}', [UserController::class, 'update']);
+    Route::delete('users/{user}', [UserController::class, 'destroy']);
 
     // Ruta para crear folio y requisiciones
     Route::post('folio-requisicion', [FolioRequisicionController::class, 'store']);
@@ -36,6 +40,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ordenes-compra', [CompraController::class, 'index']);
 
     Route::post('ordenes-compra/{id_compra}/subir-evidencia', [CompraController::class, 'subirEvidencia']);
-
-    
 });

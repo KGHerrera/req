@@ -9,6 +9,7 @@ import OrdenCompra from './views/OrdenCompra';
 import Compra from './views/Compra';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './views/NotFound';
+import CrearUsuario from './views/CrearUsuario';
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,17 @@ const router = createBrowserRouter([
                         <Requisiciones />
                     </ProtectedRoute>
                 ),
+            },
+            {
+                path: '/usuarios',
+                element: 
+                    (
+                        <ProtectedRoute allowedRoles={['admin']}>
+                            <CrearUsuario />
+                        </ProtectedRoute>
+                    ),
+                        
+                    
             },
             {
                 path: '/folios',
@@ -48,6 +60,7 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
                 ),
             },
+            
         ],
     },
     {

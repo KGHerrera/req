@@ -8,6 +8,8 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
     if (!allowedRoles.includes(user?.rol)) {
         // Condicionar la redirección según el rol del usuario
         switch (user?.rol) {
+            case 'admin':
+                return <Navigate to="/usuarios" replace />;
             case 'financiero':
             case 'vinculacion':
             case 'direccion':
