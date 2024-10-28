@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axiosClient from '../axiosClient';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
-import { FaPlusSquare } from 'react-icons/fa';
+import { FaPlusSquare, FaUser, FaEnvelope, FaKey, FaBuilding, FaUserTag } from 'react-icons/fa';
 import UserTable from '../components/UserTable';
 
 const CrearUsuario = () => {
@@ -15,7 +15,6 @@ const CrearUsuario = () => {
         password: '',
         password_confirmation: ''
     });
-
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
@@ -30,7 +29,6 @@ const CrearUsuario = () => {
         const request = userData.id
             ? axiosClient.put(`/users/${userData.id}`, userData)
             : axiosClient.post('/users', userData);
-
         request
             .then(() => {
                 Swal.fire({
@@ -82,50 +80,106 @@ const CrearUsuario = () => {
                                     <div className="row">
                                         <div className="col-md-6 mb-3">
                                             <label htmlFor="name" className="form-label">Nombre</label>
-                                            <input type="text" className="form-control" id="name" name="name" value={userData.name} onChange={handleChange} required />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaUser /></span>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="name"
+                                                    name="name"
+                                                    value={userData.name}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                            </div>
                                             {errors.name && <p className="text-danger small mb-0">{errors.name[0]}</p>}
                                         </div>
                                         <div className="col-md-6 mb-3">
                                             <label htmlFor="email" className="form-label">Correo Electrónico</label>
-                                            <input type="email" className="form-control" id="email" name="email" value={userData.email} onChange={handleChange} required />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaEnvelope /></span>
+                                                <input
+                                                    type="email"
+                                                    className="form-control"
+                                                    id="email"
+                                                    name="email"
+                                                    value={userData.email}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                            </div>
                                             {errors.email && <p className="text-danger small mb-0">{errors.email[0]}</p>}
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-md-6 mb-3">
                                             <label htmlFor="rol" className="form-label">Rol</label>
-                                            <input
-                                                list="roles"
-                                                className="form-control"
-                                                id="rol"
-                                                name="rol"
-                                                value={userData.rol}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                            <datalist id="roles">
-                                                <option value="financiero" />
-                                                <option value="vinculacion" />
-                                                <option value="direccion" />
-                                                <option value="materiales" />
-                                            </datalist>
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaUserTag /></span>
+                                                <input
+                                                    list="roles"
+                                                    className="form-control"
+                                                    id="rol"
+                                                    name="rol"
+                                                    value={userData.rol}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                                <datalist id="roles">
+                                                    <option value="financiero" />
+                                                    <option value="vinculacion" />
+                                                    <option value="direccion" />
+                                                    <option value="materiales" />
+                                                </datalist>
+                                            </div>
                                             {errors.rol && <p className="text-danger small mb-0">{errors.rol[0]}</p>}
                                         </div>
                                         <div className="col-md-6 mb-3">
                                             <label htmlFor="clave_departamento" className="form-label">Clave de Departamento</label>
-                                            <input type="text" className="form-control" id="clave_departamento" name="clave_departamento" value={userData.clave_departamento} onChange={handleChange} required />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaBuilding /></span>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="clave_departamento"
+                                                    name="clave_departamento"
+                                                    value={userData.clave_departamento}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+                                            </div>
                                             {errors.clave_departamento && <p className="text-danger small mb-0">{errors.clave_departamento[0]}</p>}
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-md-6 mb-3">
                                             <label htmlFor="password" className="form-label">Contraseña</label>
-                                            <input type="password" className="form-control" id="password" name="password" value={userData.password} onChange={handleChange} />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaKey /></span>
+                                                <input
+                                                    type="password"
+                                                    className="form-control"
+                                                    id="password"
+                                                    name="password"
+                                                    value={userData.password}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
                                             {errors.password && <p className="text-danger small mb-0">{errors.password[0]}</p>}
                                         </div>
                                         <div className="col-md-6 mb-3">
                                             <label htmlFor="password_confirmation" className="form-label">Confirmar Contraseña</label>
-                                            <input type="password" className="form-control" id="password_confirmation" name="password_confirmation" value={userData.password_confirmation} onChange={handleChange} />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaKey /></span>
+                                                <input
+                                                    type="password"
+                                                    className="form-control"
+                                                    id="password_confirmation"
+                                                    name="password_confirmation"
+                                                    value={userData.password_confirmation}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
                                             {errors.password_confirmation && <p className="text-danger small mb-0">{errors.password_confirmation[0]}</p>}
                                         </div>
                                     </div>

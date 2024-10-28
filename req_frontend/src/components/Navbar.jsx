@@ -17,7 +17,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
             <div className="container-fluid d-flex justify-content-between align-items-center">
                 {/* Logo */}
                 <a className="navbar-brand" href="/">
@@ -74,7 +74,7 @@ const Navbar = () => {
 
                 {/* Botón de Cerrar Sesión */}
                 <div className="d-flex align-items-center">
-                    <button className="btn btn-dark ms-3" onClick={onLogout}>
+                    <button className="btn btn-light ms-3" onClick={onLogout}>
                         <FaSignOutAlt className="me-1" /> Cerrar Sesión
                     </button>
                 </div>

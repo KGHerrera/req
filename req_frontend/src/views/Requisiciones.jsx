@@ -4,8 +4,9 @@ import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
 
-import { FaPlusSquare, FaFolderOpen, FaClipboardList, FaPaperPlane, FaCalendarAlt, FaDollarSign } from 'react-icons/fa';
-
+import { FaClipboardList, FaCalculator, FaRulerCombined, FaRegFileAlt, FaDollarSign } from 'react-icons/fa'
+import { FaPlusSquare, FaPaperPlane } from 'react-icons/fa';
+import { FaCalendarAlt, FaRegMoneyBillAlt, FaIdBadge, FaKey } from 'react-icons/fa';
 
 const Requisiciones = () => {
     const { user } = useStateContext();
@@ -191,41 +192,51 @@ const Requisiciones = () => {
                                 <div className="row">
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="partida_presupuestal" className="form-label">Partida Presupuestal</label>
-                                        <input type="text" placeholder='000000' className="form-control" id="partida_presupuestal" name="partida_presupuestal" value={newRequisicion.partida_presupuestal} onChange={handleChangeRequisicion} required maxLength="6" />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaClipboardList /></span>
+                                            <input type="text" placeholder='000000' className="form-control" id="partida_presupuestal" name="partida_presupuestal" value={newRequisicion.partida_presupuestal} onChange={handleChangeRequisicion} required maxLength="6" />
+                                        </div>
                                         {errors.partida_presupuestal && <p className="text-danger small mb-0">{errors.partida_presupuestal}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="cantidad" className="form-label">Cantidad</label>
-                                        <input type="number" placeholder='0' className="form-control" id="cantidad" name="cantidad" value={newRequisicion.cantidad} onChange={handleChangeRequisicion} required />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaCalculator /></span>
+                                            <input type="number" placeholder='0' className="form-control" id="cantidad" name="cantidad" value={newRequisicion.cantidad} onChange={handleChangeRequisicion} required />
+                                        </div>
                                         {errors.cantidad && <p className="text-danger small mb-0">{errors.cantidad}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="unidad" className="form-label">Unidad</label>
-                                        <input type="text" placeholder='pieza, litro, etc' className="form-control" id="unidad" name="unidad" value={newRequisicion.unidad} onChange={handleChangeRequisicion} required maxLength="20" />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaRulerCombined /></span>
+                                            <input type="text" placeholder='pieza, litro, etc' className="form-control" id="unidad" name="unidad" value={newRequisicion.unidad} onChange={handleChangeRequisicion} required maxLength="20" />
+                                        </div>
                                         {errors.unidad && <p className="text-danger small mb-0">{errors.unidad}</p>}
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="descripcion_bienes_servicios" className="form-label">Descripción</label>
-                                        <input type="text" className="form-control" placeholder='descripción detallada del bien o servicio' id="descripcion_bienes_servicios" name="descripcion_bienes_servicios" value={newRequisicion.descripcion_bienes_servicios} onChange={handleChangeRequisicion} required maxLength="100" />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaRegFileAlt /></span>
+                                            <input type="text" className="form-control" placeholder='descripción detallada del bien o servicio' id="descripcion_bienes_servicios" name="descripcion_bienes_servicios" value={newRequisicion.descripcion_bienes_servicios} onChange={handleChangeRequisicion} required maxLength="100" />
+                                        </div>
                                         {errors.descripcion_bienes_servicios && <p className="text-danger small mb-0">{errors.descripcion_bienes_servicios}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="costo_estimado" className="form-label">Costo Estimado</label>
-                                        <input type="number" className="form-control" placeholder='0.00' id="costo_estimado" name="costo_estimado" value={newRequisicion.costo_estimado} onChange={handleChangeRequisicion} required />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaDollarSign /></span>
+                                            <input type="number" className="form-control" placeholder='0.00' id="costo_estimado" name="costo_estimado" value={newRequisicion.costo_estimado} onChange={handleChangeRequisicion} required />
+                                        </div>
                                         {errors.costo_estimado && <p className="text-danger small mb-0">{errors.costo_estimado}</p>}
-
                                     </div>
-
-
                                 </div>
                                 <button type="button" className="btn btn-primary btn-block float-end mb-3 d-flex align-items-center" onClick={addRequisicion}>
                                     <FaPlusSquare className="me-2" />
                                     Añadir Requisición
                                 </button>
-
-
                             </div>
 
                         </div>
@@ -286,46 +297,67 @@ const Requisiciones = () => {
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="folio" className="form-label">Folio</label>
-                                            <input type="text" className="form-control" id="folio" name="folio" value={folioData.folio} readOnly />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaIdBadge /></span>
+                                                <input type="text" className="form-control" id="folio" name="folio" value={folioData.folio} readOnly />
+                                            </div>
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="fecha_solicitud" className="form-label">Fecha de Solicitud</label>
-                                            <input type="date" className="form-control" id="fecha_solicitud" name="fecha_solicitud" value={folioData.fecha_solicitud} readOnly />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaCalendarAlt /></span>
+                                                <input type="date" className="form-control" id="fecha_solicitud" name="fecha_solicitud" value={folioData.fecha_solicitud} readOnly />
+                                            </div>
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="fecha_entrega" className="form-label">Fecha de Entrega estimada</label>
-                                            <input type="date" className="form-control" id="fecha_entrega" name="fecha_entrega" value={folioData.fecha_entrega} readOnly />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaCalendarAlt /></span>
+                                                <input type="date" className="form-control" id="fecha_entrega" name="fecha_entrega" value={folioData.fecha_entrega} readOnly />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="total_estimado" className="form-label">Total Estimado</label>
-                                            <input
-                                                type="number"
-                                                placeholder="0.00"
-                                                className="form-control"
-                                                id="total_estimado"
-                                                name="total_estimado"
-                                                value={folioData.total_estimado}
-                                                onChange={(e) => setFolioData({ ...folioData, total_estimado: e.target.value })}
-                                                min="0"
-                                                onInvalid={(e) => e.target.setCustomValidity('Por favor, ingrese un costo estimado válido.')}
-                                                onInput={(e) => e.target.setCustomValidity('')}
-                                            />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaRegMoneyBillAlt /></span>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0.00"
+                                                    className="form-control"
+                                                    id="total_estimado"
+                                                    name="total_estimado"
+                                                    value={folioData.total_estimado}
+                                                    onChange={(e) => setFolioData({ ...folioData, total_estimado: e.target.value })}
+                                                    min="0"
+                                                    onInvalid={(e) => e.target.setCustomValidity('Por favor, ingrese un costo estimado válido.')}
+                                                    onInput={(e) => e.target.setCustomValidity('')}
+                                                />
+                                            </div>
                                             {errors.total_estimado && <p className="text-danger small mb-0">{errors.total_estimado}</p>}
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="estado" className="form-label">Estado</label>
-                                            <input type="text" className="form-control" id="estado" name="estado" value={folioData.estado} readOnly />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaKey /></span>
+                                                <input type="text" className="form-control" id="estado" name="estado" value={folioData.estado} readOnly />
+                                            </div>
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="clave_departamento" className="form-label">Clave de Departamento</label>
-                                            <input type="text" className="form-control" id="clave_departamento" name="clave_departamento" value={folioData.clave_departamento} readOnly />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaKey /></span>
+                                                <input type="text" className="form-control" id="clave_departamento" name="clave_departamento" value={folioData.clave_departamento} readOnly />
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
-                                <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}><FaPaperPlane className="me-2" /> Enviar folio y requisiciones</button>
+                                <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}>
+                                    <FaPaperPlane className="me-2" /> Enviar folio y requisiciones
+                                </button>
                             </div>
+
                         </div>
                     </div>
                 </div>
