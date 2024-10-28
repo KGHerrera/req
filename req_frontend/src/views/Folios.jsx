@@ -5,6 +5,9 @@ import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
+import { FaSearch, FaFile} from 'react-icons/fa';
+
+
 const Folios = () => {
 
     const { user } = useStateContext();
@@ -162,13 +165,16 @@ const Folios = () => {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Buscar..."
+                                    placeholder="Termino de búsqueda..."
                                     value={searchTerm}
                                     onChange={handleSearchChange}
                                 />
                             </div>
                             <div className="col-md-4">
-                                <button type="submit" className="btn btn-primary w-100">Buscar</button>
+                                <button type="submit" className="btn btn-primary d-flex align-items-center">
+                                    <FaSearch className='me-2'/>
+                                    Buscar
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -184,8 +190,8 @@ const Folios = () => {
                                 folios.map((folio, index) => (
                                     <div key={folio.folio} className="col">
                                         <div className="card h-100">
-                                            <div className="card-header">
-                                                Folio: {folio.folio}
+                                            <div className="card-header d-flex align-items-center">
+                                                <FaFile className='me-2'/> Folio: {folio.folio}
                                             </div>
                                             <div className="card-body">
                                                 <p><strong>Fecha de Solicitud:</strong> {folio.fecha_solicitud}</p>

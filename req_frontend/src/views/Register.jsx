@@ -15,7 +15,7 @@ const Register = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
+
 
         const payload = {
             name: nameRef.current.value,
@@ -64,9 +64,23 @@ const Register = () => {
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="rol" className="form-label">Rol</label>
-                                    <input ref={rolRef} type="text" className="form-control" id="rol" placeholder="Introduce tu rol" />
+                                    <input
+                                        list="roles"
+                                        ref={rolRef}
+                                        type="text"
+                                        className="form-control"
+                                        id="rol"
+                                        placeholder="Introduce o selecciona el rol"
+                                    />
+                                    <datalist id="roles">
+                                        <option value="financiero" />
+                                        <option value="vinculacion" />
+                                        <option value="direccion" />
+                                        <option value="materiales" />
+                                    </datalist>
                                     {errors.rol && <p className="text-danger small mb-0">{errors.rol[0]}</p>}
                                 </div>
+
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="claveDepartamento" className="form-label">Clave Departamento</label>
                                     <input ref={claveDepartamentoRef} type="text" className="form-control" id="claveDepartamento" placeholder="Introduce tu clave de departamento" />

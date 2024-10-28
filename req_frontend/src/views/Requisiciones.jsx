@@ -3,7 +3,9 @@ import axiosClient from '../axiosClient'; // Importa tu cliente axios configurad
 import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
-import { Navigate} from "react-router-dom"
+
+import { FaPlusSquare, FaFolderOpen, FaClipboardList, FaPaperPlane, FaCalendarAlt, FaDollarSign } from 'react-icons/fa';
+
 
 const Requisiciones = () => {
     const { user } = useStateContext();
@@ -181,55 +183,67 @@ const Requisiciones = () => {
                 <div className="row">
                     <div className="col-12">
                         <div className="card mb-3">
-                            <div className="card-header">
+                            <div className="card-header d-flex align-items-center">
+                                <FaPlusSquare className="me-1" />
                                 Añadir Requisición
                             </div>
                             <div className="card-body">
                                 <div className="row">
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="partida_presupuestal" className="form-label">Partida Presupuestal</label>
-                                        <input type="text" className="form-control" id="partida_presupuestal" name="partida_presupuestal" value={newRequisicion.partida_presupuestal} onChange={handleChangeRequisicion} required maxLength="6" />
+                                        <input type="text" placeholder='000000' className="form-control" id="partida_presupuestal" name="partida_presupuestal" value={newRequisicion.partida_presupuestal} onChange={handleChangeRequisicion} required maxLength="6" />
                                         {errors.partida_presupuestal && <p className="text-danger small mb-0">{errors.partida_presupuestal}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="cantidad" className="form-label">Cantidad</label>
-                                        <input type="number" className="form-control" id="cantidad" name="cantidad" value={newRequisicion.cantidad} onChange={handleChangeRequisicion} required />
+                                        <input type="number" placeholder='0' className="form-control" id="cantidad" name="cantidad" value={newRequisicion.cantidad} onChange={handleChangeRequisicion} required />
                                         {errors.cantidad && <p className="text-danger small mb-0">{errors.cantidad}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="unidad" className="form-label">Unidad</label>
-                                        <input type="text" className="form-control" id="unidad" name="unidad" value={newRequisicion.unidad} onChange={handleChangeRequisicion} required maxLength="20" />
+                                        <input type="text" placeholder='pieza, litro, etc' className="form-control" id="unidad" name="unidad" value={newRequisicion.unidad} onChange={handleChangeRequisicion} required maxLength="20" />
                                         {errors.unidad && <p className="text-danger small mb-0">{errors.unidad}</p>}
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="descripcion_bienes_servicios" className="form-label">Descripción</label>
-                                        <input type="text" className="form-control" id="descripcion_bienes_servicios" name="descripcion_bienes_servicios" value={newRequisicion.descripcion_bienes_servicios} onChange={handleChangeRequisicion} required maxLength="100" />
+                                        <input type="text" className="form-control" placeholder='descripción detallada del bien o servicio' id="descripcion_bienes_servicios" name="descripcion_bienes_servicios" value={newRequisicion.descripcion_bienes_servicios} onChange={handleChangeRequisicion} required maxLength="100" />
                                         {errors.descripcion_bienes_servicios && <p className="text-danger small mb-0">{errors.descripcion_bienes_servicios}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="costo_estimado" className="form-label">Costo Estimado</label>
-                                        <input type="number" className="form-control" id="costo_estimado" name="costo_estimado" value={newRequisicion.costo_estimado} onChange={handleChangeRequisicion} required />
+                                        <input type="number" className="form-control" placeholder='0.00' id="costo_estimado" name="costo_estimado" value={newRequisicion.costo_estimado} onChange={handleChangeRequisicion} required />
                                         {errors.costo_estimado && <p className="text-danger small mb-0">{errors.costo_estimado}</p>}
+
                                     </div>
+
+
                                 </div>
-                                <button type="button" className="btn btn-primary btn-block float-end mb-3" onClick={addRequisicion}>Añadir Requisición</button>
+                                <button type="button" className="btn btn-primary btn-block float-end mb-3 d-flex align-items-center" onClick={addRequisicion}>
+                                    <FaPlusSquare className="me-2" />
+                                    Añadir Requisición
+                                </button>
+
 
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+                {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
 
+                {requisiciones.length > 0 &&
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card mb-3">
+                                <div className="card-header">
+                                    Requisiciones Agregadas
+                                </div>
+                                <div className="card-body">
 
-                <div className="row">
-                    <div className="col-12">
-                        <div className="card mb-3">
-                            <div className="card-header">
-                                Requisiciones Agregadas
-                            </div>
-                            <div className="card-body">
-                                {requisiciones.length > 0 &&
                                     <table className="table table-striped">
                                         <thead>
                                             <tr>
@@ -252,14 +266,14 @@ const Requisiciones = () => {
                                             ))}
                                         </tbody>
                                     </table>
-                                }
 
-                                {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
+
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                }
 
                 <div className="row">
                     <div className="col-12">
@@ -288,6 +302,7 @@ const Requisiciones = () => {
                                             <label htmlFor="total_estimado" className="form-label">Total Estimado</label>
                                             <input
                                                 type="number"
+                                                placeholder="0.00"
                                                 className="form-control"
                                                 id="total_estimado"
                                                 name="total_estimado"
@@ -309,7 +324,7 @@ const Requisiciones = () => {
                                         </div>
                                     </div>
                                 </form>
-                                <button type="submit" className="btn btn-primary float-end" onClick={handleSubmit}>Enviar folio y requisiciones</button>
+                                <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}><FaPaperPlane className="me-2" /> Enviar folio y requisiciones</button>
                             </div>
                         </div>
                     </div>

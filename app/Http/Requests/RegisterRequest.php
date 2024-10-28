@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'rol' => 'required|string|max:255',
-            'clave_departamento' => 'required|string|exists:departamentos,clave_departamento',
+            'clave_departamento' => 'required|string',
             'password' => [
                 'required',
                 Password::min(8)->letters()
@@ -58,7 +58,6 @@ class RegisterRequest extends FormRequest
             
             'clave_departamento.required' => 'El campo clave de departamento es obligatorio.',
             'clave_departamento.string' => 'El campo clave de departamento debe ser una cadena de texto.',
-            'clave_departamento.exists' => 'La clave de departamento no existe.',
             
             'password.required' => 'El campo contraseña es obligatorio.',
             'password.min' => 'El campo contraseña debe tener al menos 8 caracteres.',

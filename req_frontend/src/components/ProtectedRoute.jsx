@@ -13,7 +13,7 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
             case 'direccion':
                 return <Navigate to="/folios" replace />;
             case 'materiales':
-                return <Navigate to="/orden_compra" replace />;
+                return <Navigate to="/folios" replace />;
         }
     } 
 

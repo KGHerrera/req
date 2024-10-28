@@ -5,6 +5,8 @@ import Navbar from '../components/Navbar';
 import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
 
+import { FaCheck, FaCheckSquare, FaFolderOpen, FaPlusSquare, FaSellcast, FaSquarespace} from 'react-icons/fa';
+
 const OrdenCompra = () => {
     const { user } = useStateContext();
     const location = useLocation();
@@ -85,19 +87,19 @@ const OrdenCompra = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        
+
 
         const _errors = {};
 
-        if(compraData.proveedor === '') {
+        if (compraData.proveedor === '') {
             _errors.proveedor = 'Por favor, ingresa el proveedor';
         }
 
-        if(compraData.IVA === '') {
+        if (compraData.IVA === '') {
             _errors.IVA = 'Por favor, ingresa el IVA';
         }
 
-        if(compraData.total === '') {
+        if (compraData.total === '') {
             _errors.total = 'Por favor, ingresa el total';
         }
 
@@ -156,48 +158,15 @@ const OrdenCompra = () => {
         <>
             <Navbar />
             <div className="container mt-3 mb-5">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="card mb-3">
-                            <div className="card-header">
-                                Datos de la Compra
-                            </div>
-                            <div className="card-body">
-                                <form>
-                                    <div className="row">
-                                        <div className="col-md-4 mb-3">
-                                            <label htmlFor="proveedor" className="form-label">Proveedor</label>
-                                            <input type="text" className="form-control" id="proveedor" name="proveedor" value={compraData.proveedor} onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })} required maxLength="255" />
-                                            {errors.proveedor && <p className="text-danger small">{errors.proveedor}</p>}
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <label htmlFor="fecha_entrega" className="form-label">Fecha de Entrega</label>
-                                            <input type="date" className="form-control" id="fecha_entrega" name="fecha_entrega" value={compraData.fecha_entrega} onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })} />
-                                            {errors.fecha_entrega && <p className="text-danger small">{errors.fecha_entrega}</p>}
-                                        </div>
-                                        <div className="col-md-2 mb-3">
-                                            <label htmlFor="IVA" className="form-label">IVA</label>
-                                            <input type="number" className="form-control" id="IVA" name="IVA" value={compraData.IVA} onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })} />
-                                            {errors.IVA && <p className="text-danger small">{errors.IVA}</p>}
-                                        </div>
-                                        <div className="col-md-2 mb-3">
-                                            <label htmlFor="total" className="form-label">Total</label>
-                                            <input type="number" className="form-control" id="total" name="total" value={compraData.total} onChange={(e) => setCompraData({ ...compraData, total: e.target.value })} />
-                                            {errors.total && <p className="text-danger small">{errors.total}</p>}
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
                 {/* Mostrar datos del folio */}
                 {folio && (
                     <div className="row mb-3">
                         <div className="col-12">
                             <div className="card">
-                                <div className="card-header">
+                                <div className="card-header d-flex align-items-center">
+                                    <FaFolderOpen className="me-2" />
                                     Datos del Folio
                                 </div>
                                 <div className="card-body">
@@ -241,7 +210,8 @@ const OrdenCompra = () => {
                 <div className="row">
                     <div className="col-12">
                         <div className="card mb-3">
-                            <div className="card-header">
+                            <div className="card-header d-flex align-items-center">
+                                <FaPlusSquare className="me-2" />
                                 Agregar Orden de Compra
                             </div>
                             <div className="card-body">
@@ -262,21 +232,26 @@ const OrdenCompra = () => {
                                         {errors.importe_parcial && <p className="text-danger small mb-0">{errors.importe_parcial}</p>}
                                     </div>
                                 </div>
-                                <button type="button" className="btn btn-primary float-end" onClick={addOrdenCompra}>Agregar Orden de Compra</button>
+                                <button type="button" className="btn btn-primary d-flex align-items-center float-end" onClick={addOrdenCompra}>
+                                    <FaPlusSquare className="me-2" />
+                                    Agregar Orden de Compra</button>
+                                {errors.ordenes_compra && <p className="text-danger small mb-0">{errors.ordenes_compra}</p>}
                             </div>
+                            
                         </div>
                     </div>
                 </div>
 
                 {/* Mostrar órdenes de compra agregadas */}
-                <div className="row">
-                    <div className="col-12">
-                        <div className="card mb-3">
-                            <div className="card-header">
-                                Órdenes de Compra Agregadas
-                            </div>
-                            <div className="card-body">
-                                {ordenesCompra.length > 0 && (
+                {ordenesCompra.length > 0 && (
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card mb-3">
+                                <div className="card-header">
+                                    Órdenes de Compra Agregadas
+                                </div>
+                                <div className="card-body">
+
                                     <table className="table table-striped">
                                         <thead>
                                             <tr>
@@ -295,9 +270,48 @@ const OrdenCompra = () => {
                                             ))}
                                         </tbody>
                                     </table>
-                                )}
 
-                                { errors.ordenes_compra && <p className="text-danger small mb-0">{errors.ordenes_compra}</p> }
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                )}
+
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card mb-3">
+                            <div className="card-header d-flex align-items-center">
+                                <FaCheckSquare className="me-2" />
+                                Datos de la Compra
+                            </div>
+                            <div className="card-body">
+                                <form>
+                                    <div className="row">
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="proveedor" className="form-label">Proveedor</label>
+                                            <input type="text" className="form-control" id="proveedor" name="proveedor" value={compraData.proveedor} onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })} required maxLength="255" />
+                                            {errors.proveedor && <p className="text-danger small">{errors.proveedor}</p>}
+                                        </div>
+                                        <div className="col-md-4 mb-3">
+                                            <label htmlFor="fecha_entrega" className="form-label">Fecha de Entrega</label>
+                                            <input type="date" className="form-control" id="fecha_entrega" name="fecha_entrega" value={compraData.fecha_entrega} onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })} />
+                                            {errors.fecha_entrega && <p className="text-danger small">{errors.fecha_entrega}</p>}
+                                        </div>
+                                        <div className="col-md-2 mb-3">
+                                            <label htmlFor="IVA" className="form-label">IVA</label>
+                                            <input type="number" className="form-control" id="IVA" name="IVA" value={compraData.IVA} onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })} />
+                                            {errors.IVA && <p className="text-danger small">{errors.IVA}</p>}
+                                        </div>
+                                        <div className="col-md-2 mb-3">
+                                            <label htmlFor="total" className="form-label">Total</label>
+                                            <input type="number" className="form-control" id="total" name="total" value={compraData.total} onChange={(e) => setCompraData({ ...compraData, total: e.target.value })} />
+                                            {errors.total && <p className="text-danger small">{errors.total}</p>}
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -308,7 +322,7 @@ const OrdenCompra = () => {
                         <div className="card mb-3">
 
                             <div className="card-body">
-                                <button type="submit" className="btn btn-primary float-end" onClick={handleSubmit}>Crear Compra y Órdenes de Compra</button>
+                                <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}><FaCheckSquare className="me-2" /> Crear Compra y Órdenes de Compra</button>
                             </div>
                         </div>
                     </div>

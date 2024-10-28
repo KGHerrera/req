@@ -19,7 +19,7 @@ class FolioRequisicionController extends Controller
                 'fecha_entrega' => 'nullable|date',
                 'total_estimado' => 'required|numeric|min:0',
                 'estado' => 'required|string|max:20',
-                'clave_departamento' => 'required|string|exists:departamentos,clave_departamento|max:10',
+                'clave_departamento' => 'required|string',
                 'user_id' => 'required|integer|exists:users,id',
             ]);
 

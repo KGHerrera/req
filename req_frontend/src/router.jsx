@@ -8,12 +8,14 @@ import Folios from './views/Folios';
 import OrdenCompra from './views/OrdenCompra';
 import Compra from './views/Compra';
 import ProtectedRoute from './components/ProtectedRoute';
+import NotFound from './views/NotFound';
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <DefaulyLayout />,
         children: [
+            
             {
                 path: '/requisiciones',
                 element: (
@@ -61,6 +63,10 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
         ],
+    },
+    {
+        path: '*',
+        element: <NotFound />,  // Añadir la ruta 404 al final
     },
 ]);
 

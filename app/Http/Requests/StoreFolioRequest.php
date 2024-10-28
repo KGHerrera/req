@@ -31,7 +31,7 @@ class StoreFolioRequest extends FormRequest
             'fecha_entrega' => 'nullable|date|after_or_equal:fecha_solicitud',
             'total_estimado' => 'required|numeric|min:0',
             'estado' => 'required|string|max:20',
-            'clave_departamento' => 'required|string|exists:departamentos,clave',
+            'clave_departamento' => 'required|string',
         ];
     }
 
@@ -59,7 +59,6 @@ class StoreFolioRequest extends FormRequest
             'estado.max' => 'El estado no puede tener más de 20 caracteres.',
             'clave_departamento.required' => 'La clave del departamento es obligatoria.',
             'clave_departamento.string' => 'La clave del departamento debe ser una cadena de texto.',
-            'clave_departamento.exists' => 'La clave del departamento no existe.',
         ];
     }
 }

@@ -21,7 +21,6 @@ class CreateFoliosTable extends Migration
             $table->string('estado', 20);
             $table->string('clave_departamento');
             $table->unsignedBigInteger('user_id'); // Agregamos la columna user_id como clave foránea
-            $table->foreign('clave_departamento')->references('clave_departamento')->on('departamentos')->onDelete('cascade'); // Referencia a la tabla 'departamentos'
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Referencia a la tabla 'users'
             $table->timestamps();
         });
@@ -37,4 +36,5 @@ class CreateFoliosTable extends Migration
         Schema::dropIfExists('folios');
     }
 }
+
 
