@@ -4,8 +4,10 @@ import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
 import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
+import { FaUser, FaCalendarAlt, FaPercentage, FaDollarSign } from 'react-icons/fa';
+import { FaIdCard, FaCalculator } from 'react-icons/fa';
 
-import { FaCheck, FaCheckSquare, FaFolderOpen, FaPlusSquare, FaSellcast, FaSquarespace} from 'react-icons/fa';
+import { FaCheckSquare, FaFolderOpen, FaPlusSquare } from 'react-icons/fa';
 
 const OrdenCompra = () => {
     const { user } = useStateContext();
@@ -159,10 +161,9 @@ const OrdenCompra = () => {
             <Navbar />
             <div className="container mt-3 mb-5">
 
-
                 {/* Mostrar datos del folio */}
                 {folio && (
-                    <div className="row mb-3">
+                    <div className="row mb-3 ">
                         <div className="col-12">
                             <div className="card">
                                 <div className="card-header d-flex align-items-center">
@@ -207,37 +208,76 @@ const OrdenCompra = () => {
                 )}
 
                 {/* Agregar órdenes de compra */}
-                <div className="row">
+                <div className="row ">
                     <div className="col-12">
-                        <div className="card mb-3">
+                        <div className="card mb-3 ">
                             <div className="card-header d-flex align-items-center">
                                 <FaPlusSquare className="me-2" />
                                 Agregar Orden de Compra
                             </div>
+
+
                             <div className="card-body">
                                 <div className="row">
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="id_requisicion" className="form-label">ID Requisición</label>
-                                        <input type="text" className="form-control" id="id_requisicion" name="id_requisicion" value={newOrdenCompra.id_requisicion} onChange={handleChangeOrdenCompra} required />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaIdCard /></span>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="id_requisicion"
+                                                name="id_requisicion"
+                                                placeholder="ID Requisición"
+                                                value={newOrdenCompra.id_requisicion}
+                                                onChange={handleChangeOrdenCompra}
+                                                required
+                                            />
+                                        </div>
                                         {errors.id_requisicion && <p className="text-danger small mb-0">{errors.id_requisicion}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="precio_unitario" className="form-label">Precio Unitario</label>
-                                        <input type="number" className="form-control" id="precio_unitario" name="precio_unitario" value={newOrdenCompra.precio_unitario} onChange={handleChangeOrdenCompra} required />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaDollarSign /></span>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                id="precio_unitario"
+                                                name="precio_unitario"
+                                                placeholder="Precio Unitario"
+                                                value={newOrdenCompra.precio_unitario}
+                                                onChange={handleChangeOrdenCompra}
+                                                required
+                                            />
+                                        </div>
                                         {errors.precio_unitario && <p className="text-danger small mb-0">{errors.precio_unitario}</p>}
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label htmlFor="importe_parcial" className="form-label">Importe Parcial</label>
-                                        <input type="number" className="form-control" id="importe_parcial" name="importe_parcial" value={newOrdenCompra.importe_parcial} onChange={handleChangeOrdenCompra} required />
+                                        <div className="input-group">
+                                            <span className="input-group-text"><FaCalculator /></span>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                id="importe_parcial"
+                                                name="importe_parcial"
+                                                placeholder="Importe Parcial"
+                                                value={newOrdenCompra.importe_parcial}
+                                                onChange={handleChangeOrdenCompra}
+                                                required
+                                            />
+                                        </div>
                                         {errors.importe_parcial && <p className="text-danger small mb-0">{errors.importe_parcial}</p>}
                                     </div>
                                 </div>
                                 <button type="button" className="btn btn-primary d-flex align-items-center float-end" onClick={addOrdenCompra}>
-                                    <FaPlusSquare className="me-2" />
-                                    Agregar Orden de Compra</button>
+                                    <FaPlusSquare className="me-2" /> Agregar Orden de Compra
+                                </button>
                                 {errors.ordenes_compra && <p className="text-danger small mb-0">{errors.ordenes_compra}</p>}
                             </div>
-                            
+
+
                         </div>
                     </div>
                 </div>
@@ -272,7 +312,7 @@ const OrdenCompra = () => {
                                     </table>
 
 
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -287,46 +327,99 @@ const OrdenCompra = () => {
                                 <FaCheckSquare className="me-2" />
                                 Datos de la Compra
                             </div>
+
+
+
+
                             <div className="card-body">
                                 <form>
                                     <div className="row">
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="proveedor" className="form-label">Proveedor</label>
-                                            <input type="text" className="form-control" id="proveedor" name="proveedor" value={compraData.proveedor} onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })} required maxLength="255" />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaUser /></span>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="proveedor"
+                                                    name="proveedor"
+                                                    placeholder="Nombre del proveedor"
+                                                    value={compraData.proveedor}
+                                                    onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })}
+                                                    required
+                                                    maxLength="255"
+                                                />
+                                            </div>
                                             {errors.proveedor && <p className="text-danger small">{errors.proveedor}</p>}
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="fecha_entrega" className="form-label">Fecha de Entrega</label>
-                                            <input type="date" className="form-control" id="fecha_entrega" name="fecha_entrega" value={compraData.fecha_entrega} onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })} />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaCalendarAlt /></span>
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    id="fecha_entrega"
+                                                    name="fecha_entrega"
+                                                    value={compraData.fecha_entrega}
+                                                    onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })}
+                                                />
+                                            </div>
                                             {errors.fecha_entrega && <p className="text-danger small">{errors.fecha_entrega}</p>}
                                         </div>
-                                        <div className="col-md-2 mb-3">
+                                        <div className="col-md-4 mb-3">
                                             <label htmlFor="IVA" className="form-label">IVA</label>
-                                            <input type="number" className="form-control" id="IVA" name="IVA" value={compraData.IVA} onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })} />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaDollarSign /></span>
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    id="IVA"
+                                                    name="IVA"
+                                                    placeholder="IVA ($)"
+                                                    value={compraData.IVA}
+                                                    onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })}
+                                                />
+                                            </div>
                                             {errors.IVA && <p className="text-danger small">{errors.IVA}</p>}
                                         </div>
-                                        <div className="col-md-2 mb-3">
+                                    </div>
+
+                                    {/* Nueva fila para el campo Total */}
+                                    <div className="row">
+                                        <div className="col-md-4 mb-3">
                                             <label htmlFor="total" className="form-label">Total</label>
-                                            <input type="number" className="form-control" id="total" name="total" value={compraData.total} onChange={(e) => setCompraData({ ...compraData, total: e.target.value })} />
+                                            <div className="input-group">
+                                                <span className="input-group-text"><FaDollarSign /></span>
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    id="total"
+                                                    name="total"
+                                                    placeholder="Total ($)"
+                                                    value={compraData.total}
+                                                    onChange={(e) => setCompraData({ ...compraData, total: e.target.value })}
+                                                />
+                                            </div>
                                             {errors.total && <p className="text-danger small">{errors.total}</p>}
                                         </div>
                                     </div>
                                 </form>
+
+                                <div className="col-12">
+                                    <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}>
+                                        <FaCheckSquare className="me-2" /> Crear Compra y Órdenes de Compra
+                                    </button>
+                                </div>
                             </div>
+
+
+
                         </div>
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col-12">
-                        <div className="card mb-3">
 
-                            <div className="card-body">
-                                <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}><FaCheckSquare className="me-2" /> Crear Compra y Órdenes de Compra</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </>
     );

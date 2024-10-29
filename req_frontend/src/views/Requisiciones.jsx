@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 import { FaClipboardList, FaCalculator, FaRulerCombined, FaRegFileAlt, FaDollarSign } from 'react-icons/fa'
 import { FaPlusSquare, FaPaperPlane } from 'react-icons/fa';
-import { FaCalendarAlt, FaRegMoneyBillAlt, FaIdBadge, FaKey } from 'react-icons/fa';
+import { FaCalendarAlt, FaIdBadge, FaKey } from 'react-icons/fa';
 
 const Requisiciones = () => {
     const { user } = useStateContext();
@@ -321,7 +321,7 @@ const Requisiciones = () => {
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="total_estimado" className="form-label">Total Estimado</label>
                                             <div className="input-group">
-                                                <span className="input-group-text"><FaRegMoneyBillAlt /></span>
+                                                <span className="input-group-text"><FaDollarSign /></span>
                                                 <input
                                                     type="number"
                                                     placeholder="0.00"
