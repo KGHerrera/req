@@ -116,21 +116,21 @@ const CrearUsuario = () => {
                                             <label htmlFor="rol" className="form-label">Rol</label>
                                             <div className="input-group">
                                                 <span className="input-group-text"><FaUserTag /></span>
-                                                <input
-                                                    list="roles"
+                                                <select
                                                     className="form-control"
                                                     id="rol"
                                                     name="rol"
                                                     value={userData.rol}
                                                     onChange={handleChange}
                                                     required
-                                                />
-                                                <datalist id="roles">
-                                                    <option value="financiero" />
-                                                    <option value="vinculacion" />
-                                                    <option value="direccion" />
-                                                    <option value="materiales" />
-                                                </datalist>
+                                                >
+                                                    <option value="" disabled>Seleccione un rol</option>
+                                                    <option value="user">user</option>
+                                                    <option value="financiero">financiero</option>
+                                                    <option value="vinculacion">vinculacion</option>
+                                                    <option value="direccion">direccion</option>
+                                                    <option value="materiales">materiales</option>
+                                                </select>
                                             </div>
                                             {errors.rol && <p className="text-danger small mb-0">{errors.rol[0]}</p>}
                                         </div>

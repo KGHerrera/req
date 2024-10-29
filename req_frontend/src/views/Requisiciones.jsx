@@ -180,7 +180,7 @@ const Requisiciones = () => {
         <>
 
             <Navbar></Navbar>
-            <div className="container mt-3 mb-5">
+            <div className="container mt-5 mb-5">
                 <div className="row">
                     <div className="col-12">
                         <div className="card mb-3">

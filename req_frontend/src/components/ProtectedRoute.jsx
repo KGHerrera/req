@@ -16,10 +16,13 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
                 return <Navigate to="/folios" replace />;
             case 'materiales':
                 return <Navigate to="/folios" replace />;
+            
+            case 'user':
+                return <Navigate to="/requisiciones" replace />;
         }
     } 
 
-    return children; // Muestra la ruta si el usuario tiene el rol adecuado
+    return children;
 };
 
 export default ProtectedRoute;
