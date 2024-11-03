@@ -61,13 +61,13 @@ const Compra = () => {
     const handleShowEvidence = async (evidenceUrl) => {
         // Reemplazar 'public' por 'storage' en la URL
         const modifiedUrl = evidenceUrl.replace('/public/', '/storage/');
-    
+
         Swal.fire({
             imageUrl: modifiedUrl,
             imageAlt: 'Evidencia de Entrega',
         });
     };
-    
+
 
     // Función para manejar la subida de evidencia
     const handleUploadEvidence = (compraId) => {
@@ -139,14 +139,14 @@ const Compra = () => {
                                     <div key={compra.no_orden_compra} className="col">
                                         <div className="card h-100">
                                             <div className="card-header">
-                                                No. Orden de Compra: {compra.no_orden_compra}
+                                               <p className='mb-0'> No. Orden de Compra: {compra.no_orden_compra}</p>
                                             </div>
                                             <div className="card-body">
-                                                <p><strong>Proveedor:</strong> {compra.proveedor}</p>
-                                                <p><strong>Fecha de Entrega:</strong> {compra.fecha_entrega}</p>
-                                                <p><strong>IVA:</strong> {compra.IVA}</p>
-                                                <p><strong>Total:</strong> {compra.total}</p>
-                                                <h5>Órdenes de Compra:</h5>
+                                                <small><p className='mb-2'><strong>Proveedor:</strong> {compra.proveedor}</p></small>
+                                                <small><p className='mb-2'><strong>Fecha de Entrega:</strong> {compra.fecha_entrega}</p></small>
+                                                <small><p className='mb-2'><strong>IVA:</strong> {compra.IVA}</p>     </small>
+                                                <small><p className='mb-2'><strong>Total:</strong> {compra.total}</p>   </small>
+                                                <small><p className='fw-bold mb-2' >Órdenes de Compra:</p> </small>
                                                 <div className="table-responsive">
                                                     <table className="table table-striped">
                                                         <thead>

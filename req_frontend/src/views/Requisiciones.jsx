@@ -14,6 +14,8 @@ const Requisiciones = () => {
 
     const [errors, setErrors] = useState({});
 
+    const [loading, setLoading] = useState(false);
+
 
 
     const [folioData, setFolioData] = useState({
@@ -139,6 +141,8 @@ const Requisiciones = () => {
             return;
         }
 
+        setLoading(true);
+
         axiosClient.post('/folio-requisicion', data)
             .then(() => {
 
@@ -171,6 +175,8 @@ const Requisiciones = () => {
                 if (response && response.status === 422) {
                     console.log(response.data.errors);
                 }
+            }).finally(() => {
+                setLoading(false);
             });
     };
 
@@ -237,25 +243,9 @@ const Requisiciones = () => {
                                     <FaPlusSquare className="me-2" />
                                     Añadir Requisición
                                 </button>
-                            </div>
 
-                        </div>
-
-                    </div>
-
-                </div>
-                {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
-
-                {requisiciones.length > 0 &&
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card mb-3">
-                                <div className="card-header">
-                                    Requisiciones Agregadas
-                                </div>
-                                <div className="card-body">
-
-                                    <table className="table table-striped">
+                                {requisiciones.length > 0 &&
+                                    <table className="table table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Partida Presupuestal</th>
@@ -277,14 +267,19 @@ const Requisiciones = () => {
                                             ))}
                                         </tbody>
                                     </table>
+                                }
 
-
-
-                                </div>
+                                {errors.requisiciones && <p className="text-danger small mb-0">{errors.requisiciones}</p>}
                             </div>
+
                         </div>
+
                     </div>
-                }
+
+                </div>
+
+
+
 
                 <div className="row">
                     <div className="col-12">
@@ -353,8 +348,15 @@ const Requisiciones = () => {
                                         </div>
                                     </div>
                                 </form>
-                                <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}>
-                                    <FaPaperPlane className="me-2" /> Enviar folio y requisiciones
+                                <button type="submit" className="btn btn-primary float-end d-flex align-items-center justify-content-center" onClick={handleSubmit} disabled={loading} style={{ width: '200px' }}>
+                                    
+                                   
+                                    {loading ? (
+                                        <span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>
+                                    ) : (
+                                       <span> <FaPaperPlane className="me-2" /> Enviar al folio </span> 
+                                    )}
+
                                 </button>
                             </div>
 

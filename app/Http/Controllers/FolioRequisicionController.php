@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Folio;
+use App\Models\Notification;
 use App\Models\Requisicion;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; // Importa la clase Log
@@ -73,6 +75,19 @@ class FolioRequisicionController extends Controller
                 foreach ($requisicionData['requisiciones'] as $requisicion) {
                     $requisicion['folio'] = $folio->folio;
                     Requisicion::create($requisicion);
+                }
+
+                // Obtener todos los usuarios con el rol de "financiero"
+                $financialUsers = User::where('rol', 'financiero')->get();
+
+                // Crear notificación para cada usuario financiero
+                foreach ($financialUsers as $user) {
+                    Notification::create([
+                        'user_id' => $user->id,
+                        'message' => 'Nueva requisición mandada con el número de folio ' . $newFolio,
+                        'folio' => $newFolio,
+                        'viewed' => false,
+                    ]);
                 }
             });
 
@@ -158,22 +173,22 @@ class FolioRequisicionController extends Controller
             }
 
             $query = Folio::where('estado', $estado)
-                          ->with('requisiciones')
-                          ->orderBy('created_at', 'desc');
+                ->with('requisiciones')
+                ->orderBy('created_at', 'desc');
 
             // Búsqueda por término
             if ($request->has('search') && !empty($request->search)) {
                 $searchTerm = $request->search;
                 $query->where(function ($q) use ($searchTerm) {
                     $q->where('folio', 'like', "%$searchTerm%")
-                      ->orWhere('fecha_solicitud', 'like', "%$searchTerm%")
-                      ->orWhere('fecha_entrega', 'like', "%$searchTerm%")
-                      ->orWhere('total_estimado', 'like', "%$searchTerm%")
-                      ->orWhere('estado', 'like', "%$searchTerm%")
-                      ->orWhere('clave_departamento', 'like', "%$searchTerm%")
-                      ->orWhereHas('requisiciones', function ($qr) use ($searchTerm) {
-                          $qr->where('descripcion_bienes_servicios', 'like', "%$searchTerm%");
-                      });
+                        ->orWhere('fecha_solicitud', 'like', "%$searchTerm%")
+                        ->orWhere('fecha_entrega', 'like', "%$searchTerm%")
+                        ->orWhere('total_estimado', 'like', "%$searchTerm%")
+                        ->orWhere('estado', 'like', "%$searchTerm%")
+                        ->orWhere('clave_departamento', 'like', "%$searchTerm%")
+                        ->orWhereHas('requisiciones', function ($qr) use ($searchTerm) {
+                            $qr->where('descripcion_bienes_servicios', 'like', "%$searchTerm%");
+                        });
                 });
             }
 

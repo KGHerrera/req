@@ -101,7 +101,7 @@ const UserTable = ({ onEdit }) => {
                             <td>{user.clave_departamento}</td>
                             <td className="d-flex justify-content-center align-items-center gap-2">
                                 <button
-                                    className="btn btn-info btn-sm d-flex align-items-center"
+                                    className="btn btn-primary btn-sm d-flex align-items-center"
                                     onClick={() => handleEdit(user)}
                                 >
                                     <FaEdit className="me-1" /> Editar

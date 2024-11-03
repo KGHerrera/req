@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\FolioController;
 use App\Http\Controllers\FolioRequisicionController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,4 +41,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ordenes-compra', [CompraController::class, 'index']);
 
     Route::post('ordenes-compra/{id_compra}/subir-evidencia', [CompraController::class, 'subirEvidencia']);
+
+    Route::get('/notifications/unread-count/{userId}', [NotificationsController::class, 'getUnreadCount']);
+
+    // Ruta para obtener las notificaciones con paginación
+    Route::get('/notifications', [NotificationsController::class, 'getUserNotifications']);
+
+    // Ruta para marcar una notificación como vista
+    Route::post('/notifications/{id}/mark-as-viewed', [NotificationsController::class, 'markAsViewed']);
 });

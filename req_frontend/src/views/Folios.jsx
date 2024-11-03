@@ -5,7 +5,7 @@ import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
-import { FaSearch, FaFile} from 'react-icons/fa';
+import { FaSearch, FaFile, FaCheck, FaTimes } from 'react-icons/fa';
 
 
 const Folios = () => {
@@ -157,58 +157,72 @@ const Folios = () => {
     return (
         <>
             <Navbar />
-            <div className="container">
-                <div className="row mb-3">
-                    <div className="col-md-6 row">
-                        <form onSubmit={handleSearchSubmit} className="row g-4 align-items-center">
-                            <div className="col-md-8">
+            <div className="container mt-5">
+                <div className="row mb-4">
+                    <div className="col-md-6">
+                        <form onSubmit={handleSearchSubmit} className="d-flex gap-3">
+                            <div className="flex-grow-1">
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Termino de búsqueda..."
+                                    placeholder="Buscar folios..."
                                     value={searchTerm}
                                     onChange={handleSearchChange}
                                 />
                             </div>
-                            <div className="col-md-4">
-                                <button type="submit" className="btn btn-primary d-flex align-items-center">
-                                    <FaSearch className='me-2'/>
-                                    Buscar
-                                </button>
-                            </div>
+                            <button type="submit" className="btn btn-primary px-4">
+                                <FaSearch className="me-2" />
+                                Buscar
+                            </button>
                         </form>
                     </div>
                 </div>
+
                 {loading ? (
-                    <p>Cargando...</p>
+                    <div className="text-center">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
                 ) : error ? (
-                    <p className="text-danger">{error}</p>
+                    <div className="alert alert-danger" role="alert">
+                        {error}
+                    </div>
                 ) : (
                     <>
                         <div className="row row-cols-1 row-cols-md-2 g-4">
                             {folios.length > 0 ? (
-                                folios.map((folio, index) => (
+                                folios.map((folio) => (
                                     <div key={folio.folio} className="col">
-                                        <div className="card h-100">
-                                            <div className="card-header d-flex align-items-center">
-                                                <FaFile className='me-2'/> Folio: {folio.folio}
+                                        <div className="card h-100 shadow-sm">
+                                            <div className="card-header bg-light py-3">
+                                                <p className="mb-0 d-flex align-items-center">
+                                                    {folio.folio}
+                                                </p>
                                             </div>
                                             <div className="card-body">
-                                                <p><strong>Fecha de Solicitud:</strong> {folio.fecha_solicitud}</p>
-                                                <p><strong>Fecha de Entrega:</strong> {folio.fecha_entrega}</p>
-                                                <p><strong>Total Estimado:</strong> {folio.total_estimado}</p>
-                                                <p><strong>Clave de Departamento:</strong> {folio.clave_departamento}</p>
-                                                {folio.motivo_rechazo && <p className="text-danger"><strong>Motivo de rechazo:</strong> {folio.motivo_rechazo}</p>}
-                                                <h5>Requisiciones:</h5>
+                                                <div className="mb-3">
+                                                    <small> <p className="mb-2"><strong>Fecha de Solicitud:</strong> {folio.fecha_solicitud}</p></small>
+                                                    <small><p className="mb-2"><strong>Fecha de Entrega:</strong> {folio.fecha_entrega}</p></small>
+                                                    <small><p className="mb-2"><strong>Total Estimado:</strong> {folio.total_estimado}</p></small>
+                                                    <small><p className="mb-2"><strong>Clave de Departamento:</strong> {folio.clave_departamento}</p></small>
+                                                    {folio.motivo_rechazo && (
+                                                        <div className="alert alert-danger py-2 mb-2">
+                                                            <small><strong>Motivo de rechazo:</strong> {folio.motivo_rechazo}</small>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                <small><p className="mb-3  fw-bold">Requisiciones:</p></small>
                                                 <div className="table-responsive">
-                                                    <table className="table table-striped">
-                                                        <thead>
+                                                    <table className="table table-sm table-hover">
+                                                        <thead className="table-light">
                                                             <tr>
-                                                                <th scope="col">Partida</th>
-                                                                <th scope="col">Cantidad</th>
-                                                                <th scope="col">Unidad</th>
-                                                                <th scope="col">Descripción</th>
-                                                                <th scope="col">Costo</th>
+                                                                <th>Partida</th>
+                                                                <th>Cantidad</th>
+                                                                <th>Unidad</th>
+                                                                <th>Descripción</th>
+                                                                <th>Costo</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -218,63 +232,85 @@ const Folios = () => {
                                                                     <td>{requisicion.cantidad}</td>
                                                                     <td>{requisicion.unidad}</td>
                                                                     <td>{requisicion.descripcion_bienes_servicios}</td>
-                                                                    <td>{requisicion.costo_estimado} </td>
+                                                                    <td>{requisicion.costo_estimado}</td>
                                                                 </tr>
                                                             ))}
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div className="card-footer text-muted">
-                                                Estado: <span className="badge bg-primary">{folio.estado}</span>
-                                                <br />
-                                                {/* Botones de acciones */}
-                                                {['financiero', 'vinculacion', 'direccion'].includes(user.rol) && (
-                                                    <>
-                                                        <button className="btn btn-success mt-2 me-2" onClick={() => handleModalAccept(folio.folio)}>
-                                                            Aceptar
-                                                        </button>
-                                                        <button className="btn btn-danger mt-2" onClick={() => handleModalReject(folio.folio)}>
-                                                            Rechazar
-                                                        </button>
-                                                    </>
-                                                )}
-
-                                                {/* Botones de acciones */}
-                                                {['materiales'].includes(user.rol) && (
-                                                    <>
-                                                        <Link to={`/orden_compra`} state={{ folio }}>
-                                                            <button className="btn btn-success mt-2 me-2">
+                                            <div className="card-footer bg-white border-top py-3">
+                                                <div className="d-flex justify-content-between align-items-center">
+                                                    <span className="badge bg-primary px-3 py-2">
+                                                        {folio.estado}
+                                                    </span>
+                                                    <div className="btn-group">
+                                                        {['financiero', 'vinculacion', 'direccion'].includes(user.rol) && (
+                                                            <>
+                                                                <button
+                                                                    className="btn btn-outline-success"
+                                                                    onClick={() => handleModalAccept(folio.folio)}
+                                                                >
+                                                                    <FaCheck className="me-2" />
+                                                                    Aceptar
+                                                                </button>
+                                                                <button
+                                                                    className="btn btn-outline-danger"
+                                                                    onClick={() => handleModalReject(folio.folio)}
+                                                                >
+                                                                    <FaTimes className="me-2" />
+                                                                    Rechazar
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                        {['materiales'].includes(user.rol) && (
+                                                            <Link
+                                                                to={`/orden_compra`}
+                                                                state={{ folio }}
+                                                                className="btn btn-outline-primary"
+                                                            >
                                                                 Crear orden de entrega
-                                                            </button>
-                                                        </Link>
-                                                    </>
-                                                )}
+                                                            </Link>
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 ))
                             ) : (
                                 <div className="col">
-                                    <p>No se encontraron folios para este usuario.</p>
+                                    <div className="alert alert-info">
+                                        No se encontraron folios para este usuario.
+                                    </div>
                                 </div>
                             )}
                         </div>
-                        {/* Paginación */}
+
                         {folios.length > 0 && (
-                            <nav aria-label="Page navigation example">
-                                <p className="text-center mt-3">Total de folios: {folios.length}</p>
-                                <ul className="pagination mt-3 justify-content-center">
-                                    {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
-                                        <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
-                                            <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </nav>
+                            <div className="mt-4">
+                                <p className="text-center text-muted">
+                                    Total de folios: {folios.length}
+                                </p>
+                                <nav aria-label="Navegación de páginas">
+                                    <ul className="pagination justify-content-center">
+                                        {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
+                                            <li
+                                                key={page}
+                                                className={`page-item ${currentPage === page ? 'active' : ''}`}
+                                            >
+                                                <button
+                                                    className="page-link"
+                                                    onClick={() => handlePageChange(page)}
+                                                >
+                                                    {page}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </nav>
+                            </div>
                         )}
-
-
                     </>
                 )}
             </div>

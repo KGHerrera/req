@@ -9,6 +9,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState(null);
     const { setUser, setToken } = useStateContext();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -36,6 +37,7 @@ const Login = () => {
         }
 
         const payload = { email, password };
+        setIsLoading(true);
 
         axiosClient.post("/login", payload)
             .then(({ data }) => {
@@ -52,6 +54,8 @@ const Login = () => {
                     setErrors(response.data.errors);
                 }
                 console.log(response.data.errors);
+            }).finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -99,7 +103,15 @@ const Login = () => {
                                     <p className="text-danger small mt-2">{errors.message}</p>
                                 )}
                             </div>
-                            <button type="submit" className="btn btn-primary w-100 py-2">Iniciar Sesión</button>
+                            <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center" disabled={isLoading}>
+
+                                {isLoading ?
+                                    (<span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>)
+                                    :
+                                    (<span>Iniciar Sesión</span>)
+                                }
+
+                            </button>
                         </form>
                         <p className="text-center mt-4">Para registrarse, <Link to="/register">haga clic aquí</Link></p>
                     </div>

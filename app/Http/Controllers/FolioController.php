@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFolioRequest;
 use App\Models\Folio;
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -41,9 +43,9 @@ class FolioController extends Controller
     {
         try {
             $user = $request->user();
-            $role = $user->rol; // Asume que el rol del usuario está almacenado en el atributo 'rol'
+            $role = $user->rol; // Assume the user's role is stored in the 'rol' attribute
 
-            // Validar el nuevo estado
+            // Validate the new status
             $newEstado = $request->input('estado');
             $motivoRechazo = $request->input('motivo_rechazo');
             $validEstados = ['enviada', 'primera_autorizacion', 'segunda_autorizacion', 'tercera_autorizacion', 'rechazada'];
@@ -52,26 +54,64 @@ class FolioController extends Controller
                 return response()->json(['message' => 'Estado no válido.'], 400);
             }
 
-            // Validar el motivo de rechazo si el nuevo estado es "rechazada"
+            // Validate the rejection reason if the new status is "rechazada"
             if ($newEstado === 'rechazada' && empty($motivoRechazo)) {
                 return response()->json(['message' => 'Motivo de rechazo es requerido.'], 400);
             }
 
-            // Encontrar el folio por ID
+            // Find the folio by ID
             $folio = Folio::find($id);
 
             if (!$folio) {
                 return response()->json(['message' => 'Folio no encontrado.'], 404);
             }
 
-            // Actualizar el estado del folio y el motivo de rechazo si aplica
+            // Update the status of the folio and the rejection reason if applicable
             $folio->estado = $newEstado;
             if ($newEstado === 'rechazada') {
                 $folio->motivo_rechazo = $motivoRechazo;
             } else {
-                $folio->motivo_rechazo = null; // Limpiar el motivo de rechazo si el estado no es "rechazada"
+                $folio->motivo_rechazo = null; // Clear rejection reason if status is not "rechazada"
             }
             $folio->save();
+
+            // Create a notification for the user who submitted the folio
+            $notificationMessage = "Tus requisiciones con el folio {$folio->folio} ha sido mandada con el estado de {$newEstado}.";
+            Notification::create([
+                'user_id' => $folio->user_id, // ID of the user to be notified
+                'message' => $notificationMessage,
+                'folio' => $folio->folio, // Optional: link to the folio if needed
+            ]);
+
+            // Notify users based on the new status
+            if ($newEstado === 'primera_autorizacion') {
+                $vinculacionUsers = User::where('rol', 'vinculacion')->get();
+                foreach ($vinculacionUsers as $vinculacionUser) {
+                    Notification::create([
+                        'user_id' => $vinculacionUser->id,
+                        'message' => "Se ha mandado una nueva requisición con el folio {$folio->folio}.",
+                        'folio' => $folio->folio,
+                    ]);
+                }
+            } elseif ($newEstado === 'segunda_autorizacion') {
+                $direccionUsers = User::where('rol', 'direccion')->get();
+                foreach ($direccionUsers as $direccionUser) {
+                    Notification::create([
+                        'user_id' => $direccionUser->id,
+                        'message' => "Se ha mandado una nueva requisición con el folio {$folio->folio}.",
+                        'folio' => $folio->folio,
+                    ]);
+                }
+            } elseif ($newEstado === 'tercera_autorizacion') {
+                $direccionUsers = User::where('rol', 'materiales')->get();
+                foreach ($direccionUsers as $direccionUser) {
+                    Notification::create([
+                        'user_id' => $direccionUser->id,
+                        'message' => "Se ha mandado una nueva requisición con el folio {$folio->folio}.",
+                        'folio' => $folio->folio,
+                    ]);
+                }
+            }
 
             return response()->json(['message' => 'Estado del folio actualizado correctamente.'], 200);
         } catch (\Exception $e) {
@@ -84,6 +124,8 @@ class FolioController extends Controller
             return response()->json(['message' => 'Hubo un problema al actualizar el estado del folio.'], 500);
         }
     }
+
+
 
 
 

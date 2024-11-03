@@ -10,11 +10,14 @@ const Register = () => {
     const claveDepartamentoRef = useRef(null);
     const passwordRef = useRef(null);
     const confirmPasswordRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [errors, setErrors] = useState({});
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        setIsLoading(true);
 
         const payload = {
             name: nameRef.current.value,
@@ -29,15 +32,20 @@ const Register = () => {
             return;
         }
 
-        axiosClient.post("/register", payload).then(({ data }) => {
-            setUser(data.user);
-            setToken(data.token);
-        }).catch(err => {
-            const response = err.response;
-            if (response && response.status === 422) {
-                setErrors(response.data.errors);
-            }
-        });
+        axiosClient.post("/register", payload)
+            .then(({ data }) => {
+                setUser(data.user);
+                setToken(data.token);
+            })
+            .catch(err => {
+                const response = err.response;
+                if (response && response.status === 422) {
+                    setErrors(response.data.errors);
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     };
 
     return (
@@ -89,7 +97,13 @@ const Register = () => {
                                     {errors.password && <p className="text-danger small mt-1">{errors.password[0]}</p>}
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-primary w-100 mb-3">Registrar</button>
+                            <button type="submit" className="btn btn-primary w-100 mb-3" disabled={isLoading}>
+                                {isLoading ? (
+                                    <span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>
+                                ) : (
+                                    "Registrar"
+                                )}
+                            </button>
                         </form>
                         <p className="text-center">¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a></p>
                     </div>

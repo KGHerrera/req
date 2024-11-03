@@ -15,6 +15,7 @@ const OrdenCompra = () => {
     const [errors, setErrors] = useState({});
     const { folio } = location.state || {}; // Recuperar los datos del folio del estado de navegación
 
+    const [isLoading, setIsLoading] = useState(false);
     const [compraData, setCompraData] = useState({
         proveedor: '',
         fecha_entrega: '',
@@ -123,6 +124,8 @@ const OrdenCompra = () => {
             return;
         }
 
+        setIsLoading(true);
+
         axiosClient.post('/orden-compra', data)
             .then(() => {
                 Swal.fire({
@@ -153,6 +156,8 @@ const OrdenCompra = () => {
                 if (response && response.status === 422) {
                     console.log(response.data.errors);
                 }
+            }).finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -171,12 +176,12 @@ const OrdenCompra = () => {
                                     Datos del Folio
                                 </div>
                                 <div className="card-body">
-                                    <p><strong>Folio:</strong> {folio.folio}</p>
-                                    <p><strong>Fecha de Solicitud:</strong> {folio.fecha_solicitud}</p>
-                                    <p><strong>Fecha de Entrega:</strong> {folio.fecha_entrega}</p>
-                                    <p><strong>Total Estimado:</strong> {folio.total_estimado}</p>
-                                    <p><strong>Clave de Departamento:</strong> {folio.clave_departamento}</p>
-                                    <h5>Requisiciones:</h5>
+                                    <small><p><strong>Folio:</strong> {folio.folio}</p></small>
+                                    <small><p><strong>Fecha de Solicitud:</strong> {folio.fecha_solicitud}</p></small>
+                                    <small><p><strong>Fecha de Entrega:</strong> {folio.fecha_entrega}</p></small>
+                                    <small><p><strong>Total Estimado:</strong> {folio.total_estimado}</p></small>
+                                    <small><p><strong>Clave de Departamento:</strong> {folio.clave_departamento}</p></small>
+                                    <small><p className="fw-bold">Requisiciones:</p></small>
                                     <table className="table table-striped">
                                         <thead>
                                             <tr>
@@ -407,8 +412,15 @@ const OrdenCompra = () => {
                                 </form>
 
                                 <div className="col-12">
-                                    <button type="submit" className="btn btn-primary float-end d-flex align-items-center" onClick={handleSubmit}>
-                                        <FaCheckSquare className="me-2" /> Crear Compra y Órdenes de Compra
+                                    <button type="submit" className="btn btn-primary float-end d-flex align-items-center justify-content-center" onClick={handleSubmit} disabled={isLoading} style={{minWidth: '200px'}}>
+                                        
+                                        {isLoading ? 
+                                        
+                                        (<span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>)
+                                        : 
+                                        
+                                        (<span><FaCheckSquare className="me-2" /> Crear orden de Compra</span>)
+                                        }
                                     </button>
                                 </div>
                             </div>
