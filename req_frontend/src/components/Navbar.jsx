@@ -68,7 +68,7 @@ const Navbar = () => {
 
 
                         {user && (
-                            <span className="navbar-text active d-flex align-items-center me-2">
+                            <span className="navbar-text active d-flex align-items-center me-1">
                                 <FaUser className="me-1" />
                                 {user.name}
                             </span>

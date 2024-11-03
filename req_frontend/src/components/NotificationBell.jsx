@@ -94,7 +94,7 @@ const NotificationBell = () => {
     <>
       {/* Botón de la campana */}
       <button 
-        className="btn btn-link text-white position-relative me-3" 
+        className="btn btn-link text-white position-relative me-4" 
         onClick={handleOpenModal}
         data-bs-toggle="modal" 
         data-bs-target="#notificationsModal"

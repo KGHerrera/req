@@ -65,6 +65,9 @@ const Compra = () => {
         Swal.fire({
             imageUrl: modifiedUrl,
             imageAlt: 'Evidencia de Entrega',
+            
+            confirmButtonColor: "#325d88",
+            confirmButtonText: 'Cerrar'
         });
     };
 
@@ -77,6 +80,7 @@ const Compra = () => {
             showCancelButton: true,
             confirmButtonText: 'Subir',
             cancelButtonText: 'Cancelar',
+            confirmButtonColor: "#325d88",
             preConfirm: () => {
                 const fileInput = document.getElementById('fileInput');
                 const file = fileInput.files[0];
@@ -128,7 +132,11 @@ const Compra = () => {
                     </div>
                 </div>
                 {loading ? (
-                    <p>Cargando...</p>
+                    <div className="text-center">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
                 ) : error ? (
                     <p className="text-danger">{error}</p>
                 ) : (
@@ -139,7 +147,7 @@ const Compra = () => {
                                     <div key={compra.no_orden_compra} className="col">
                                         <div className="card h-100">
                                             <div className="card-header">
-                                               <p className='mb-0'> No. Orden de Compra: {compra.no_orden_compra}</p>
+                                                <p className='mb-0'> No. Orden de Compra: {compra.no_orden_compra}</p>
                                             </div>
                                             <div className="card-body">
                                                 <small><p className='mb-2'><strong>Proveedor:</strong> {compra.proveedor}</p></small>
@@ -166,14 +174,14 @@ const Compra = () => {
                                                                     <td>
                                                                         {orden.evidencia_de_entrega ? (
                                                                             <button
-                                                                                className="btn btn-secondary"
+                                                                                className="btn btn-outline-primary btn-sm"
                                                                                 onClick={() => handleShowEvidence("http://127.0.0.1:8000/" + orden.evidencia_de_entrega)}
                                                                             >
                                                                                 Ver
                                                                             </button>
                                                                         ) : (
                                                                             <button
-                                                                                className="btn btn-primary"
+                                                                                className="btn btn-outline-primary btn-sm"
                                                                                 onClick={() => handleUploadEvidence(orden.id_compra)}
                                                                             >
                                                                                 Agregar
