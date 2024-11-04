@@ -2,7 +2,7 @@ import React from 'react';
 import { useStateContext } from '../context/contextprovider';
 import axiosClient from '../axiosClient';
 import { NavLink } from 'react-router-dom';
-import { FaPlusSquare, FaFolderOpen, FaSignOutAlt, FaUser, FaClipboardList, FaUserAstronaut } from 'react-icons/fa';
+import { FaPlusSquare, FaFolderOpen, FaClipboardList, FaUserAstronaut, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import NotificationBell from './NotificationBell';
 
 const Navbar = () => {
@@ -18,67 +18,130 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
-            <div className="container-fluid">
-                {/* Logo */}
-                <a className="navbar-brand" href="/">
-                    TECNM
+        <nav className="navbar navbar-expand-lg bg-primary navbar-dark border-bottom shadow-sm">
+            <div className="container-fluid px-4">
+                {/* Logo Section */}
+                <a className="navbar-brand d-flex align-items-center" href="/">
+                    <span className="fw-bold">TECNM</span>
                 </a>
 
-                {/* Menú de Navegación */}
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                {/* Hamburger Button */}
+                <button
+                    className="navbar-toggler border-0"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    {/* Navigation Links */}
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         {!['direccion', 'financiero', 'vinculacion', 'materiales', 'admin'].includes(user?.rol) && (
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/requisiciones">
-                                    <FaPlusSquare className="me-1" /> Agregar requisiciones
+                                <NavLink
+                                    className="nav-link d-flex align-items-center px-3 py-2 mx-1"
+                                    to="/requisiciones"
+                                >
+                                    <FaPlusSquare className="me-2" />
+                                    <span>Agregar requisiciones</span>
                                 </NavLink>
                             </li>
                         )}
+
                         {user?.rol !== 'admin' && (
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/folios">
-                                    <FaFolderOpen className="me-1" /> Folios
+                                <NavLink
+                                    className="nav-link d-flex align-items-center px-3 py-2 mx-1"
+                                    to="/folios"
+                                >
+                                    <FaFolderOpen className="me-2" />
+                                    <span>Folios</span>
                                 </NavLink>
                             </li>
                         )}
+
                         {user?.rol === 'materiales' && (
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/compra">
-                                    <FaClipboardList className="me-1" /> Ordenes de compra
+                                <NavLink
+                                    className="nav-link d-flex align-items-center px-3 py-2 mx-1"
+                                    to="/compra"
+                                >
+                                    <FaClipboardList className="me-2" />
+                                    <span>Ordenes de compra</span>
                                 </NavLink>
                             </li>
                         )}
+
                         {user?.rol === 'admin' && (
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/usuarios">
-                                    <FaUserAstronaut className="me-1" /> Usuarios
+                                <NavLink
+                                    className="nav-link d-flex align-items-center px-3 py-2 mx-1"
+                                    to="/usuarios"
+                                >
+                                    <FaUserAstronaut className="me-2" />
+                                    <span>Usuarios</span>
                                 </NavLink>
                             </li>
                         )}
                     </ul>
 
-                    {/* Usuario y Cerrar Sesión */}
+
+
+                    {/* User Section */}
                     <div className="d-flex align-items-center">
-
-
-
                         {user && (
-                            <span className="navbar-text active d-flex align-items-center me-1">
-                                <FaUser className="me-1" />
-                                {user.name}
-                            </span>
+                            <div className="dropdown">
+                                <button
+                                    className="btn btn-primary dropdown-toggle d-flex align-items-center"
+                                    type="button"
+                                    id="userDropdown"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <div className="bg-light rounded p-1 me-2">
+                                        <FaUser className="text-primary" />
+                                    </div>
+                                    <span className="me-2">{user.name}</span>
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                                    <li>
+                                        <span className="dropdown-item-text">
+                                            <small className="text-muted">Rol: {user.rol}</small>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span className="dropdown-item-text">
+                                            <small className="text-muted">Departamento: {user.clave_departamento}</small>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span className="dropdown-item-text">
+                                            <small className="text-muted">{user.email}</small>
+                                        </span>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <button
+                                            className="dropdown-item text-danger d-flex align-items-center"
+                                            onClick={onLogout}
+                                        >
+                                            <FaSignOutAlt className="me-2" />
+                                            Cerrar Sesión
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         )}
 
-                        <NotificationBell />
-
-                        <button className="btn btn-light" onClick={onLogout}>
-                            <FaSignOutAlt className="me-1" /> Cerrar Sesión
-                        </button>
+                        {/* Notification Bell */}
+                        <div className="me-0 pe-0 position-relative">
+                            <NotificationBell />
+                        </div>
                     </div>
                 </div>
             </div>

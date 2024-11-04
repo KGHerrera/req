@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaBell } from 'react-icons/fa';
+import { FaBell, FaCircle, FaCheckCircle } from 'react-icons/fa';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../context/contextprovider';
 
@@ -101,7 +101,7 @@ const NotificationBell = () => {
       >
         <FaBell className="fs-5" />
         {unreadCount > 0 && (
-          <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger">
+          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {unreadCount}
             <span className="visually-hidden">notificaciones no leídas</span>
           </span>
@@ -115,68 +115,89 @@ const NotificationBell = () => {
         tabIndex="-1" 
         aria-labelledby="notificationsModalLabel" 
         aria-hidden="true"
-        onHide={handleCloseModal}
       >
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h4 className="modal-title" id="notificationsModalLabel">
+          <div className="modal-content border-0">
+            <div className="modal-header bg-primary">
+              <h5 className="modal-title d-flex align-items-center text-white" id="notificationsModalLabel">
+                <FaBell className="me-2" />
                 Notificaciones
-              </h4>
+              </h5>
               <button 
                 type="button" 
-                className="btn-close" 
+                className="btn-close btn-close-white" 
                 data-bs-dismiss="modal" 
                 aria-label="Close"
                 onClick={handleCloseModal}
+                style={{ filter: 'brightness(0) invert(1)' }}
               ></button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body p-0">
               {!user ? (
-                <p className="text-center text-muted py-4">
-                  Cargando...
-                </p>
+                <div className="d-flex justify-content-center align-items-center p-4">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Cargando...</span>
+                  </div>
+                </div>
               ) : notifications.length === 0 ? (
-                <p className="text-center text-muted py-4">
-                  No hay notificaciones
-                </p>
+                <div className="text-center p-4">
+                  <FaBell className="text-muted mb-2" style={{ fontSize: '2rem' }} />
+                  <p className="text-muted mb-0">No hay notificaciones</p>
+                </div>
               ) : (
                 <div className="notification-list">
                   {notifications.map((notification) => (
                     <div
                       key={notification.id}
-                      className={`card mb-3 ${!notification.viewed ? 'bg-light' : ''}`}
+                      className={`border-bottom ${!notification.viewed ? 'bg-light' : ''}`}
                     >
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between align-items-start">
-                          <div>
-                            <p className="mb-1">{notification.message}</p>
-                            <small className="text-muted d-block">
-                              Folio: {notification.folio}
-                            </small>
-                            <small className="text-muted d-block">
-                              {new Date(notification.created_at).toLocaleDateString()}
-                            </small>
+                      <div className="p-3">
+                        <div className="d-flex">
+                          {/* Indicador de no leído */}
+                          <div className="flex-shrink-0 me-2 pt-1">
+                            {!notification.viewed && (
+                              <FaCircle className="text-primary" style={{ fontSize: '0.5rem' }} />
+                            )}
                           </div>
+                          
+                          {/* Contenido de la notificación */}
+                          <div className="flex-grow-1 me-3">
+                            <p className="mb-1" style={{ lineHeight: '1.4' }}>{notification.message}</p>
+                            <div className="d-flex flex-wrap align-items-center text-muted" style={{ fontSize: '0.875rem' }}>
+                              <span className="me-3">
+                                <strong>Folio:</strong> {notification.folio}
+                              </span>
+                              <span>
+                                {new Date(notification.created_at).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Botón de marcar como leída */}
                           {!notification.viewed && (
-                            <button
-                              className="btn btn-outline-primary btn-sm"
-                              onClick={() => markAsRead(notification.id)}
-                            >
-                              Marcar como leída
-                            </button>
+                            <div className="flex-shrink-0">
+                              <button
+                                className="btn btn-outline-primary btn-sm d-flex align-items-center"
+                                onClick={() => markAsRead(notification.id)}
+                              >
+                                <FaCheckCircle className="me-1" />
+                                <span>Leída</span>
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>
                     </div>
                   ))}
+                  
+                  {/* Botón de cargar más */}
                   {hasMore && (
-                    <div className="text-center">
+                    <div className="p-3">
                       <button
-                        className="btn btn-outline-primary w-100"
+                        className="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-center"
                         onClick={loadMore}
                       >
-                        Cargar más
+                        Cargar más notificaciones
                       </button>
                     </div>
                   )}

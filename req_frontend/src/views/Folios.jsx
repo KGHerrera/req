@@ -248,7 +248,7 @@ const Folios = () => {
                                                         {['financiero', 'vinculacion', 'direccion'].includes(user.rol) && (
                                                             <>
                                                                 <button
-                                                                    className="btn btn-outline-success"
+                                                                    className="btn btn-outline-primary"
                                                                     onClick={() => handleModalAccept(folio.folio)}
                                                                 >
                                                                     <FaCheck className="me-2" />

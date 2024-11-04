@@ -164,73 +164,100 @@ const OrdenCompra = () => {
     return (
         <>
             <Navbar />
-            <div className="container mt-3 mb-5">
-
-                {/* Mostrar datos del folio */}
+            <div className="container py-4">
+                {/* Datos del Folio */}
                 {folio && (
-                    <div className="row mb-3 ">
+                    <div className="row g-4 mb-4">
                         <div className="col-12">
-                            <div className="card">
-                                <div className="card-header d-flex align-items-center">
+                            <div className="card shadow-sm">
+                                <div className="card-header bg-primary text-white d-flex align-items-center">
                                     <FaFolderOpen className="me-2" />
-                                    Datos del Folio
+                                    <h5 className="mb-0">Datos del Folio</h5>
                                 </div>
                                 <div className="card-body">
-                                    <small><p><strong>Folio:</strong> {folio.folio}</p></small>
-                                    <small><p><strong>Fecha de Solicitud:</strong> {folio.fecha_solicitud}</p></small>
-                                    <small><p><strong>Fecha de Entrega:</strong> {folio.fecha_entrega}</p></small>
-                                    <small><p><strong>Total Estimado:</strong> {folio.total_estimado}</p></small>
-                                    <small><p><strong>Clave de Departamento:</strong> {folio.clave_departamento}</p></small>
-                                    <small><p className="fw-bold">Requisiciones:</p></small>
-                                    <table className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Partida</th>
-                                                <th scope="col">Cantidad</th>
-                                                <th scope="col">Unidad</th>
-                                                <th scope="col">Descripción</th>
-                                                <th scope="col">Costo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {folio.requisiciones.map((requisicion, reqIndex) => (
-                                                <tr key={reqIndex}>
-                                                    <td>{requisicion.id_requisicion}</td>
-                                                    <td>{requisicion.partida_presupuestal}</td>
-                                                    <td>{requisicion.cantidad}</td>
-                                                    <td>{requisicion.unidad}</td>
-                                                    <td>{requisicion.descripcion_bienes_servicios}</td>
-                                                    <td>{requisicion.costo_estimado}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                    <div className="row g-3">
+                                        <div className="col-md-4">
+                                            <div className="d-flex align-items-center">
+                                                <span className="fw-bold me-2">Folio:</span>
+                                                <span>{folio.folio}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="d-flex align-items-center">
+                                                <span className="fw-bold me-2">Fecha de Solicitud:</span>
+                                                <span>{folio.fecha_solicitud}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="d-flex align-items-center">
+                                                <span className="fw-bold me-2">Fecha de Entrega:</span>
+                                                <span>{folio.fecha_entrega}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="d-flex align-items-center">
+                                                <span className="fw-bold me-2">Total Estimado:</span>
+                                                <span>${folio.total_estimado}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="d-flex align-items-center">
+                                                <span className="fw-bold me-2">Clave de Departamento:</span>
+                                                <span>{folio.clave_departamento}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-4">
+                                        <h6 className="fw-bold mb-3">Requisiciones:</h6>
+                                        <div className="table-responsive">
+                                            <table className="table table-hover table-striped align-middle">
+                                                <thead className="table-light">
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Partida</th>
+                                                        <th scope="col">Cantidad</th>
+                                                        <th scope="col">Unidad</th>
+                                                        <th scope="col">Descripción</th>
+                                                        <th scope="col">Costo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {folio.requisiciones.map((requisicion, reqIndex) => (
+                                                        <tr key={reqIndex}>
+                                                            <td>{requisicion.id_requisicion}</td>
+                                                            <td>{requisicion.partida_presupuestal}</td>
+                                                            <td>{requisicion.cantidad}</td>
+                                                            <td>{requisicion.unidad}</td>
+                                                            <td>{requisicion.descripcion_bienes_servicios}</td>
+                                                            <td>${requisicion.costo_estimado}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* Agregar órdenes de compra */}
-                <div className="row ">
+                {/* Agregar Orden de Compra */}
+                <div className="row g-4">
                     <div className="col-12">
-                        <div className="card mb-3 ">
-                            <div className="card-header d-flex align-items-center">
+                        <div className="card shadow-sm">
+                            <div className="card-header bg-primary text-white d-flex align-items-center">
                                 <FaPlusSquare className="me-2" />
-                                Agregar Orden de Compra
+                                <h5 className="mb-0">Agregar Orden de Compra</h5>
                             </div>
-
-
                             <div className="card-body">
-                                <div className="row">
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="id_requisicion" className="form-label">ID Requisición</label>
-                                        <div className="input-group">
-                                            <span className="input-group-text"><FaIdCard /></span>
+                                <div className="row g-3">
+                                    <div className="col-md-4">
+                                        <div className="form-floating">
                                             <input
                                                 type="text"
-                                                className="form-control"
+                                                className={`form-control ${errors.id_requisicion ? 'is-invalid' : ''}`}
                                                 id="id_requisicion"
                                                 name="id_requisicion"
                                                 placeholder="ID Requisición"
@@ -238,16 +265,21 @@ const OrdenCompra = () => {
                                                 onChange={handleChangeOrdenCompra}
                                                 required
                                             />
+                                            <label htmlFor="id_requisicion">
+                                                <FaIdCard className="me-2" />
+                                                ID Requisición
+                                            </label>
+                                            {errors.id_requisicion &&
+                                                <div className="invalid-feedback">{errors.id_requisicion}</div>
+                                            }
                                         </div>
-                                        {errors.id_requisicion && <p className="text-danger small mb-0">{errors.id_requisicion}</p>}
                                     </div>
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="precio_unitario" className="form-label">Precio Unitario</label>
-                                        <div className="input-group">
-                                            <span className="input-group-text"><FaDollarSign /></span>
+
+                                    <div className="col-md-4">
+                                        <div className="form-floating">
                                             <input
                                                 type="number"
-                                                className="form-control"
+                                                className={`form-control ${errors.precio_unitario ? 'is-invalid' : ''}`}
                                                 id="precio_unitario"
                                                 name="precio_unitario"
                                                 placeholder="Precio Unitario"
@@ -255,16 +287,21 @@ const OrdenCompra = () => {
                                                 onChange={handleChangeOrdenCompra}
                                                 required
                                             />
+                                            <label htmlFor="precio_unitario">
+                                                <FaDollarSign className="me-2" />
+                                                Precio Unitario
+                                            </label>
+                                            {errors.precio_unitario &&
+                                                <div className="invalid-feedback">{errors.precio_unitario}</div>
+                                            }
                                         </div>
-                                        {errors.precio_unitario && <p className="text-danger small mb-0">{errors.precio_unitario}</p>}
                                     </div>
-                                    <div className="col-md-4 mb-3">
-                                        <label htmlFor="importe_parcial" className="form-label">Importe Parcial</label>
-                                        <div className="input-group">
-                                            <span className="input-group-text"><FaCalculator /></span>
+
+                                    <div className="col-md-4">
+                                        <div className="form-floating">
                                             <input
                                                 type="number"
-                                                className="form-control"
+                                                className={`form-control ${errors.importe_parcial ? 'is-invalid' : ''}`}
                                                 id="importe_parcial"
                                                 name="importe_parcial"
                                                 placeholder="Importe Parcial"
@@ -272,166 +309,182 @@ const OrdenCompra = () => {
                                                 onChange={handleChangeOrdenCompra}
                                                 required
                                             />
+                                            <label htmlFor="importe_parcial">
+                                                <FaCalculator className="me-2" />
+                                                Importe Parcial
+                                            </label>
+                                            {errors.importe_parcial &&
+                                                <div className="invalid-feedback">{errors.importe_parcial}</div>
+                                            }
                                         </div>
-                                        {errors.importe_parcial && <p className="text-danger small mb-0">{errors.importe_parcial}</p>}
                                     </div>
                                 </div>
-                                <button type="button" className="btn btn-primary d-flex align-items-center float-end" onClick={addOrdenCompra}>
-                                    <FaPlusSquare className="me-2" /> Agregar Orden de Compra
-                                </button>
-                                {errors.ordenes_compra && <p className="text-danger small mb-0">{errors.ordenes_compra}</p>}
-                            </div>
 
-
-                        </div>
-                    </div>
-                </div>
-
-                {/* Mostrar órdenes de compra agregadas */}
-                {ordenesCompra.length > 0 && (
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card mb-3">
-                                <div className="card-header">
-                                    Órdenes de Compra Agregadas
+                                <div className="d-flex justify-content-end mt-4">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary d-flex align-items-center"
+                                        onClick={addOrdenCompra}
+                                    >
+                                        <FaPlusSquare className="me-2" />
+                                        Agregar Orden de Compra
+                                    </button>
                                 </div>
-                                <div className="card-body">
 
-                                    <table className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Requisición</th>
-                                                <th scope="col">Precio Unitario</th>
-                                                <th scope="col">Importe Parcial</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {ordenesCompra.map((orden, index) => (
-                                                <tr key={index}>
-                                                    <td>{orden.id_requisicion}</td>
-                                                    <td>{orden.precio_unitario}</td>
-                                                    <td>{orden.importe_parcial}</td>
+                                {errors.ordenes_compra && (
+                                    <div className="alert alert-danger mt-3" role="alert">
+                                        {errors.ordenes_compra}
+                                    </div>
+                                )}
+
+                                {/* Órdenes de Compra Agregadas */}
+                                {ordenesCompra.length > 0 && (
+                                    <div className="table-responsive mt-4">
+                                        <h5>Ordenes de Compra Agregadas</h5>
+                                        <table className="table table-hover table-striped align-middle">
+                                            <thead className="table-light">
+                                                <tr>
+                                                    <th scope="col">Requisición</th>
+                                                    <th scope="col">Precio Unitario</th>
+                                                    <th scope="col">Importe Parcial</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-
-
-
-                                </div>
+                                            </thead>
+                                            <tbody>
+                                                {ordenesCompra.map((orden, index) => (
+                                                    <tr key={index}>
+                                                        <td>{orden.id_requisicion}</td>
+                                                        <td>${orden.precio_unitario}</td>
+                                                        <td>${orden.importe_parcial}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
 
-                )}
 
-                <div className="row">
+                    {/* Datos de la Compra */}
                     <div className="col-12">
-                        <div className="card mb-3">
-                            <div className="card-header d-flex align-items-center">
+                        <div className="card shadow-sm">
+                            <div className="card-header bg-primary text-white d-flex align-items-center">
                                 <FaCheckSquare className="me-2" />
-                                Datos de la Compra
+                                <h5 className="mb-0">Datos de la Compra</h5>
                             </div>
-
-
-
-
                             <div className="card-body">
-                                <form>
-                                    <div className="row">
-                                        <div className="col-md-4 mb-3">
-                                            <label htmlFor="proveedor" className="form-label">Proveedor</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaUser /></span>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="proveedor"
-                                                    name="proveedor"
-                                                    placeholder="Nombre del proveedor"
-                                                    value={compraData.proveedor}
-                                                    onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })}
-                                                    required
-                                                    maxLength="255"
-                                                />
-                                            </div>
-                                            {errors.proveedor && <p className="text-danger small">{errors.proveedor}</p>}
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <label htmlFor="fecha_entrega" className="form-label">Fecha de Entrega</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaCalendarAlt /></span>
-                                                <input
-                                                    type="date"
-                                                    className="form-control"
-                                                    id="fecha_entrega"
-                                                    name="fecha_entrega"
-                                                    value={compraData.fecha_entrega}
-                                                    onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })}
-                                                />
-                                            </div>
-                                            {errors.fecha_entrega && <p className="text-danger small">{errors.fecha_entrega}</p>}
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-                                            <label htmlFor="IVA" className="form-label">IVA</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaDollarSign /></span>
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    id="IVA"
-                                                    name="IVA"
-                                                    placeholder="IVA ($)"
-                                                    value={compraData.IVA}
-                                                    onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })}
-                                                />
-                                            </div>
-                                            {errors.IVA && <p className="text-danger small">{errors.IVA}</p>}
+                                <div className="row g-3">
+                                    <div className="col-md-4">
+                                        <div className="form-floating">
+                                            <input
+                                                type="text"
+                                                className={`form-control ${errors.proveedor ? 'is-invalid' : ''}`}
+                                                id="proveedor"
+                                                name="proveedor"
+                                                placeholder="Nombre del proveedor"
+                                                value={compraData.proveedor}
+                                                onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })}
+                                                maxLength="255"
+                                                required
+                                            />
+                                            <label htmlFor="proveedor">
+                                                <FaUser className="me-2" />
+                                                Proveedor
+                                            </label>
+                                            {errors.proveedor &&
+                                                <div className="invalid-feedback">{errors.proveedor}</div>
+                                            }
                                         </div>
                                     </div>
 
-                                    {/* Nueva fila para el campo Total */}
-                                    <div className="row">
-                                        <div className="col-md-4 mb-3">
-                                            <label htmlFor="total" className="form-label">Total</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaDollarSign /></span>
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    id="total"
-                                                    name="total"
-                                                    placeholder="Total ($)"
-                                                    value={compraData.total}
-                                                    onChange={(e) => setCompraData({ ...compraData, total: e.target.value })}
-                                                />
-                                            </div>
-                                            {errors.total && <p className="text-danger small">{errors.total}</p>}
+                                    <div className="col-md-4">
+                                        <div className="form-floating">
+                                            <input
+                                                type="date"
+                                                className={`form-control ${errors.fecha_entrega ? 'is-invalid' : ''}`}
+                                                id="fecha_entrega"
+                                                name="fecha_entrega"
+                                                value={compraData.fecha_entrega}
+                                                onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })}
+                                            />
+                                            <label htmlFor="fecha_entrega">
+                                                <FaCalendarAlt className="me-2" />
+                                                Fecha de Entrega
+                                            </label>
+                                            {errors.fecha_entrega &&
+                                                <div className="invalid-feedback">{errors.fecha_entrega}</div>
+                                            }
                                         </div>
                                     </div>
-                                </form>
 
-                                <div className="col-12">
-                                    <button type="submit" className="btn btn-primary float-end d-flex align-items-center justify-content-center" onClick={handleSubmit} disabled={isLoading} style={{minWidth: '200px'}}>
-                                        
-                                        {isLoading ? 
-                                        
-                                        (<span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>)
-                                        : 
-                                        
-                                        (<span><FaCheckSquare className="me-2" /> Crear orden de Compra</span>)
-                                        }
+                                    <div className="col-md-4">
+                                        <div className="form-floating">
+                                            <input
+                                                type="number"
+                                                className={`form-control ${errors.IVA ? 'is-invalid' : ''}`}
+                                                id="IVA"
+                                                name="IVA"
+                                                placeholder="IVA ($)"
+                                                value={compraData.IVA}
+                                                onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })}
+                                            />
+                                            <label htmlFor="IVA">
+                                                <FaDollarSign className="me-2" />
+                                                IVA
+                                            </label>
+                                            {errors.IVA &&
+                                                <div className="invalid-feedback">{errors.IVA}</div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div className="col-md-4">
+                                        <div className="form-floating">
+                                            <input
+                                                type="number"
+                                                className={`form-control ${errors.total ? 'is-invalid' : ''}`}
+                                                id="total"
+                                                name="total"
+                                                placeholder="Total ($)"
+                                                value={compraData.total}
+                                                onChange={(e) => setCompraData({ ...compraData, total: e.target.value })}
+                                            />
+                                            <label htmlFor="total">
+                                                <FaDollarSign className="me-2" />
+                                                Total
+                                            </label>
+                                            {errors.total &&
+                                                <div className="invalid-feedback">{errors.total}</div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="d-flex justify-content-end mt-4">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary d-flex align-items-center"
+                                        onClick={handleSubmit}
+                                        disabled={isLoading}
+                                        style={{ minWidth: '200px' }}
+                                    >
+                                        {isLoading ? (
+                                            <div className="spinner-border spinner-border-sm mx-auto" role="status">
+                                                <span className="visually-hidden">Cargando...</span>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <FaCheckSquare className="me-2" />
+                                                Crear Orden de Compra
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </>
     );
