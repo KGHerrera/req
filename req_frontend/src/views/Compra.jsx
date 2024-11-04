@@ -156,7 +156,7 @@ const Compra = () => {
                                                 <small><p className='mb-2'><strong>Total:</strong> {compra.total}</p>   </small>
                                                 <small><p className='fw-bold mb-2' >Órdenes de Compra:</p> </small>
                                                 <div className="table-responsive">
-                                                    <table className="table table-striped">
+                                                    <table className="table table-striped small table-hover">
                                                         <thead>
                                                             <tr>
                                                                 <th>Precio Unitario</th>

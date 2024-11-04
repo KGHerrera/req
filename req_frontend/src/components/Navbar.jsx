@@ -90,8 +90,6 @@ const Navbar = () => {
                         )}
                     </ul>
 
-
-
                     {/* User Section */}
                     <div className="d-flex align-items-center">
                         {user && (

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 // importar bootstrap
-import '../public/bootstrap.min (3).css';
+import '../public/bootstrap.min.css';
 import router from './router.jsx'
 import { RouterProvider } from 'react-router-dom'
 import { ContextProvider } from './context/contextprovider.jsx'

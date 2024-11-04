@@ -195,135 +195,157 @@ const Requisiciones = () => {
                                 <h5 className="mb-0">Añadir Requisición</h5>
                             </div>
                             <div className="card-body">
-                                <div className="row g-3">
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="text"
-                                                className={`form-control ${errors.partida_presupuestal ? 'is-invalid' : ''}`}
-                                                id="partida_presupuestal"
-                                                name="partida_presupuestal"
-                                                placeholder="000000"
-                                                value={newRequisicion.partida_presupuestal}
-                                                onChange={handleChangeRequisicion}
-                                                maxLength="6"
-                                                required
-                                            />
-                                            <label htmlFor="partida_presupuestal">
-                                                <FaClipboardList className="me-2" />
-                                                Partida Presupuestal
-                                            </label>
-                                            {errors.partida_presupuestal &&
-                                                <div className="invalid-feedback">{errors.partida_presupuestal}</div>
-                                            }
+                                <form>
+                                    <div className="row g-3">
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="text"
+                                                    className={`form-control ${errors.partida_presupuestal ? 'is-invalid' : ''}`}
+                                                    id="partida_presupuestal"
+                                                    name="partida_presupuestal"
+                                                    placeholder="000000"
+                                                    value={newRequisicion.partida_presupuestal}
+                                                    onChange={handleChangeRequisicion}
+                                                    maxLength="6"
+                                                    required
+                                                    aria-describedby="partidaPresupuestalHelp"
+                                                />
+                                                <label htmlFor="partida_presupuestal">
+                                                    <FaClipboardList className="me-2" />
+                                                    Partida Presupuestal
+                                                </label>
+                                                <small id="partidaPresupuestalHelp" className="form-text text-muted">
+                                                    Debe ser un valor numérico, ej. (200022)
+                                                </small>
+                                                {errors.partida_presupuestal &&
+                                                    <div className="invalid-feedback">{errors.partida_presupuestal}</div>
+                                                }
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="number"
+                                                    className={`form-control ${errors.cantidad ? 'is-invalid' : ''}`}
+                                                    id="cantidad"
+                                                    name="cantidad"
+                                                    placeholder="0"
+                                                    value={newRequisicion.cantidad}
+                                                    onChange={handleChangeRequisicion}
+                                                    required
+                                                    aria-describedby="cantidadHelp"
+                                                />
+                                                <label htmlFor="cantidad">
+                                                    <FaCalculator className="me-2" />
+                                                    Cantidad
+                                                </label>
+                                                <small id="cantidadHelp" className="form-text text-muted">
+                                                    Debe ser un valor numérico
+                                                </small>
+                                                {errors.cantidad &&
+                                                    <div className="invalid-feedback">{errors.cantidad}</div>
+                                                }
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="text"
+                                                    className={`form-control ${errors.unidad ? 'is-invalid' : ''}`}
+                                                    id="unidad"
+                                                    name="unidad"
+                                                    placeholder="pieza, litro, etc"
+                                                    value={newRequisicion.unidad}
+                                                    onChange={handleChangeRequisicion}
+                                                    maxLength="20"
+                                                    required
+                                                    aria-describedby="unidadHelp"
+                                                />
+                                                <label htmlFor="unidad">
+                                                    <FaRulerCombined className="me-2" />
+                                                    Unidad
+                                                </label>
+                                                <small id="unidadHelp" className="form-text text-muted">
+                                                    Como por ejemplo pieza, litro, etc.
+                                                </small>
+                                                {errors.unidad &&
+                                                    <div className="invalid-feedback">{errors.unidad}</div>
+                                                }
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-8">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="text"
+                                                    className={`form-control ${errors.descripcion_bienes_servicios ? 'is-invalid' : ''}`}
+                                                    id="descripcion_bienes_servicios"
+                                                    name="descripcion_bienes_servicios"
+                                                    placeholder="descripción detallada del bien o servicio"
+                                                    value={newRequisicion.descripcion_bienes_servicios}
+                                                    onChange={handleChangeRequisicion}
+                                                    maxLength="100"
+                                                    required
+                                                    aria-describedby="descripcionHelp"
+                                                />
+                                                <label htmlFor="descripcion_bienes_servicios">
+                                                    <FaRegFileAlt className="me-2" />
+                                                    Descripción
+                                                </label>
+                                                <small id="descripcionHelp" className="form-text text-muted">
+                                                    Descripción detallada del bien o servicio.
+                                                </small>
+                                                {errors.descripcion_bienes_servicios &&
+                                                    <div className="invalid-feedback">{errors.descripcion_bienes_servicios}</div>
+                                                }
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="number"
+                                                    className={`form-control ${errors.costo_estimado ? 'is-invalid' : ''}`}
+                                                    id="costo_estimado"
+                                                    name="costo_estimado"
+                                                    placeholder="0.00"
+                                                    value={newRequisicion.costo_estimado}
+                                                    onChange={handleChangeRequisicion}
+                                                    required
+                                                    aria-describedby="costoEstimadoHelp"
+                                                />
+                                                <label htmlFor="costo_estimado">
+                                                    <FaDollarSign className="me-2" />
+                                                    Costo Estimado
+                                                </label>
+                                                <small id="costoEstimadoHelp" className="form-text text-muted">
+                                                    Total del costo del los bienes o servicios
+                                                </small>
+                                                {errors.costo_estimado &&
+                                                    <div className="invalid-feedback">{errors.costo_estimado}</div>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="number"
-                                                className={`form-control ${errors.cantidad ? 'is-invalid' : ''}`}
-                                                id="cantidad"
-                                                name="cantidad"
-                                                placeholder="0"
-                                                value={newRequisicion.cantidad}
-                                                onChange={handleChangeRequisicion}
-                                                required
-                                            />
-                                            <label htmlFor="cantidad">
-                                                <FaCalculator className="me-2" />
-                                                Cantidad
-                                            </label>
-                                            {errors.cantidad &&
-                                                <div className="invalid-feedback">{errors.cantidad}</div>
-                                            }
-                                        </div>
+    
+                                    <div className="d-flex justify-content-end mt-4">
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary d-flex align-items-center"
+                                            onClick={addRequisicion}
+                                        >
+                                            <FaPlusSquare className="me-2" />
+                                            Añadir Requisición
+                                        </button>
                                     </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="text"
-                                                className={`form-control ${errors.unidad ? 'is-invalid' : ''}`}
-                                                id="unidad"
-                                                name="unidad"
-                                                placeholder="pieza, litro, etc"
-                                                value={newRequisicion.unidad}
-                                                onChange={handleChangeRequisicion}
-                                                maxLength="20"
-                                                required
-                                            />
-                                            <label htmlFor="unidad">
-                                                <FaRulerCombined className="me-2" />
-                                                Unidad
-                                            </label>
-                                            {errors.unidad &&
-                                                <div className="invalid-feedback">{errors.unidad}</div>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-8">
-                                        <div className="form-floating">
-                                            <input
-                                                type="text"
-                                                className={`form-control ${errors.descripcion_bienes_servicios ? 'is-invalid' : ''}`}
-                                                id="descripcion_bienes_servicios"
-                                                name="descripcion_bienes_servicios"
-                                                placeholder="descripción detallada del bien o servicio"
-                                                value={newRequisicion.descripcion_bienes_servicios}
-                                                onChange={handleChangeRequisicion}
-                                                maxLength="100"
-                                                required
-                                            />
-                                            <label htmlFor="descripcion_bienes_servicios">
-                                                <FaRegFileAlt className="me-2" />
-                                                Descripción
-                                            </label>
-                                            {errors.descripcion_bienes_servicios &&
-                                                <div className="invalid-feedback">{errors.descripcion_bienes_servicios}</div>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="number"
-                                                className={`form-control ${errors.costo_estimado ? 'is-invalid' : ''}`}
-                                                id="costo_estimado"
-                                                name="costo_estimado"
-                                                placeholder="0.00"
-                                                value={newRequisicion.costo_estimado}
-                                                onChange={handleChangeRequisicion}
-                                                required
-                                            />
-                                            <label htmlFor="costo_estimado">
-                                                <FaDollarSign className="me-2" />
-                                                Costo Estimado
-                                            </label>
-                                            {errors.costo_estimado &&
-                                                <div className="invalid-feedback">{errors.costo_estimado}</div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="d-flex justify-content-end mt-4">
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary d-flex align-items-center"
-                                        onClick={addRequisicion}
-                                    >
-                                        <FaPlusSquare className="me-2" />
-                                        Añadir Requisición
-                                    </button>
-                                </div>
-
+                                </form>
+    
                                 {requisiciones.length > 0 && (
                                     <div className="table-responsive mt-4">
-                                        <table className="table table-hover table-striped align-middle">
+                                        <table className="table table-hover table-striped small align-middle">
                                             <thead className="table-light">
                                                 <tr>
                                                     <th scope="col">Partida Presupuestal</th>
@@ -347,7 +369,7 @@ const Requisiciones = () => {
                                         </table>
                                     </div>
                                 )}
-
+    
                                 {errors.requisiciones && (
                                     <div className="alert alert-danger mt-3" role="alert">
                                         {errors.requisiciones}
@@ -356,7 +378,7 @@ const Requisiciones = () => {
                             </div>
                         </div>
                     </div>
-
+    
                     {/* Información del Folio */}
                     <div className="col-12">
                         <div className="card shadow-sm">
@@ -364,130 +386,136 @@ const Requisiciones = () => {
                                 <h5 className="mb-0">Información del Folio</h5>
                             </div>
                             <div className="card-body">
-                                <div className="row g-3">
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="folio"
-                                                value={folioData.folio}
-                                                readOnly
-                                            />
-                                            <label htmlFor="folio">
-                                                <FaIdBadge className="me-2" />
-                                                Folio
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="date"
-                                                className="form-control"
-                                                id="fecha_solicitud"
-                                                value={folioData.fecha_solicitud}
-                                                readOnly
-                                            />
-                                            <label htmlFor="fecha_solicitud">
-                                                <FaCalendarAlt className="me-2" />
-                                                Fecha de Solicitud
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="date"
-                                                className="form-control"
-                                                id="fecha_entrega"
-                                                value={folioData.fecha_entrega}
-                                                readOnly
-                                            />
-                                            <label htmlFor="fecha_entrega">
-                                                <FaCalendarAlt className="me-2" />
-                                                Fecha de Entrega estimada
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="number"
-                                                className={`form-control ${errors.total_estimado ? 'is-invalid' : ''}`}
-                                                id="total_estimado"
-                                                name="total_estimado"
-                                                placeholder="0.00"
-                                                value={folioData.total_estimado}
-                                                onChange={(e) => setFolioData({ ...folioData, total_estimado: e.target.value })}
-                                                min="0"
-                                            />
-                                            <label htmlFor="total_estimado">
-                                                <FaDollarSign className="me-2" />
-                                                Total Estimado
-                                            </label>
-                                            {errors.total_estimado &&
-                                                <div className="invalid-feedback">{errors.total_estimado}</div>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="estado"
-                                                value={folioData.estado}
-                                                readOnly
-                                            />
-                                            <label htmlFor="estado">
-                                                <FaKey className="me-2" />
-                                                Estado
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-4">
-                                        <div className="form-floating">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="clave_departamento"
-                                                value={folioData.clave_departamento}
-                                                readOnly
-                                            />
-                                            <label htmlFor="clave_departamento">
-                                                <FaKey className="me-2" />
-                                                Clave de Departamento
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="d-flex justify-content-end mt-4">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary d-flex align-items-center"
-                                        onClick={handleSubmit}
-                                        disabled={loading}
-                                        style={{ minWidth: '200px' }}
-                                    >
-                                        {loading ? (
-                                            <div className="spinner-border spinner-border-sm mx-auto" role="status">
-                                                <span className="visually-hidden">Cargando...</span>
+                                <form>
+                                    <div className="row g-3">
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="folio"
+                                                    value={folioData.folio}
+                                                    readOnly
+                                                />
+                                                <label htmlFor="folio">
+                                                    <FaIdBadge className="me-2" />
+                                                    Folio
+                                                </label>
                                             </div>
-                                        ) : (
-                                            <>
-                                                <FaPaperPlane className="me-2" />
-                                                Enviar al folio
-                                            </>
-                                        )}
-                                    </button>
-                                </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    id="fecha_solicitud"
+                                                    value={folioData.fecha_solicitud}
+                                                    readOnly
+                                                />
+                                                <label htmlFor="fecha_solicitud">
+                                                    <FaCalendarAlt className="me-2" />
+                                                    Fecha de Solicitud
+                                                </label>
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="date"
+                                                    className="form-control"
+                                                    id="fecha_entrega"
+                                                    value={folioData.fecha_entrega}
+                                                    readOnly
+                                                />
+                                                <label htmlFor="fecha_entrega">
+                                                    <FaCalendarAlt className="me-2" />
+                                                    Fecha de Entrega estimada
+                                                </label>
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="number"
+                                                    className={`form-control ${errors.total_estimado ? 'is-invalid' : ''}`}
+                                                    id="total_estimado"
+                                                    name="total_estimado"
+                                                    placeholder="0.00"
+                                                    value={folioData.total_estimado}
+                                                    onChange={(e) => setFolioData({ ...folioData, total_estimado: e.target.value })}
+                                                    min="0"
+                                                    aria-describedby="totalEstimadoHelp"
+                                                />
+                                                <label htmlFor="total_estimado">
+                                                    <FaDollarSign className="me-2" />
+                                                    Total Estimado
+                                                </label>
+                                                <small id="totalEstimadoHelp" className="form-text text-muted">
+                                                    Total de todas las requisiciones
+                                                </small>
+                                                {errors.total_estimado &&
+                                                    <div className="invalid-feedback">{errors.total_estimado}</div>
+                                                }
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="estado"
+                                                    value={folioData.estado}
+                                                    readOnly
+                                                />
+                                                <label htmlFor="estado">
+                                                    <FaKey className="me-2" />
+                                                    Estado
+                                                </label>
+                                            </div>
+                                        </div>
+    
+                                        <div className="col-md-4">
+                                            <div className="form-floating">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="clave_departamento"
+                                                    value={folioData.clave_departamento}
+                                                    readOnly
+                                                />
+                                                <label htmlFor="clave_departamento">
+                                                    <FaKey className="me-2" />
+                                                    Clave de Departamento
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div className="d-flex justify-content-end mt-4">
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary d-flex align-items-center"
+                                            onClick={handleSubmit}
+                                            disabled={loading}
+                                            style={{ minWidth: '200px' }}
+                                        >
+                                            {loading ? (
+                                                <div className="spinner-border spinner-border-sm mx-auto" role="status">
+                                                    <span className="visually-hidden">Cargando...</span>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <FaPaperPlane className="me-2" />
+                                                    Enviar al folio
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -495,6 +523,7 @@ const Requisiciones = () => {
             </div>
         </>
     );
+    
 };
 
 export default Requisiciones;

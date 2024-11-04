@@ -115,7 +115,7 @@ const Folios = () => {
             text: '¿Estás seguro de que quieres aceptar este folio?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: "#325d88",
             cancelButtonColor: '#d33',
             confirmButtonText: 'Aceptar',
             cancelButtonText: 'Cancelar'
@@ -135,9 +135,10 @@ const Folios = () => {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
+            cancelButtonColor: "#325d88",
             confirmButtonText: 'Rechazar',
             cancelButtonText: 'Cancelar',
+            
             preConfirm: () => {
                 const motivo = document.getElementById('motivoRechazo').value;
                 if (!motivo) {
@@ -215,7 +216,7 @@ const Folios = () => {
 
                                                 <small><p className="mb-3  fw-bold">Requisiciones:</p></small>
                                                 <div className="table-responsive">
-                                                    <table className="table table-sm table-hover">
+                                                    <table className="table table-sm table-hover table-striped small">
                                                         <thead className="table-light">
                                                             <tr>
                                                                 <th>Partida</th>
