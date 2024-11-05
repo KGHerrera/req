@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../context/contextprovider';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaUserPlus, FaShieldAlt, FaSignInAlt } from 'react-icons/fa';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -62,58 +62,70 @@ const Login = () => {
     return (
         <div className="container d-flex align-items-center min-vh-100">
             <div className="row justify-content-center w-100">
-                <div className="col-12 col-md-7 col-lg-5 col-xl-4">
-                    <div className="card shadow p-4">
+                <div className="col-12 col-md-5 col-lg-5 col-xl-5">
+                    <div className="card shadow p-4 hover-effect">
                         <h2 className="text-center mb-4">Iniciar Sesión</h2>
+                        <div className="text-center mb-4">
+                            <h5>Bienvenido al Sistema de Requisiciones ITSJ</h5>
+                        </div>
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label htmlFor="email" className="form-label">Correo Electrónico</label>
-                                <div className="input-group">
-                                    <span className="input-group-text"><FaEnvelope /></span>
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        id="email"
-                                        placeholder="Introduce tu correo electrónico"
-                                        value={email}
-                                        onChange={handleEmailChange}
-                                    />
-                                </div>
-                                {errors && errors.email && (
-                                    <p className="text-danger small mt-2">{errors.email}</p>
+                            <div className="mb-4 form-group form-floating">
+                                <input
+                                    type="email"
+                                    className={`form-control ${errors?.email ? 'is-invalid' : ''}`}
+                                    id="email"
+                                    placeholder="ejemplo@gmail.com"
+                                    value={email}
+                                    onChange={handleEmailChange}
+                                />
+                                <label htmlFor="email">
+                                    <FaEnvelope className="me-2" />
+                                    Correo Electrónico
+                                </label>
+                                {errors?.email && (
+                                    <div className="invalid-feedback">{errors.email}</div>
                                 )}
+                                <small className="form-text text-muted">Ejemplo: ejemplo@gmail.com</small>
                             </div>
-                            <div className="mb-4">
-                                <label htmlFor="password" className="form-label">Contraseña</label>
-                                <div className="input-group">
-                                    <span className="input-group-text"><FaLock /></span>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="password"
-                                        placeholder="Introduce tu contraseña"
-                                        value={password}
-                                        onChange={handlePasswordChange}
-                                    />
-                                </div>
-                                {errors && errors.password && (
-                                    <p className="text-danger small mt-2">{errors.password}</p>
+                            <div className="mb-4 form-group form-floating">
+                                <input
+                                    type="password"
+                                    className={`form-control ${errors?.password ? 'is-invalid' : ''}`}
+                                    id="password"
+                                    placeholder="Mínimo 8 caracteres"
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                />
+                                <label htmlFor="password">
+                                    <FaLock className="me-2" />
+                                    Contraseña
+                                </label>
+                                {errors?.password && (
+                                    <div className="invalid-feedback">{errors.password}</div>
                                 )}
-                                {errors && errors.message && (
-                                    <p className="text-danger small mt-2">{errors.message}</p>
+                                {errors?.message && (
+                                    <div className="invalid-feedback">{errors.message}</div>
                                 )}
+                                <small className="form-text text-muted">Mínimo 8 caracteres</small>
                             </div>
-                            <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center" disabled={isLoading}>
-
+                            
+                            <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
                                 {isLoading ?
                                     (<span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>)
                                     :
-                                    (<span>Iniciar Sesión</span>)
+                                    (<><FaSignInAlt className="me-2" /><span>Iniciar Sesión</span></>)
                                 }
-
                             </button>
                         </form>
-                        <p className="text-center mt-4">Para registrarse, <Link to="/register">haga clic aquí</Link></p>
+                        <p className="text-center mt-4">
+                            ¿No tienes cuenta? <Link to="/register" className="text-decoration-none hover-effect">
+                                 Regístrate aquí <FaUserPlus className="ms-1" />
+                            </Link>
+                        </p>
+                        <div className="d-flex align-items-center justify-content-center mb-4">
+                                <FaShieldAlt className="me-2 text-primary" />
+                                <small className="text-muted">Tu inicio de sesión es seguro</small>
+                            </div>
                     </div>
                 </div>
             </div>

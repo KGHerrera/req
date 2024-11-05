@@ -2,7 +2,7 @@ import React from 'react';
 import { useStateContext } from '../context/contextprovider';
 import axiosClient from '../axiosClient';
 import { NavLink } from 'react-router-dom';
-import { FaPlusSquare, FaFolderOpen, FaClipboardList, FaUserAstronaut, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { FaPlusSquare, FaFolderOpen, FaClipboardList, FaUserAstronaut, FaUser, FaSignOutAlt, FaUserCircle, FaBuilding } from 'react-icons/fa';
 import NotificationBell from './NotificationBell';
 
 const Navbar = () => {
@@ -101,20 +101,24 @@ const Navbar = () => {
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >
-                                    <div className="bg-light rounded p-1 me-2">
+                                    <div className="bg-light rounded px-1 me-2">
                                         <FaUser className="text-primary" />
                                     </div>
                                     <span className="me-2">{user.name}</span>
                                 </button>
                                 <ul className="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                                    <li>
-                                        <span className="dropdown-item-text">
-                                            <small className="text-muted">Rol: {user.rol}</small>
-                                        </span>
+                                    <li className="px-3 py-2 d-flex align-items-center">
+                                        <FaUserCircle className="me-2 text-muted" />
+                                        <div>
+                                            <div className="fw-bold">{user.name}</div>
+                                            <small className="text-muted">{user.rol}</small>
+                                        </div>
                                     </li>
+                                    <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <span className="dropdown-item-text">
-                                            <small className="text-muted">Departamento: {user.clave_departamento}</small>
+                                            <FaBuilding className="me-2 text-muted" />
+                                            <small className="text-muted">{user.clave_departamento}</small>
                                         </span>
                                     </li>
                                     <li>

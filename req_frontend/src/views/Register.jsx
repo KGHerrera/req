@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../context/contextprovider';
-import { FaUser, FaEnvelope, FaKey, FaBuilding } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaKey, FaBuilding, FaUserPlus, FaShieldAlt } from 'react-icons/fa';
 
 const Register = () => {
     const { setUser, setToken } = useStateContext();
@@ -11,13 +12,13 @@ const Register = () => {
     const passwordRef = useRef(null);
     const confirmPasswordRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
-
     const [errors, setErrors] = useState({});
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         setIsLoading(true);
+        setConfirmPasswordError(''); // Reset confirm password error
 
         const payload = {
             name: nameRef.current.value,
@@ -28,7 +29,8 @@ const Register = () => {
         };
 
         if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-            alert("Las contraseñas no coinciden");
+            setConfirmPasswordError("Las contraseñas no coinciden");
+            setIsLoading(false);
             return;
         }
 
@@ -51,61 +53,115 @@ const Register = () => {
     return (
         <div className="container d-flex align-items-center min-vh-100">
             <div className="row justify-content-center w-100">
-                <div className="col-md-8">
-                    <div className="card shadow p-4">
+                <div className="col-12 col-md-8 col-lg-8 col-xl-8">
+                    <div className="card shadow p-4 hover-effect">
                         <h2 className="text-center mb-4">Registro</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="row">
-                                <div className="col-md-6 mb-4">
-                                    <label htmlFor="name" className="form-label">Nombre</label>
-                                    <div className="input-group">
-                                        <span className="input-group-text"><FaUser /></span>
-                                        <input ref={nameRef} type="text" className="form-control" id="name" placeholder="Introduce tu nombre" />
-                                    </div>
-                                    {errors.name && <p className="text-danger small mt-1">{errors.name[0]}</p>}
+                                <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                    <input
+                                        ref={nameRef}
+                                        type="text"
+                                        className={`form-control ${errors?.name ? 'is-invalid' : ''}`}
+                                        id="name"
+                                        placeholder="Introduce tu nombre"
+                                    />
+                                    <label htmlFor="name" className='ms-2'>
+                                        <FaUser className="me-2" />
+                                        Nombre
+                                    </label>
+                                    {errors?.name && (
+                                        <div className="invalid-feedback">{errors.name[0]}</div>
+                                    )}
                                 </div>
-                                <div className="col-md-6 mb-4">
-                                    <label htmlFor="email" className="form-label">Correo Electrónico</label>
-                                    <div className="input-group">
-                                        <span className="input-group-text"><FaEnvelope /></span>
-                                        <input ref={emailRef} type="email" className="form-control" id="email" placeholder="Introduce tu correo electrónico" />
-                                    </div>
-                                    {errors.email && <p className="text-danger small mt-1">{errors.email[0]}</p>}
+                                <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                    <input
+                                        ref={emailRef}
+                                        type="email"
+                                        className={`form-control ${errors?.email ? 'is-invalid' : ''}`}
+                                        id="email"
+                                        placeholder="Introduce tu correo electrónico"
+                                    />
+                                    <label htmlFor="email" className='ms-2'>
+                                        <FaEnvelope className="me-2" />
+                                        Correo Electrónico
+                                    </label>
+                                    {errors?.email && (
+                                        <div className="invalid-feedback">{errors.email[0]}</div>
+                                    )}
+                                    <small className="form-text text-muted">Ejemplo@gmail.com</small>
                                 </div>
-                                <div className="col-md-6 mb-4">
-                                    <label htmlFor="claveDepartamento" className="form-label">Clave Departamento</label>
-                                    <div className="input-group">
-                                        <span className="input-group-text"><FaBuilding /></span>
-                                        <input ref={claveDepartamentoRef} type="text" className="form-control" id="claveDepartamento" placeholder="Introduce tu clave de departamento" />
-                                    </div>
-                                    {errors.clave_departamento && <p className="text-danger small mt-1">{errors.clave_departamento[0]}</p>}
+                                <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                    <input
+                                        ref={claveDepartamentoRef}
+                                        type="text"
+                                        className={`form-control ${errors?.clave_departamento ? 'is-invalid' : ''}`}
+                                        id="claveDepartamento"
+                                        placeholder="Introduce tu clave de departamento"
+                                    />
+                                    <label htmlFor="claveDepartamento" className='ms-2'>
+                                        <FaBuilding className="me-2" />
+                                        Clave Departamento
+                                    </label>
+                                    {errors?.clave_departamento && (
+                                        <div className="invalid-feedback">{errors.clave_departamento[0]}</div>
+                                    )}
+                                    <small className="form-text text-muted">Abrebiado en tres letras mayúsculas.</small>
                                 </div>
-                                <div className="col-md-6 mb-4">
-                                    <label htmlFor="password" className="form-label">Contraseña</label>
-                                    <div className="input-group">
-                                        <span className="input-group-text"><FaKey /></span>
-                                        <input ref={passwordRef} type="password" className="form-control" id="password" placeholder="Introduce tu contraseña" />
-                                    </div>
-                                    {errors.password && <p className="text-danger small mt-1">{errors.password[0]}</p>}
+                                <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                    <input
+                                        ref={passwordRef}
+                                        type="password"
+                                        className={`form-control ${errors?.password ? 'is-invalid' : ''}`}
+                                        id="password"
+                                        placeholder="Introduce tu contraseña"
+                                    />
+                                    <label htmlFor="password" className='ms-2'>
+                                        <FaKey className="me-2" />
+                                        Contraseña
+                                    </label>
+                                    {errors?.password && (
+                                        <div className="invalid-feedback">{errors.password[0]}</div>
+                                    )}
+                                    <small className="form-text text-muted">Mínimo 8 caracteres</small>
                                 </div>
-                                <div className="col-md-6 mb-4">
-                                    <label htmlFor="confirmPassword" className="form-label">Confirmar Contraseña</label>
-                                    <div className="input-group">
-                                        <span className="input-group-text"><FaKey /></span>
-                                        <input ref={confirmPasswordRef} type="password" className="form-control" id="confirmPassword" placeholder="Confirma tu contraseña" />
-                                    </div>
-                                    {errors.password && <p className="text-danger small mt-1">{errors.password[0]}</p>}
+                                <div className="col-12 mb-4 form-group form-floating">
+                                    <input
+                                        ref={confirmPasswordRef}
+                                        type="password"
+                                        className={`form-control ${confirmPasswordError ? 'is-invalid' : ''}`}
+                                        id="confirmPassword"
+                                        placeholder="Confirma tu contraseña"
+                                    />
+                                    <label htmlFor="confirmPassword" className='ms-2'>
+                                        <FaKey className="me-2" />
+                                        Confirmar Contraseña
+                                    </label>
+                                    {confirmPasswordError && (
+                                        <div className="invalid-feedback">{confirmPasswordError}</div>
+                                    )}
+                                    <small className="form-text text-muted">Mínimo 8 caracteres, iguales a la anterior</small>
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-primary w-100 mb-3" disabled={isLoading}>
+                            <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
                                 {isLoading ? (
                                     <span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>
                                 ) : (
-                                    "Registrar"
+                                    <>
+                                        <FaUserPlus className="me-2" /><span>Registrar</span>
+                                    </>
                                 )}
                             </button>
                         </form>
-                        <p className="text-center">¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a></p>
+                        <p className="text-center mt-4">
+                            ¿Ya tienes una cuenta? <Link to="/login" className="text-decoration-none hover-effect">
+                                Inicia sesión aquí
+                            </Link>
+                        </p>
+                        <div className="d-flex align-items-center justify-content-center mb-4">
+                            <FaShieldAlt className="me-2 text-primary" />
+                            <small className="text-muted">Tu registro es seguro</small>
+                        </div>
                     </div>
                 </div>
             </div>
