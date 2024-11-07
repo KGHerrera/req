@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axiosClient from '../axiosClient';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
-import { FaPlusSquare, FaUser, FaEnvelope, FaKey, FaBuilding, FaUserTag } from 'react-icons/fa';
+import { FaPlusSquare, FaUser, FaEnvelope, FaKey, FaBuilding, FaUserTag, FaUserPlus } from 'react-icons/fa';
 import UserTable from '../components/UserTable';
 
 const CrearUsuario = () => {
@@ -16,6 +16,13 @@ const CrearUsuario = () => {
         password_confirmation: ''
     });
     const [errors, setErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+
+    const nameRef = useRef();
+    const emailRef = useRef();
+    const claveDepartamentoRef = useRef();
+    const passwordRef = useRef();
+    const confirmPasswordRef = useRef();
 
     const handleChange = (e) => {
         setUserData({
@@ -26,6 +33,7 @@ const CrearUsuario = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const request = userData.id
             ? axiosClient.put(`/users/${userData.id}`, userData)
             : axiosClient.post('/users', userData);
@@ -54,6 +62,9 @@ const CrearUsuario = () => {
                 if (response && response.status === 422) {
                     setErrors(response.data.errors);
                 }
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -78,112 +89,143 @@ const CrearUsuario = () => {
                             <div className="card-body">
                                 <form onSubmit={handleSubmit}>
                                     <div className="row">
-                                        <div className="col-md-6 mb-3">
-                                            <label htmlFor="name" className="form-label">Nombre</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaUser /></span>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="name"
-                                                    name="name"
-                                                    value={userData.name}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                            {errors.name && <p className="text-danger small mb-0">{errors.name[0]}</p>}
+                                        <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                            <input
+                                                ref={nameRef}
+                                                type="text"
+                                                className={`form-control ${errors?.name ? 'is-invalid' : ''}`}
+                                                id="name"
+                                                name="name"
+                                                value={userData.name}
+                                                onChange={handleChange}
+                                                placeholder="Introduce tu nombre"
+                                                required
+                                            />
+                                            <label htmlFor="name" className='ms-2'>
+                                                <FaUser className="me-2" />
+                                                Nombre
+                                            </label>
+                                            {errors?.name && (
+                                                <div className="invalid-feedback">{errors.name[0]}</div>
+                                            )}
+                                            <small className="form-text text-muted">Nombre(s) y apellidos</small>
                                         </div>
-                                        <div className="col-md-6 mb-3">
-                                            <label htmlFor="email" className="form-label">Correo Electrónico</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaEnvelope /></span>
-                                                <input
-                                                    type="email"
-                                                    className="form-control"
-                                                    id="email"
-                                                    name="email"
-                                                    value={userData.email}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                            {errors.email && <p className="text-danger small mb-0">{errors.email[0]}</p>}
+                                        <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                            <input
+                                                ref={emailRef}
+                                                type="email"
+                                                className={`form-control ${errors?.email ? 'is-invalid' : ''}`}
+                                                id="email"
+                                                name="email"
+                                                value={userData.email}
+                                                onChange={handleChange}
+                                                placeholder="Introduce tu correo electrónico"
+                                                required
+                                            />
+                                            <label htmlFor="email" className='ms-2'>
+                                                <FaEnvelope className="me-2" />
+                                                Correo Electrónico
+                                            </label>
+                                            {errors?.email && (
+                                                <div className="invalid-feedback">{errors.email[0]}</div>
+                                            )}
+                                            <small className="form-text text-muted">Ejemplo@gmail.com</small>
+                                        </div>
+                                        <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                            <select
+                                                className={`form-control ${errors?.rol ? 'is-invalid' : ''}`}
+                                                id="rol"
+                                                name="rol"
+                                                value={userData.rol}
+                                                onChange={handleChange}
+                                                required
+                                            >
+                                                <option value="" disabled>Seleccione un rol</option>
+                                                <option value="user">user</option>
+                                                <option value="financiero">financiero</option>
+                                                <option value="vinculacion">vinculacion</option>
+                                                <option value="direccion">direccion</option>
+                                                <option value="materiales">materiales</option>
+                                            </select>
+                                            <label htmlFor="rol" className='ms-2'>
+                                                <FaUserTag className="me-2" />
+                                                Rol
+                                            </label>
+                                            {errors?.rol && (
+                                                <div className="invalid-feedback">{errors.rol[0]}</div>
+                                            )}
+                                        </div>
+                                        <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                            <input
+                                                ref={claveDepartamentoRef}
+                                                type="text"
+                                                className={`form-control ${errors?.clave_departamento ? 'is-invalid' : ''}`}
+                                                id="clave_departamento"
+                                                name="clave_departamento"
+                                                value={userData.clave_departamento}
+                                                onChange={handleChange}
+                                                placeholder="Introduce tu clave de departamento"
+                                                required
+                                            />
+                                            <label htmlFor="clave_departamento" className='ms-2'>
+                                                <FaBuilding className="me-2" />
+                                                Clave Departamento
+                                            </label>
+                                            {errors?.clave_departamento && (
+                                                <div className="invalid-feedback">{errors.clave_departamento[0]}</div>
+                                            )}
+                                            <small className="form-text text-muted">Abreviado en tres letras mayúsculas.</small>
+                                        </div>
+                                        <div className="col-12 col-md-6 mb-4 form-group form-floating">
+                                            <input
+                                                ref={passwordRef}
+                                                type="password"
+                                                className={`form-control ${errors?.password ? 'is-invalid' : ''}`}
+                                                id="password"
+                                                name="password"
+                                                value={userData.password}
+                                                onChange={handleChange}
+                                                placeholder="Introduce tu contraseña"
+                                            />
+                                            <label htmlFor="password" className='ms-2'>
+                                                <FaKey className="me-2" />
+                                                Contraseña
+                                            </label>
+                                            {errors?.password && (
+                                                <div className="invalid-feedback">{errors.password[0]}</div>
+                                            )}
+                                            <small className="form-text text-muted">Mínimo 8 caracteres</small>
+                                        </div>
+                                        <div className="col-12 col-md-6  mb-4 form-group form-floating">
+                                            <input
+                                                ref={confirmPasswordRef}
+                                                type="password"
+                                                className={`form-control ${errors?.password_confirmation ? 'is-invalid' : ''}`}
+                                                id="password_confirmation"
+                                                name="password_confirmation"
+                                                value={userData.password_confirmation}
+                                                onChange={handleChange}
+                                                placeholder="Confirma tu contraseña"
+                                            />
+                                            <label htmlFor="password_confirmation" className='ms-2'>
+                                                <FaKey className="me-2" />
+                                                Confirmar Contraseña
+                                            </label>
+                                            {errors?.password_confirmation && (
+                                                <div className="invalid-feedback">{errors.password_confirmation[0]}</div>
+                                            )}
+                                            <small className="form-text text-muted">Mínimo 8 caracteres, iguales a la anterior</small>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-6 mb-3">
-                                            <label htmlFor="rol" className="form-label">Rol</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaUserTag /></span>
-                                                <select
-                                                    className="form-control"
-                                                    id="rol"
-                                                    name="rol"
-                                                    value={userData.rol}
-                                                    onChange={handleChange}
-                                                    required
-                                                >
-                                                    <option value="" disabled>Seleccione un rol</option>
-                                                    <option value="user">user</option>
-                                                    <option value="financiero">financiero</option>
-                                                    <option value="vinculacion">vinculacion</option>
-                                                    <option value="direccion">direccion</option>
-                                                    <option value="materiales">materiales</option>
-                                                </select>
-                                            </div>
-                                            {errors.rol && <p className="text-danger small mb-0">{errors.rol[0]}</p>}
-                                        </div>
-                                        <div className="col-md-6 mb-3">
-                                            <label htmlFor="clave_departamento" className="form-label">Clave de Departamento</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaBuilding /></span>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="clave_departamento"
-                                                    name="clave_departamento"
-                                                    value={userData.clave_departamento}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                            {errors.clave_departamento && <p className="text-danger small mb-0">{errors.clave_departamento[0]}</p>}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6 mb-3">
-                                            <label htmlFor="password" className="form-label">Contraseña</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaKey /></span>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    id="password"
-                                                    name="password"
-                                                    value={userData.password}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                            {errors.password && <p className="text-danger small mb-0">{errors.password[0]}</p>}
-                                        </div>
-                                        <div className="col-md-6 mb-3">
-                                            <label htmlFor="password_confirmation" className="form-label">Confirmar Contraseña</label>
-                                            <div className="input-group">
-                                                <span className="input-group-text"><FaKey /></span>
-                                                <input
-                                                    type="password"
-                                                    className="form-control"
-                                                    id="password_confirmation"
-                                                    name="password_confirmation"
-                                                    value={userData.password_confirmation}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                            {errors.password_confirmation && <p className="text-danger small mb-0">{errors.password_confirmation[0]}</p>}
-                                        </div>
-                                    </div>
-                                    <button type="submit" className="btn btn-primary float-end">{userData.id ? 'Actualizar Usuario' : 'Crear Usuario'}</button>
+                                    <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
+                                        {isLoading ? (
+                                            <span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>
+                                        ) : (
+                                            <>
+                                                <FaUserPlus className="me-2" /><span>{userData.id ? 'Actualizar Usuario' : 'Crear Usuario'}</span>
+                                            </>
+                                        )}
+                                    </button>
                                 </form>
                             </div>
                         </div>

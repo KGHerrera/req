@@ -21,12 +21,13 @@ const Register = () => {
         setConfirmPasswordError(''); // Reset confirm password error
 
         const payload = {
-            name: nameRef.current.value,
-            email: emailRef.current.value,
+            name: nameRef.current.value.toLowerCase(),
+            email: emailRef.current.value.toLowerCase(),
             rol: "user",
-            clave_departamento: claveDepartamentoRef.current.value,
-            password: passwordRef.current.value,
+            clave_departamento: claveDepartamentoRef.current.value.toUpperCase(),
+            password: passwordRef.current.value.toLowerCase(),
         };
+        
 
         if (passwordRef.current.value !== confirmPasswordRef.current.value) {
             setConfirmPasswordError("Las contraseñas no coinciden");
@@ -73,6 +74,7 @@ const Register = () => {
                                     {errors?.name && (
                                         <div className="invalid-feedback">{errors.name[0]}</div>
                                     )}
+                                    <small className="form-text text-muted">Nombre(s) y apellidos</small>
                                 </div>
                                 <div className="col-12 col-md-6 mb-4 form-group form-floating">
                                     <input

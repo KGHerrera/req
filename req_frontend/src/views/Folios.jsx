@@ -216,7 +216,7 @@ const Folios = () => {
 
                                                 <small><p className="mb-3  fw-bold">Requisiciones:</p></small>
                                                 <div className="table-responsive">
-                                                    <table className="table table-sm table-hover table-striped small">
+                                                    <table className="table table-sm table-hover table-bordered small">
                                                         <thead className="table-light">
                                                             <tr>
                                                                 <th>Partida</th>

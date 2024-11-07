@@ -129,7 +129,7 @@ const Navbar = () => {
                                     <li><hr className="dropdown-divider" /></li>
                                     <li>
                                         <button
-                                            className="dropdown-item text-danger d-flex align-items-center"
+                                            className="dropdown-item d-flex align-items-center"
                                             onClick={onLogout}
                                         >
                                             <FaSignOutAlt className="me-2" />

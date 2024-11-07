@@ -211,7 +211,7 @@ const OrdenCompra = () => {
                                     <div className="mt-2">
                                         <small><p className="fw-bold mb-3">Requisiciones:</p></small>
                                         <div className="table-responsive">
-                                            <table className="table table-hover table-striped align-middle small">
+                                            <table className="table table-hover table-bordered align-middle small">
                                                 <thead className="table-light">
                                                     <tr>
                                                         <th scope="col">ID</th>
@@ -354,7 +354,7 @@ const OrdenCompra = () => {
                                     {ordenesCompra.length > 0 && (
                                         <div className="table-responsive mt-4">
                                             <small><p className=' fw-bold'>Ordenes de Compra Agregadas</p></small>
-                                            <table className="table table-hover table-striped small align-middle">
+                                            <table className="table table-hover table-bordered small align-middle">
                                                 <thead className="table-light">
                                                     <tr>
                                                         <th scope="col">Requisición</th>

@@ -156,8 +156,8 @@ const Compra = () => {
                                                 <small><p className='mb-2'><strong>Total:</strong> {compra.total}</p>   </small>
                                                 <small><p className='fw-bold mb-2' >Órdenes de Compra:</p> </small>
                                                 <div className="table-responsive">
-                                                    <table className="table table-striped small table-hover">
-                                                        <thead>
+                                                    <table className="table small table-hover table-bordered">
+                                                        <thead className="table-light">
                                                             <tr>
                                                                 <th>Precio Unitario</th>
                                                                 <th>Importe Parcial</th>
@@ -177,7 +177,7 @@ const Compra = () => {
                                                                                 className="btn btn-outline-primary btn-sm"
                                                                                 onClick={() => handleShowEvidence("http://127.0.0.1:8000/" + orden.evidencia_de_entrega)}
                                                                             >
-                                                                                Ver
+                                                                                Ver Evidencia
                                                                             </button>
                                                                         ) : (
                                                                             <button

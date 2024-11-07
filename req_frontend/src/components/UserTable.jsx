@@ -80,8 +80,8 @@ const UserTable = ({ onEdit }) => {
                 />
                 <span className="input-group-text"><FaSearch /></span>
             </div>
-            <table className="table table-striped">
-                <thead>
+            <table className="table table-bordered table-hover">
+                <thead className='table-light'>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>

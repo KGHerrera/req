@@ -345,7 +345,7 @@ const Requisiciones = () => {
     
                                 {requisiciones.length > 0 && (
                                     <div className="table-responsive mt-4">
-                                        <table className="table table-hover table-striped small align-middle">
+                                        <table className="table table-hover table-bordered small">
                                             <thead className="table-light">
                                                 <tr>
                                                     <th scope="col">Partida Presupuestal</th>
