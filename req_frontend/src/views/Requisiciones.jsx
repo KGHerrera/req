@@ -112,6 +112,11 @@ const Requisiciones = () => {
         });
     };
 
+
+    const deleteRequisicion = (index) => {
+        setRequisiciones(requisiciones.filter((_, i) => i !== index));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -223,7 +228,7 @@ const Requisiciones = () => {
                                                 }
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -249,7 +254,7 @@ const Requisiciones = () => {
                                                 }
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -276,7 +281,7 @@ const Requisiciones = () => {
                                                 }
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-8">
                                             <div className="form-floating">
                                                 <input
@@ -303,7 +308,7 @@ const Requisiciones = () => {
                                                 }
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -330,7 +335,7 @@ const Requisiciones = () => {
                                             </div>
                                         </div>
                                     </div>
-    
+
                                     <div className="d-flex justify-content-end mt-4">
                                         <button
                                             type="button"
@@ -342,7 +347,7 @@ const Requisiciones = () => {
                                         </button>
                                     </div>
                                 </form>
-    
+
                                 {requisiciones.length > 0 && (
                                     <div className="table-responsive mt-4">
                                         <table className="table table-hover table-bordered small">
@@ -353,6 +358,7 @@ const Requisiciones = () => {
                                                     <th scope="col">Unidad</th>
                                                     <th scope="col">Descripción</th>
                                                     <th scope="col">Costo Estimado</th>
+                                                    <th scope="col">Acciones</th> {/* Nueva columna para acciones */}
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -363,13 +369,21 @@ const Requisiciones = () => {
                                                         <td>{req.unidad}</td>
                                                         <td>{req.descripcion_bienes_servicios}</td>
                                                         <td>${req.costo_estimado}</td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-danger btn-sm"
+                                                                onClick={() => deleteRequisicion(index)}
+                                                            >
+                                                                Eliminar
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
                                 )}
-    
+
                                 {errors.requisiciones && (
                                     <div className="alert alert-danger mt-3" role="alert">
                                         {errors.requisiciones}
@@ -378,7 +392,7 @@ const Requisiciones = () => {
                             </div>
                         </div>
                     </div>
-    
+
                     {/* Información del Folio */}
                     <div className="col-12">
                         <div className="card shadow-sm">
@@ -403,7 +417,7 @@ const Requisiciones = () => {
                                                 </label>
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -419,7 +433,7 @@ const Requisiciones = () => {
                                                 </label>
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -435,7 +449,7 @@ const Requisiciones = () => {
                                                 </label>
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -461,7 +475,7 @@ const Requisiciones = () => {
                                                 }
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -477,7 +491,7 @@ const Requisiciones = () => {
                                                 </label>
                                             </div>
                                         </div>
-    
+
                                         <div className="col-md-4">
                                             <div className="form-floating">
                                                 <input
@@ -494,7 +508,7 @@ const Requisiciones = () => {
                                             </div>
                                         </div>
                                     </div>
-    
+
                                     <div className="d-flex justify-content-end mt-4">
                                         <button
                                             type="submit"
@@ -523,7 +537,7 @@ const Requisiciones = () => {
             </div>
         </>
     );
-    
+
 };
 
 export default Requisiciones;

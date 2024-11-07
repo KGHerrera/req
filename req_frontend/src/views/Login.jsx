@@ -7,7 +7,7 @@ import { FaEnvelope, FaLock, FaUserPlus, FaShieldAlt, FaSignInAlt } from 'react-
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState({});
     const { setUser, setToken } = useStateContext();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -53,7 +53,14 @@ const Login = () => {
                 if (response && response.status === 422) {
                     setErrors(response.data.errors);
                 }
-                console.log(response.data.errors);
+
+                // Error del servidor no se pudo conectar
+                else {
+                    setErrors({ message: "No se pudo conectar al servidor. Por favor, intenta más tarde." });
+                }
+
+
+
             }).finally(() => {
                 setIsLoading(false);
             });
@@ -108,7 +115,7 @@ const Login = () => {
                                 )}
                                 <small className="form-text text-muted">Mínimo 8 caracteres</small>
                             </div>
-                            
+
                             <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
                                 {isLoading ?
                                     (<span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>)
@@ -116,16 +123,23 @@ const Login = () => {
                                     (<><FaSignInAlt className="me-2" /><span>Iniciar Sesión</span></>)
                                 }
                             </button>
+
+                            {errors.message &&
+                                <div className="text-center small mt-2 text-danger">
+                                    {errors.message}
+                                </div>
+                            }
                         </form>
                         <p className="text-center mt-4">
                             ¿No tienes cuenta? <Link to="/register" className="text-decoration-none hover-effect">
-                                 Regístrate aquí <FaUserPlus className="ms-1" />
+                                Regístrate aquí <FaUserPlus className="ms-1" />
                             </Link>
                         </p>
                         <div className="d-flex align-items-center justify-content-center mb-4">
-                                <FaShieldAlt className="me-2 text-primary" />
-                                <small className="text-muted">Tu inicio de sesión es seguro</small>
-                            </div>
+                            <FaShieldAlt className="me-2 text-primary" />
+                            <small className="text-muted">Tu inicio de sesión es seguro</small>
+                        </div>
+
                     </div>
                 </div>
             </div>

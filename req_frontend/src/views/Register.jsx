@@ -45,6 +45,10 @@ const Register = () => {
                 if (response && response.status === 422) {
                     setErrors(response.data.errors);
                 }
+
+                else {
+                    setErrors({ message: "No se pudo conectar con el servidor, por favor más tarde." });
+                }
             })
             .finally(() => {
                 setIsLoading(false);
@@ -154,6 +158,12 @@ const Register = () => {
                                     </>
                                 )}
                             </button>
+
+                            {errors.message &&
+                                <div className="text-center small mt-2 text-danger">
+                                    {errors.message}
+                                </div>
+                            }
                         </form>
                         <p className="text-center mt-4">
                             ¿Ya tienes una cuenta? <Link to="/login" className="text-decoration-none hover-effect">

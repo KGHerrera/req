@@ -34,9 +34,18 @@ const CrearUsuario = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
-        const request = userData.id
-            ? axiosClient.put(`/users/${userData.id}`, userData)
-            : axiosClient.post('/users', userData);
+
+        const updatedUserData = {
+            ...userData,
+            clave_departamento: userData.clave_departamento.toUpperCase()
+        };
+    
+        const request = updatedUserData.id
+            ? axiosClient.put(`/users/${updatedUserData.id}`, updatedUserData)
+            : axiosClient.post('/users', updatedUserData);
+    
+        
+  
         request
             .then(() => {
                 Swal.fire({
@@ -75,6 +84,8 @@ const CrearUsuario = () => {
             password_confirmation: ''
         });
     };
+
+    
 
     return (
         <>

@@ -32,9 +32,9 @@ class UserController extends Controller
 
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('email', 'like', '%' . $request->search . '%')
-                  ->orWhere('rol', 'like', '%' . $request->search . '%')
-                  ->orWhere('clave_departamento', 'like', '%' . $request->search . '%');
+                ->orWhere('email', 'like', '%' . $request->search . '%')
+                ->orWhere('rol', 'like', '%' . $request->search . '%')
+                ->orWhere('clave_departamento', 'like', '%' . $request->search . '%');
         }
 
         $users = $query->paginate(10);
@@ -49,14 +49,19 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        if (isset($data['password'])) {
+        // Verificar si 'password' está presente y no vacío
+        if (isset($data['password']) && !empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
+        } else {
+            // Si 'password' está vacío, eliminarlo del array de datos
+            unset($data['password']);
         }
 
         $user->update($data);
 
         return response()->json($user);
     }
+
 
     /**
      * Remove the specified user from storage.

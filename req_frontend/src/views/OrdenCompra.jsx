@@ -161,6 +161,11 @@ const OrdenCompra = () => {
             });
     };
 
+
+    const deleteCompra = (index) => {
+        setOrdenesCompra(ordenesCompra.filter((_, i) => i !== index));
+    };
+
     return (
         <>
             <Navbar />
@@ -256,17 +261,25 @@ const OrdenCompra = () => {
                                     <div className="row g-3">
                                         <div className="col-md-4">
                                             <div className="form-floating">
-                                                <input
-                                                    type="text"
+                                                <select
                                                     className={`form-control ${errors.id_requisicion ? 'is-invalid' : ''}`}
                                                     id="id_requisicion"
                                                     name="id_requisicion"
-                                                    placeholder="ID Requisición"
                                                     value={newOrdenCompra.id_requisicion}
                                                     onChange={handleChangeOrdenCompra}
                                                     required
                                                     aria-describedby="idRequisicionHelp"
-                                                />
+                                                >
+                                                    <option value="" disabled>
+                                                        Selecciona una requisición
+                                                    </option>
+                                                    {folio.requisiciones.map((requisicion, reqIndex) => (
+                                                        <option key={reqIndex} value={requisicion.id_requisicion}>
+                                                            {requisicion.id_requisicion}
+                                                        </option>
+                                                    ))}
+                                                </select>
+
                                                 <label htmlFor="id_requisicion">
                                                     <FaIdCard className="me-2" />
                                                     ID Requisición
@@ -350,31 +363,42 @@ const OrdenCompra = () => {
                                         </div>
                                     )}
 
-                                    {/* Órdenes de Compra Agregadas */}
-                                    {ordenesCompra.length > 0 && (
-                                        <div className="table-responsive mt-4">
-                                            <small><p className=' fw-bold'>Ordenes de Compra Agregadas</p></small>
-                                            <table className="table table-hover table-bordered small align-middle">
-                                                <thead className="table-light">
-                                                    <tr>
-                                                        <th scope="col">Requisición</th>
-                                                        <th scope="col">Precio Unitario</th>
-                                                        <th scope="col">Importe Parcial</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {ordenesCompra.map((orden, index) => (
-                                                        <tr key={index}>
-                                                            <td>{orden.id_requisicion}</td>
-                                                            <td>${orden.precio_unitario}</td>
-                                                            <td>${orden.importe_parcial}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    )}
+
                                 </form>
+
+                                {/* Órdenes de Compra Agregadas */}
+                                {ordenesCompra.length > 0 && (
+                                    <div className="table-responsive mt-4">
+                                        <small><p className=' fw-bold'>Ordenes de Compra Agregadas</p></small>
+                                        <table className="table table-hover table-bordered small align-middle">
+                                            <thead className="table-light">
+                                                <tr>
+                                                    <th scope="col">Requisición</th>
+                                                    <th scope="col">Precio Unitario</th>
+                                                    <th scope="col">Importe Parcial</th>
+                                                    <th scope="col">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {ordenesCompra.map((orden, index) => (
+                                                    <tr key={index}>
+                                                        <td>{orden.id_requisicion}</td>
+                                                        <td>${orden.precio_unitario}</td>
+                                                        <td>${orden.importe_parcial}</td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-danger btn-sm"
+                                                                onClick={() => deleteCompra(index)}
+                                                            >
+                                                                Eliminar
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
