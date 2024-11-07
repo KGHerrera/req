@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../context/contextprovider';
-import { FaUser, FaEnvelope, FaKey, FaBuilding, FaUserPlus, FaShieldAlt } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaKey, FaBuilding, FaUserPlus, FaShieldAlt, FaSignInAlt } from 'react-icons/fa';
 
 const Register = () => {
     const { setUser, setToken } = useStateContext();
@@ -155,7 +155,7 @@ const Register = () => {
                         </form>
                         <p className="text-center mt-4">
                             ¿Ya tienes una cuenta? <Link to="/login" className="text-decoration-none hover-effect">
-                                Inicia sesión aquí
+                                Inicia sesión aquí <FaSignInAlt className="ms-2" />
                             </Link>
                         </p>
                         <div className="d-flex align-items-center justify-content-center mb-4">

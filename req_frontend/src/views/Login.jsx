@@ -62,7 +62,7 @@ const Login = () => {
     return (
         <div className="container d-flex align-items-center min-vh-100">
             <div className="row justify-content-center w-100">
-                <div className="col-12 col-md-5 col-lg-5 col-xl-5">
+                <div className="col-12 col-md-7 col-lg-5 col-xl-5">
                     <div className="card shadow p-4 hover-effect">
                         <h2 className="text-center mb-4">Iniciar Sesión</h2>
                         <div className="text-center mb-4">
