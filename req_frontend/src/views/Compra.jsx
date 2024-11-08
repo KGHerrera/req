@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
+import { FaEye, FaSearch, FaTrashAlt, FaUpload } from 'react-icons/fa';
 
 const Compra = () => {
     const [compras, setCompras] = useState([]);
@@ -65,7 +66,7 @@ const Compra = () => {
         Swal.fire({
             imageUrl: modifiedUrl,
             imageAlt: 'Evidencia de Entrega',
-            
+
             confirmButtonColor: "#325d88",
             confirmButtonText: 'Cerrar'
         });
@@ -109,26 +110,81 @@ const Compra = () => {
         });
     };
 
+    const handleDeleteEvidence = async (compraId) => {
+        // Mostrar una alerta de confirmación antes de eliminar la evidencia
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción eliminará la evidencia de entrega de la orden de compra.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                // Realizar la solicitud DELETE para eliminar la evidencia
+                await axiosClient.delete(`/ordenes-compra/${compraId}/eliminar-evidencia`);
+
+                // Mostrar mensaje de éxito
+                Swal.fire('Evidencia eliminada', 'La evidencia de entrega ha sido eliminada correctamente.', 'success');
+
+                // Actualizar la lista de compras después de eliminar la evidencia
+                fetchCompras(); // Esta función se encarga de volver a cargar las compras
+            } catch (err) {
+                // Manejar errores
+                Swal.fire('Error', 'Hubo un problema al eliminar la evidencia', 'error');
+            }
+        }
+    };
+
+
     return (
         <>
             <Navbar />
-            <div className="container">
-                <div className="row mb-3">
-                    <div className="col-md-6 row">
+            <div className="container mt-5">
+                <div className="row mb-4">
+                    <div className="col-md-6">
                         <form onSubmit={handleSearchSubmit} className="row g-4 align-items-center">
-                            <div className="col-md-8">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Buscar..."
-                                    value={searchTerm}
-                                    onChange={handleSearchChange}
-                                />
+                            <div className="col-md-12">
+                                <div className="mb-1 form-group form-floating">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="buscar"
+                                        placeholder="Buscar..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleSearchSubmit(e); // Llamamos a la función de submit al presionar Enter
+                                            }
+                                        }}
+                                    />
+                                    <label htmlFor="buscar">
+                                        <FaSearch className="me-2" />
+                                        Término de búsqueda ...
+                                    </label>
+                                    <small>
+                                        Presiona Enter para buscar, deja la caja vaciá para mostrar todas las compras.
+                                    </small>
+                                </div>
                             </div>
+                            {/* El botón está oculto */}
                             <div className="col-md-4">
-                                <button type="submit" className="btn btn-primary w-100">Buscar</button>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    style={{ display: 'none' }} // Este estilo lo oculta
+                                >
+                                    <FaSearch className="me-2" />
+                                    Buscar
+                                </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
                 {loading ? (
@@ -171,19 +227,28 @@ const Compra = () => {
                                                                     <td>{orden.precio_unitario}</td>
                                                                     <td>{orden.importe_parcial}</td>
                                                                     <td>{orden.id_requisicion}</td>
-                                                                    <td>
+                                                                    <td className='text-center'>
                                                                         {orden.evidencia_de_entrega ? (
-                                                                            <button
-                                                                                className="btn btn-outline-primary btn-sm"
-                                                                                onClick={() => handleShowEvidence("http://127.0.0.1:8000/" + orden.evidencia_de_entrega)}
-                                                                            >
-                                                                                Ver Evidencia
-                                                                            </button>
+                                                                            <div className="text-center">
+                                                                                <button
+                                                                                    className="btn btn-primary btn-sm"
+                                                                                    onClick={() => handleShowEvidence("http://127.0.0.1:8000/" + orden.evidencia_de_entrega)}
+                                                                                >
+                                                                                    <FaEye className='me-2' />
+                                                                                    Ver Evidencia
+                                                                                </button>
+
+                                                                                <button className="btn btn-danger btn-sm ms-2" onClick={() => handleDeleteEvidence(orden.id_compra)}>
+                                                                                    <FaTrashAlt className='me-2' />
+                                                                                    Eliminar
+                                                                                </button>
+                                                                            </div>
                                                                         ) : (
                                                                             <button
-                                                                                className="btn btn-outline-primary btn-sm"
+                                                                                className="btn btn-primary btn-sm"
                                                                                 onClick={() => handleUploadEvidence(orden.id_compra)}
                                                                             >
+                                                                                <FaUpload className='me-2' />
                                                                                 Agregar
                                                                             </button>
                                                                         )}

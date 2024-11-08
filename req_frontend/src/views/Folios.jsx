@@ -138,7 +138,7 @@ const Folios = () => {
             cancelButtonColor: "#325d88",
             confirmButtonText: 'Rechazar',
             cancelButtonText: 'Cancelar',
-            
+
             preConfirm: () => {
                 const motivo = document.getElementById('motivoRechazo').value;
                 if (!motivo) {
@@ -161,20 +161,40 @@ const Folios = () => {
             <div className="container mt-5">
                 <div className="row mb-4">
                     <div className="col-md-6">
-                        <form onSubmit={handleSearchSubmit} className="d-flex gap-3">
-                            <div className="flex-grow-1">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Buscar folios..."
-                                    value={searchTerm}
-                                    onChange={handleSearchChange}
-                                />
+                        <form onSubmit={handleSearchSubmit} className="row g-4 align-items-center">
+                            <div className="col-md-12">
+                                <div className="mb-1 form-group form-floating">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="buscar"
+                                        placeholder="Buscar..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleSearchSubmit(e); // Llamamos a la función de submit al presionar Enter
+                                            }
+                                        }}
+                                    />
+                                    <label htmlFor="buscar">
+                                        <FaSearch className="me-2" />
+                                        Término de búsqueda ...
+                                    </label>
+                                    <small>Presiona Enter para buscar, deja la caja vaciá para mostrar todos los folios.</small>
+                                </div>
                             </div>
-                            <button type="submit" className="btn btn-primary px-4">
-                                <FaSearch className="me-2" />
-                                Buscar
-                            </button>
+                            {/* El botón está oculto */}
+                            <div className="col-md-4">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    style={{ display: 'none' }} // Este estilo lo oculta
+                                >
+                                    <FaSearch className="me-2" />
+                                    Buscar
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

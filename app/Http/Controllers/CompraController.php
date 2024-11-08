@@ -160,4 +160,34 @@ class CompraController extends Controller
             return response()->json(['message' => 'Hubo un problema al subir la evidencia de entrega.'], 500);
         }
     }
+
+    public function eliminarEvidencia($id_compra)
+    {
+        try {
+            // Obtener la orden de compra por su ID
+            $ordenCompra = OrdenCompra::where('id_compra', $id_compra)->firstOrFail();
+
+            // Verificar si existe una evidencia de entrega asociada
+            if ($ordenCompra->evidencia_de_entrega) {
+                // Eliminar el archivo físicamente del servidor
+                $filePath = storage_path('app/' . $ordenCompra->evidencia_de_entrega);
+                if (file_exists($filePath)) {
+                    unlink($filePath); // Eliminar archivo
+                }
+
+                // Actualizar el campo de evidencia_de_entrega a null
+                $ordenCompra->evidencia_de_entrega = null;
+                $ordenCompra->save();
+
+                return response()->json(['message' => 'Evidencia de entrega eliminada correctamente.'], 200);
+            } else {
+                return response()->json(['message' => 'No hay evidencia de entrega asociada a esta orden de compra.'], 404);
+            }
+
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['message' => 'Hubo un problema al eliminar la evidencia de entrega.'], 500);
+        }
+    }
+
 }

@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ordenes-compra', [CompraController::class, 'index']);
 
     Route::post('ordenes-compra/{id_compra}/subir-evidencia', [CompraController::class, 'subirEvidencia']);
+    Route::delete('ordenes-compra/{id_compra}/eliminar-evidencia', [CompraController::class, 'eliminarEvidencia']);
+
 
     Route::get('/notifications/unread-count/{userId}', [NotificationsController::class, 'getUnreadCount']);
 

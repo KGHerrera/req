@@ -69,7 +69,7 @@ const Login = () => {
     return (
         <div className="container d-flex align-items-center min-vh-100">
             <div className="row justify-content-center w-100">
-                <div className="col-12 col-md-7 col-lg-5 col-xl-5">
+                <div className="col-12 col-md-10 col-lg-7 col-xl-5">
                     <div className="card shadow p-4 hover-effect">
                         <h2 className="text-center mb-4">Iniciar Sesión</h2>
                         <div className="text-center mb-4">
@@ -116,7 +116,7 @@ const Login = () => {
                                 <small className="form-text text-muted">Mínimo 8 caracteres</small>
                             </div>
 
-                            <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
+                            <button type="submit" className="btn btn-primary w-100 py-3 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
                                 {isLoading ?
                                     (<span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>)
                                     :

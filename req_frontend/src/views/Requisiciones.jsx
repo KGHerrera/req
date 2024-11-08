@@ -4,7 +4,7 @@ import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
 
-import { FaClipboardList, FaCalculator, FaRulerCombined, FaRegFileAlt, FaDollarSign } from 'react-icons/fa'
+import { FaClipboardList, FaCalculator, FaRulerCombined, FaRegFileAlt, FaDollarSign, FaTrashAlt, FaFolder } from 'react-icons/fa'
 import { FaPlusSquare, FaPaperPlane } from 'react-icons/fa';
 import { FaCalendarAlt, FaIdBadge, FaKey } from 'react-icons/fa';
 
@@ -369,11 +369,12 @@ const Requisiciones = () => {
                                                         <td>{req.unidad}</td>
                                                         <td>{req.descripcion_bienes_servicios}</td>
                                                         <td>${req.costo_estimado}</td>
-                                                        <td>
+                                                        <td className="text-center">
                                                             <button
                                                                 className="btn btn-danger btn-sm"
                                                                 onClick={() => deleteRequisicion(index)}
                                                             >
+                                                                <FaTrashAlt className="me-2" />
                                                                 Eliminar
                                                             </button>
                                                         </td>
@@ -389,18 +390,14 @@ const Requisiciones = () => {
                                         {errors.requisiciones}
                                     </div>
                                 )}
-                            </div>
-                        </div>
-                    </div>
 
-                    {/* Información del Folio */}
-                    <div className="col-12">
-                        <div className="card shadow-sm">
-                            <div className="card-header bg-primary text-white">
-                                <h5 className="mb-0">Información del Folio</h5>
-                            </div>
-                            <div className="card-body">
-                                <form>
+
+                                <h5 className='mt-4'>
+                                    <FaFolder className="me-2" />
+                                    Información del folio
+                                </h5>
+
+                                <form className='mt-4'>
                                     <div className="row g-3">
                                         <div className="col-md-4">
                                             <div className="form-floating">
@@ -512,7 +509,7 @@ const Requisiciones = () => {
                                     <div className="d-flex justify-content-end mt-4">
                                         <button
                                             type="submit"
-                                            className="btn btn-primary d-flex align-items-center"
+                                            className="btn btn-primary d-flex align-items-center justify-content-center"
                                             onClick={handleSubmit}
                                             disabled={loading}
                                             style={{ minWidth: '200px' }}
@@ -533,6 +530,8 @@ const Requisiciones = () => {
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </>

@@ -4,7 +4,7 @@ import { useStateContext } from '../context/contextprovider';
 import Navbar from '../components/Navbar';
 import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
-import { FaUser, FaCalendarAlt, FaPercentage, FaDollarSign } from 'react-icons/fa';
+import { FaUser, FaCalendarAlt, FaDollarSign, FaTrashAlt, FaInfoCircle } from 'react-icons/fa';
 import { FaIdCard, FaCalculator } from 'react-icons/fa';
 
 import { FaCheckSquare, FaFolderOpen, FaPlusSquare } from 'react-icons/fa';
@@ -242,304 +242,298 @@ const OrdenCompra = () => {
                                             </table>
                                         </div>
                                     </div>
+
+
+                                    {/* Lo demas */}
+
+                                    <h5 className='mt-4'>
+                                        <FaPlusSquare className="me-2" />
+                                        Agregar Orden de Compra
+                                    </h5>
+
+                                    <form className='mt-4'>
+                                        <div className="row g-3">
+                                            <div className="col-md-4">
+                                                <div className="form-floating">
+                                                    <select
+                                                        className={`form-control ${errors.id_requisicion ? 'is-invalid' : ''}`}
+                                                        id="id_requisicion"
+                                                        name="id_requisicion"
+                                                        value={newOrdenCompra.id_requisicion}
+                                                        onChange={handleChangeOrdenCompra}
+                                                        required
+                                                        aria-describedby="idRequisicionHelp"
+                                                    >
+                                                        <option value="" disabled>
+                                                            Selecciona una requisición
+                                                        </option>
+                                                        {folio.requisiciones.map((requisicion, reqIndex) => (
+                                                            <option key={reqIndex} value={requisicion.id_requisicion}>
+                                                                {requisicion.id_requisicion}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+
+                                                    <label htmlFor="id_requisicion">
+                                                        <FaIdCard className="me-2" />
+                                                        ID Requisición
+                                                    </label>
+                                                    <small id="idRequisicionHelp" className="form-text text-muted">
+                                                        ID de la requisición en la parte superior
+                                                    </small>
+                                                    {errors.id_requisicion &&
+                                                        <div className="invalid-feedback">{errors.id_requisicion}</div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-4">
+                                                <div className="form-floating">
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ${errors.precio_unitario ? 'is-invalid' : ''}`}
+                                                        id="precio_unitario"
+                                                        name="precio_unitario"
+                                                        placeholder="Precio Unitario"
+                                                        value={newOrdenCompra.precio_unitario}
+                                                        onChange={handleChangeOrdenCompra}
+                                                        required
+                                                        aria-describedby="precioUnitarioHelp"
+                                                    />
+                                                    <label htmlFor="precio_unitario">
+                                                        <FaDollarSign className="me-2" />
+                                                        Precio Unitario
+                                                    </label>
+                                                    <small id="precioUnitarioHelp" className="form-text text-muted">
+                                                        Costo por unidad
+                                                    </small>
+                                                    {errors.precio_unitario &&
+                                                        <div className="invalid-feedback">{errors.precio_unitario}</div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-4">
+                                                <div className="form-floating">
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ${errors.importe_parcial ? 'is-invalid' : ''}`}
+                                                        id="importe_parcial"
+                                                        name="importe_parcial"
+                                                        placeholder="Importe Parcial"
+                                                        value={newOrdenCompra.importe_parcial}
+                                                        onChange={handleChangeOrdenCompra}
+                                                        required
+                                                        aria-describedby="importeParcialHelp"
+                                                    />
+                                                    <label htmlFor="importe_parcial">
+                                                        <FaCalculator className="me-2" />
+                                                        Importe Parcial
+                                                    </label>
+                                                    <small id="importeParcialHelp" className="form-text text-muted">
+                                                        Importe parcial de la orden de compra
+                                                    </small>
+                                                    {errors.importe_parcial &&
+                                                        <div className="invalid-feedback">{errors.importe_parcial}</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="d-flex justify-content-end mt-4">
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary d-flex align-items-center"
+                                                onClick={addOrdenCompra}
+                                            >
+                                                <FaPlusSquare className="me-2" />
+                                                Agregar Orden de Compra
+                                            </button>
+                                        </div>
+
+                                        {errors.ordenes_compra && (
+                                            <div className="alert alert-danger mt-3" role="alert">
+                                                {errors.ordenes_compra}
+                                            </div>
+                                        )}
+
+
+                                    </form>
+
+                                    {/* Órdenes de Compra Agregadas */}
+                                    {ordenesCompra.length > 0 && (
+                                        <div className="table-responsive mt-4">
+                                            <small><p className=' fw-bold'>Ordenes de Compra Agregadas</p></small>
+                                            <table className="table table-hover table-bordered small align-middle">
+                                                <thead className="table-light">
+                                                    <tr>
+                                                        <th scope="col">Requisición</th>
+                                                        <th scope="col">Precio Unitario</th>
+                                                        <th scope="col">Importe Parcial</th>
+                                                        <th scope="col">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {ordenesCompra.map((orden, index) => (
+                                                        <tr key={index}>
+                                                            <td>{orden.id_requisicion}</td>
+                                                            <td>${orden.precio_unitario}</td>
+                                                            <td>${orden.importe_parcial}</td>
+                                                            <td className='text-center'>
+                                                                <button
+                                                                    className="btn btn-danger btn-sm"
+                                                                    onClick={() => deleteCompra(index)}
+                                                                >
+                                                                    <FaTrashAlt className="me-2" />
+                                                                    Eliminar
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+
+
+                                    <h5 className='mt-4'>
+                                        <FaCheckSquare className="me-2" />
+                                        Datos de la Compra
+                                    </h5>
+                                    <form className="mt-4">
+                                        <div className="row g-3">
+                                            <div className="col-md-4">
+                                                <div className="form-floating">
+                                                    <input
+                                                        type="text"
+                                                        className={`form-control ${errors.proveedor ? 'is-invalid' : ''}`}
+                                                        id="proveedor"
+                                                        name="proveedor"
+                                                        placeholder="Nombre del proveedor"
+                                                        value={compraData.proveedor}
+                                                        onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })}
+                                                        maxLength="255"
+                                                        required
+                                                        aria-describedby="proveedorHelp"
+                                                    />
+                                                    <label htmlFor="proveedor">
+                                                        <FaUser className="me-2" />
+                                                        Proveedor
+                                                    </label>
+                                                    <small id="proveedorHelp" className="form-text text-muted">
+                                                        Nombre del proveedor
+                                                    </small>
+                                                    {errors.proveedor &&
+                                                        <div className="invalid-feedback">{errors.proveedor}</div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-4">
+                                                <div className="form-floating">
+                                                    <input
+                                                        type="date"
+                                                        className={`form-control ${errors.fecha_entrega ? 'is-invalid' : ''}`}
+                                                        id="fecha_entrega"
+                                                        name="fecha_entrega"
+                                                        value={compraData.fecha_entrega}
+                                                        onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })}
+                                                        aria-describedby="fechaEntregaHelp"
+                                                    />
+                                                    <label htmlFor="fecha_entrega">
+                                                        <FaCalendarAlt className="me-2" />
+                                                        Fecha de Entrega
+                                                    </label>
+                                                    <small id="fechaEntregaHelp" className="form-text text-muted">
+                                                        Fecha en la que se hará la entrega
+                                                    </small>
+                                                    {errors.fecha_entrega &&
+                                                        <div className="invalid-feedback">{errors.fecha_entrega}</div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-4">
+                                                <div className="form-floating">
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ${errors.IVA ? 'is-invalid' : ''}`}
+                                                        id="IVA"
+                                                        name="IVA"
+                                                        placeholder="IVA ($)"
+                                                        value={compraData.IVA}
+                                                        onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })}
+                                                        aria-describedby="IVAHelp"
+                                                    />
+                                                    <label htmlFor="IVA">
+                                                        <FaDollarSign className="me-2" />
+                                                        IVA
+                                                    </label>
+                                                    <small id="IVAHelp" className="form-text text-muted">
+                                                        IVA en pesos
+                                                    </small>
+                                                    {errors.IVA &&
+                                                        <div className="invalid-feedback">{errors.IVA}</div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-4">
+                                                <div className="form-floating">
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ${errors.total ? 'is-invalid' : ''}`}
+                                                        id="total"
+                                                        name="total"
+                                                        placeholder="Total ($)"
+                                                        value={compraData.total}
+                                                        onChange={(e) => setCompraData({ ...compraData, total: e.target.value })}
+                                                        aria-describedby="totalHelp"
+                                                    />
+                                                    <label htmlFor="total">
+                                                        <FaDollarSign className="me-2" />
+                                                        Total
+                                                    </label>
+                                                    <small id="totalHelp" className="form-text text-muted">
+                                                        Total de la orden de compra
+                                                    </small>
+                                                    {errors.total &&
+                                                        <div className="invalid-feedback">{errors.total}</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="d-flex justify-content-end mt-4">
+                                            <button
+                                                type="submit"
+                                                className="btn btn-primary d-flex align-items-center"
+                                                onClick={handleSubmit}
+                                                disabled={isLoading}
+                                                style={{ minWidth: '200px' }}
+                                            >
+                                                {isLoading ? (
+                                                    <div className="spinner-border spinner-border-sm mx-auto" role="status">
+                                                        <span className="visually-hidden">Cargando...</span>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <FaCheckSquare className="me-2" />
+                                                        Crear Orden de Compra
+                                                    </>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </form>
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* Agregar Orden de Compra */}
-                <div className="row g-4">
-                    <div className="col-12">
-                        <div className="card shadow-sm">
-                            <div className="card-header bg-primary text-white d-flex align-items-center">
-                                <FaPlusSquare className="me-2" />
-                                <h5 className="mb-0">Agregar Orden de Compra</h5>
-                            </div>
-                            <div className="card-body">
-                                <form>
-                                    <div className="row g-3">
-                                        <div className="col-md-4">
-                                            <div className="form-floating">
-                                                <select
-                                                    className={`form-control ${errors.id_requisicion ? 'is-invalid' : ''}`}
-                                                    id="id_requisicion"
-                                                    name="id_requisicion"
-                                                    value={newOrdenCompra.id_requisicion}
-                                                    onChange={handleChangeOrdenCompra}
-                                                    required
-                                                    aria-describedby="idRequisicionHelp"
-                                                >
-                                                    <option value="" disabled>
-                                                        Selecciona una requisición
-                                                    </option>
-                                                    {folio.requisiciones.map((requisicion, reqIndex) => (
-                                                        <option key={reqIndex} value={requisicion.id_requisicion}>
-                                                            {requisicion.id_requisicion}
-                                                        </option>
-                                                    ))}
-                                                </select>
 
-                                                <label htmlFor="id_requisicion">
-                                                    <FaIdCard className="me-2" />
-                                                    ID Requisición
-                                                </label>
-                                                <small id="idRequisicionHelp" className="form-text text-muted">
-                                                    ID de la requisición en la parte superior
-                                                </small>
-                                                {errors.id_requisicion &&
-                                                    <div className="invalid-feedback">{errors.id_requisicion}</div>
-                                                }
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-4">
-                                            <div className="form-floating">
-                                                <input
-                                                    type="number"
-                                                    className={`form-control ${errors.precio_unitario ? 'is-invalid' : ''}`}
-                                                    id="precio_unitario"
-                                                    name="precio_unitario"
-                                                    placeholder="Precio Unitario"
-                                                    value={newOrdenCompra.precio_unitario}
-                                                    onChange={handleChangeOrdenCompra}
-                                                    required
-                                                    aria-describedby="precioUnitarioHelp"
-                                                />
-                                                <label htmlFor="precio_unitario">
-                                                    <FaDollarSign className="me-2" />
-                                                    Precio Unitario
-                                                </label>
-                                                <small id="precioUnitarioHelp" className="form-text text-muted">
-                                                    Costo por unidad
-                                                </small>
-                                                {errors.precio_unitario &&
-                                                    <div className="invalid-feedback">{errors.precio_unitario}</div>
-                                                }
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-4">
-                                            <div className="form-floating">
-                                                <input
-                                                    type="number"
-                                                    className={`form-control ${errors.importe_parcial ? 'is-invalid' : ''}`}
-                                                    id="importe_parcial"
-                                                    name="importe_parcial"
-                                                    placeholder="Importe Parcial"
-                                                    value={newOrdenCompra.importe_parcial}
-                                                    onChange={handleChangeOrdenCompra}
-                                                    required
-                                                    aria-describedby="importeParcialHelp"
-                                                />
-                                                <label htmlFor="importe_parcial">
-                                                    <FaCalculator className="me-2" />
-                                                    Importe Parcial
-                                                </label>
-                                                <small id="importeParcialHelp" className="form-text text-muted">
-                                                    Importe parcial de la orden de compra
-                                                </small>
-                                                {errors.importe_parcial &&
-                                                    <div className="invalid-feedback">{errors.importe_parcial}</div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="d-flex justify-content-end mt-4">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary d-flex align-items-center"
-                                            onClick={addOrdenCompra}
-                                        >
-                                            <FaPlusSquare className="me-2" />
-                                            Agregar Orden de Compra
-                                        </button>
-                                    </div>
-
-                                    {errors.ordenes_compra && (
-                                        <div className="alert alert-danger mt-3" role="alert">
-                                            {errors.ordenes_compra}
-                                        </div>
-                                    )}
-
-
-                                </form>
-
-                                {/* Órdenes de Compra Agregadas */}
-                                {ordenesCompra.length > 0 && (
-                                    <div className="table-responsive mt-4">
-                                        <small><p className=' fw-bold'>Ordenes de Compra Agregadas</p></small>
-                                        <table className="table table-hover table-bordered small align-middle">
-                                            <thead className="table-light">
-                                                <tr>
-                                                    <th scope="col">Requisición</th>
-                                                    <th scope="col">Precio Unitario</th>
-                                                    <th scope="col">Importe Parcial</th>
-                                                    <th scope="col">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {ordenesCompra.map((orden, index) => (
-                                                    <tr key={index}>
-                                                        <td>{orden.id_requisicion}</td>
-                                                        <td>${orden.precio_unitario}</td>
-                                                        <td>${orden.importe_parcial}</td>
-                                                        <td>
-                                                            <button
-                                                                className="btn btn-danger btn-sm"
-                                                                onClick={() => deleteCompra(index)}
-                                                            >
-                                                                Eliminar
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Datos de la Compra */}
-                    <div className="col-12">
-                        <div className="card shadow-sm">
-                            <div className="card-header bg-primary text-white d-flex align-items-center">
-                                <FaCheckSquare className="me-2" />
-                                <h5 className="mb-0">Datos de la Compra</h5>
-                            </div>
-                            <div className="card-body">
-                                <form>
-                                    <div className="row g-3">
-                                        <div className="col-md-4">
-                                            <div className="form-floating">
-                                                <input
-                                                    type="text"
-                                                    className={`form-control ${errors.proveedor ? 'is-invalid' : ''}`}
-                                                    id="proveedor"
-                                                    name="proveedor"
-                                                    placeholder="Nombre del proveedor"
-                                                    value={compraData.proveedor}
-                                                    onChange={(e) => setCompraData({ ...compraData, proveedor: e.target.value })}
-                                                    maxLength="255"
-                                                    required
-                                                    aria-describedby="proveedorHelp"
-                                                />
-                                                <label htmlFor="proveedor">
-                                                    <FaUser className="me-2" />
-                                                    Proveedor
-                                                </label>
-                                                <small id="proveedorHelp" className="form-text text-muted">
-                                                    Nombre del proveedor
-                                                </small>
-                                                {errors.proveedor &&
-                                                    <div className="invalid-feedback">{errors.proveedor}</div>
-                                                }
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-4">
-                                            <div className="form-floating">
-                                                <input
-                                                    type="date"
-                                                    className={`form-control ${errors.fecha_entrega ? 'is-invalid' : ''}`}
-                                                    id="fecha_entrega"
-                                                    name="fecha_entrega"
-                                                    value={compraData.fecha_entrega}
-                                                    onChange={(e) => setCompraData({ ...compraData, fecha_entrega: e.target.value })}
-                                                    aria-describedby="fechaEntregaHelp"
-                                                />
-                                                <label htmlFor="fecha_entrega">
-                                                    <FaCalendarAlt className="me-2" />
-                                                    Fecha de Entrega
-                                                </label>
-                                                <small id="fechaEntregaHelp" className="form-text text-muted">
-                                                    Fecha en la que se hará la entrega
-                                                </small>
-                                                {errors.fecha_entrega &&
-                                                    <div className="invalid-feedback">{errors.fecha_entrega}</div>
-                                                }
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-4">
-                                            <div className="form-floating">
-                                                <input
-                                                    type="number"
-                                                    className={`form-control ${errors.IVA ? 'is-invalid' : ''}`}
-                                                    id="IVA"
-                                                    name="IVA"
-                                                    placeholder="IVA ($)"
-                                                    value={compraData.IVA}
-                                                    onChange={(e) => setCompraData({ ...compraData, IVA: e.target.value })}
-                                                    aria-describedby="IVAHelp"
-                                                />
-                                                <label htmlFor="IVA">
-                                                    <FaDollarSign className="me-2" />
-                                                    IVA
-                                                </label>
-                                                <small id="IVAHelp" className="form-text text-muted">
-                                                    IVA en pesos
-                                                </small>
-                                                {errors.IVA &&
-                                                    <div className="invalid-feedback">{errors.IVA}</div>
-                                                }
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-4">
-                                            <div className="form-floating">
-                                                <input
-                                                    type="number"
-                                                    className={`form-control ${errors.total ? 'is-invalid' : ''}`}
-                                                    id="total"
-                                                    name="total"
-                                                    placeholder="Total ($)"
-                                                    value={compraData.total}
-                                                    onChange={(e) => setCompraData({ ...compraData, total: e.target.value })}
-                                                    aria-describedby="totalHelp"
-                                                />
-                                                <label htmlFor="total">
-                                                    <FaDollarSign className="me-2" />
-                                                    Total
-                                                </label>
-                                                <small id="totalHelp" className="form-text text-muted">
-                                                    Total de la orden de compra
-                                                </small>
-                                                {errors.total &&
-                                                    <div className="invalid-feedback">{errors.total}</div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="d-flex justify-content-end mt-4">
-                                        <button
-                                            type="submit"
-                                            className="btn btn-primary d-flex align-items-center"
-                                            onClick={handleSubmit}
-                                            disabled={isLoading}
-                                            style={{ minWidth: '200px' }}
-                                        >
-                                            {isLoading ? (
-                                                <div className="spinner-border spinner-border-sm mx-auto" role="status">
-                                                    <span className="visually-hidden">Cargando...</span>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <FaCheckSquare className="me-2" />
-                                                    Crear Orden de Compra
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </>
     );

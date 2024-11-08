@@ -61,6 +61,9 @@ const Register = () => {
                 <div className="col-12 col-md-8 col-lg-8 col-xl-8">
                     <div className="card shadow p-4 hover-effect">
                         <h2 className="text-center mb-4">Registro</h2>
+                        <div className="text-center mb-4">
+                            <h5>Registrate para acceder al Sistema de Requisiciones del ITSJ</h5>
+                        </div>
                         <form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-12 col-md-6 mb-4 form-group form-floating">
@@ -146,10 +149,10 @@ const Register = () => {
                                     {confirmPasswordError && (
                                         <div className="invalid-feedback">{confirmPasswordError}</div>
                                     )}
-                                    <small className="form-text text-muted">Mínimo 8 caracteres, iguales a la anterior</small>
+                                    <small className="form-text text-muted">Mínimo 8 caracteres, iguales a la anterior. PD: utiliza una contraseña diferente a la de tu correo electrónico</small>
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
+                            <button type="submit" className="btn btn-primary w-100 py-3 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
                                 {isLoading ? (
                                     <span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>
                                 ) : (
