@@ -175,7 +175,7 @@ const OrdenCompra = () => {
                     <div className="row g-4 mb-4">
                         <div className="col-12">
                             <div className="card shadow-sm">
-                                <div className="card-header bg-primary text-white d-flex align-items-center">
+                                <div className="card-header bg-light py-3 d-flex align-items-center">
                                     <FaFolderOpen className="me-2" />
                                     <h5 className="mb-0">Datos del Folio</h5>
                                 </div>
