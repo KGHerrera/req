@@ -39,13 +39,13 @@ const CrearUsuario = () => {
             ...userData,
             clave_departamento: userData.clave_departamento.toUpperCase()
         };
-    
+
         const request = updatedUserData.id
             ? axiosClient.put(`/users/${updatedUserData.id}`, updatedUserData)
             : axiosClient.post('/users', updatedUserData);
-    
-        
-  
+
+
+
         request
             .then(() => {
                 Swal.fire({
@@ -85,12 +85,27 @@ const CrearUsuario = () => {
         });
     };
 
-    
+
+    const handleCancel = () => {
+        setUserData({
+            id: null,
+            name: '',
+            email: '',
+            rol: '',
+            clave_departamento: '',
+            password: '',
+            password_confirmation: ''
+        });
+        setErrors({});
+        setShowForm(false);
+    };
+
+
 
     return (
         <>
             <Navbar />
-            <div className="container mt-5 mb-5">
+            <div className="container mt-4 mb-5">
                 <div className="row">
                     <div className="col-12">
                         <div className="card mb-3">
@@ -227,8 +242,11 @@ const CrearUsuario = () => {
                                             )}
                                             <small className="form-text text-muted">Mínimo 8 caracteres, iguales a la anterior</small>
                                         </div>
+
+
                                     </div>
-                                    <button type="submit" className="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center hover-effect" disabled={isLoading}>
+
+                                    <button type="submit" className={`btn btn-primary ${userData.id ? 'col-12' : 'col-12'} d-flex align-items-center justify-content-center hover-effect`} disabled={isLoading}>
                                         {isLoading ? (
                                             <span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>
                                         ) : (
@@ -237,6 +255,14 @@ const CrearUsuario = () => {
                                             </>
                                         )}
                                     </button>
+
+                                    {userData.id &&
+                                        <button type="button" className="btn btn-secondary mt-3 col-12" onClick={handleCancel}>Cancelar</button>
+                                    }
+
+
+
+
                                 </form>
                             </div>
                         </div>

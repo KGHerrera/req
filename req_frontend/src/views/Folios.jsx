@@ -5,7 +5,7 @@ import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
-import { FaSearch, FaFile, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaFile, FaCheck, FaTimes, FaPlus } from 'react-icons/fa';
 
 
 const Folios = () => {
@@ -158,8 +158,8 @@ const Folios = () => {
     return (
         <>
             <Navbar />
-            <div className="container mt-5">
-                <div className="row mb-4">
+            <div className="container mt-4">
+                <div className="row">
                     <div className="col-md-6">
                         <form onSubmit={handleSearchSubmit} className="row g-4 align-items-center">
                             <div className="col-md-12">
@@ -290,7 +290,8 @@ const Folios = () => {
                                                                 state={{ folio }}
                                                                 className="btn btn-outline-primary"
                                                             >
-                                                                Crear orden de entrega
+                                                                <FaPlus className="me-2" />
+                                                                Crear orden de compra
                                                             </Link>
                                                         )}
                                                     </div>

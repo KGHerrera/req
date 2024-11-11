@@ -144,8 +144,8 @@ const Compra = () => {
     return (
         <>
             <Navbar />
-            <div className="container mt-5">
-                <div className="row mb-4">
+            <div className="container mt-4">
+                <div className="row">
                     <div className="col-md-6">
                         <form onSubmit={handleSearchSubmit} className="row g-4 align-items-center">
                             <div className="col-md-12">
@@ -234,13 +234,12 @@ const Compra = () => {
                                                                                     className="btn btn-primary btn-sm"
                                                                                     onClick={() => handleShowEvidence("http://127.0.0.1:8000/" + orden.evidencia_de_entrega)}
                                                                                 >
-                                                                                    <FaEye className='me-2' />
-                                                                                    Ver Evidencia
+                                                                                    <FaEye className='m-1' />
                                                                                 </button>
 
                                                                                 <button className="btn btn-danger btn-sm ms-2" onClick={() => handleDeleteEvidence(orden.id_compra)}>
-                                                                                    <FaTrashAlt className='me-2' />
-                                                                                    Eliminar
+                                                                                    <FaTrashAlt className='m-1' />
+                                                                                    
                                                                                 </button>
                                                                             </div>
                                                                         ) : (

@@ -70,17 +70,25 @@ const UserTable = ({ onEdit }) => {
     return (
         <div className="container mt-4">
             <h2 className="mb-4">Lista de Usuarios</h2>
-            <div className="input-group mb-3">
+            <div className="col-12 col-md-12 mb-4 form-group form-floating">
                 <input
                     type="text"
-                    placeholder="Buscar..."
-                    className="form-control"
+                    className={`form-control`}
+                    id="search"
+                    name="search"
                     value={search}
                     onChange={handleSearchChange}
+                    placeholder="Buscar..."
+                    required
                 />
-                <span className="input-group-text"><FaSearch /></span>
+                <label htmlFor="search" className='ms-2'>
+                    <FaSearch className="me-2" />
+                    Buscar
+                </label>
+                
+                <small className="form-text text-muted">Ingrese el termino de búsqueda</small>
             </div>
-            <table className="table table-bordered table-hover">
+            <table className="table table-bordered table-hover small">
                 <thead className='table-light'>
                     <tr>
                         <th>ID</th>
@@ -104,13 +112,13 @@ const UserTable = ({ onEdit }) => {
                                     className="btn btn-primary btn-sm d-flex align-items-center"
                                     onClick={() => handleEdit(user)}
                                 >
-                                    <FaEdit className="me-1" /> Editar
+                                    <FaEdit className="m-1" />
                                 </button>
                                 <button
                                     className="btn btn-danger btn-sm d-flex align-items-center"
                                     onClick={() => handleDelete(user.id)}
                                 >
-                                    <FaTrash className="me-1" /> Eliminar
+                                    <FaTrash className="m-1" />
                                 </button>
                             </td>
                         </tr>
@@ -123,7 +131,7 @@ const UserTable = ({ onEdit }) => {
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 1}
                 >
-                    <FaArrowLeft className="me-1" /> Anterior
+                    <FaArrowLeft className="me-1" /> 
                 </button>
                 <span>Página {page} de {totalPages}</span>
                 <button
@@ -131,7 +139,7 @@ const UserTable = ({ onEdit }) => {
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPages}
                 >
-                    Siguiente <FaArrowRight className="ms-1" />
+                     <FaArrowRight className="ms-1" />
                 </button>
             </div>
         </div>
