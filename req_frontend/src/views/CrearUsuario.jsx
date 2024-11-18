@@ -168,7 +168,7 @@ const CrearUsuario = () => {
                                             >
                                                 <option value="" disabled>Seleccione un rol</option>
                                                 <option value="user">user</option>
-                                                <option value="financiero">financiero</option>
+                                                <option value="subdireccion">subdireccion</option>
                                                 <option value="vinculacion">vinculacion</option>
                                                 <option value="direccion">direccion</option>
                                                 <option value="materiales">materiales</option>

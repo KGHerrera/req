@@ -49,7 +49,7 @@ const router = createBrowserRouter([
             {
                 path: '/folios',
                 element: (
-                    <ProtectedRoute allowedRoles={['materiales', 'financiero', 'vinculacion', 'direccion', 'user']}>
+                    <ProtectedRoute allowedRoles={['materiales', 'subdireccion', 'vinculacion', 'direccion', 'user']}>
                         <Folios />
                     </ProtectedRoute>
                 ),

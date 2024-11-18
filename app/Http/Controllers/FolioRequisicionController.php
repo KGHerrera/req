@@ -51,7 +51,7 @@ class FolioRequisicionController extends Controller
 
                 if ($lastFolio) {
                     // Extraer el número de secuencia del último folio
-                    $lastSequence = (int)substr($lastFolio->folio, -2);
+                    $lastSequence = (int) substr($lastFolio->folio, -2);
                     $newSequence = str_pad($lastSequence + 1, 2, '0', STR_PAD_LEFT);
                 } else {
                     // Si no hay folios anteriores, empezar desde 01
@@ -77,10 +77,10 @@ class FolioRequisicionController extends Controller
                     Requisicion::create($requisicion);
                 }
 
-                // Obtener todos los usuarios con el rol de "financiero"
-                $financialUsers = User::where('rol', 'financiero')->get();
+                // Obtener todos los usuarios con el rol de "subdireccion"
+                $financialUsers = User::where('rol', 'subdireccion')->get();
 
-                // Crear notificación para cada usuario financiero
+                // Crear notificación para cada usuario subdireccion
                 foreach ($financialUsers as $user) {
                     Notification::create([
                         'user_id' => $user->id,
@@ -161,7 +161,7 @@ class FolioRequisicionController extends Controller
 
             // Determina el estado según el rol del usuario
             $estado = match ($role) {
-                'financiero' => 'enviada',
+                'subdireccion' => 'enviada',
                 'vinculacion' => 'primera_autorizacion',
                 'direccion' => 'segunda_autorizacion',
                 'materiales' => 'tercera_autorizacion',
@@ -211,4 +211,38 @@ class FolioRequisicionController extends Controller
             return response()->json(['message' => 'Hubo un problema al obtener los folios y las requisiciones.'], 500);
         }
     }
+
+
+    public function generateReport($id)
+    {
+        try {
+            $folio = Folio::with('requisiciones')->findOrFail($id);
+
+            $data = [
+                'folio' => $folio,
+                'requisiciones' => $folio->requisiciones,
+                'logoPath' => public_path('img/logo.png'), // Usa la ruta directa del archivo
+                'logoPath2' => public_path('img/itsj.png'),
+                'firmas' => [
+                    'Nombre de Firma 1',
+                    'Nombre de Firma 2',
+                    'Nombre de Firma 3'
+                ]
+            ];
+
+            $pdf = app('dompdf.wrapper')->loadView('reporte', $data);
+            return $pdf->download('reporte_folio_' . $folio->folio . '.pdf');
+        } catch (\Exception $e) {
+            \Log::error('Error generating report: ' . $e->getMessage());
+            return response()->json(['message' => 'Error al generar el reporte'], 500);
+        }
+    }
+
+
+
+
+    
+
+
+
 }

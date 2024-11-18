@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useStateContext } from '../context/contextprovider';
 
 const ProtectedRoute = ({ allowedRoles, children }) => {
+    
     const { user } = useStateContext();
 
     if (!user) {
@@ -14,19 +15,19 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
         switch (user?.rol) {
             case 'admin':
                 return <Navigate to="/usuarios" replace />;
-            case 'financiero':
+
             case 'vinculacion':
             case 'direccion':
-                return <Navigate to="/folios" replace />;
             case 'materiales':
+            case 'subdireccion':
                 return <Navigate to="/folios" replace />;
-            
+
             case 'user':
                 return <Navigate to="/requisiciones" replace />;
         }
-    } 
+    }
 
-    
+
 
     return children;
 };

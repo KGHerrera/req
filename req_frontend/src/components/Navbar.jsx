@@ -41,7 +41,7 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     {/* Navigation Links */}
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        {!['direccion', 'financiero', 'vinculacion', 'materiales', 'admin'].includes(user?.rol) && (
+                        {!['direccion', 'subdireccion', 'vinculacion', 'materiales', 'admin'].includes(user?.rol) && (
                             <li className="nav-item">
                                 <NavLink
                                     className="nav-link d-flex align-items-center px-3 py-2 mx-1"

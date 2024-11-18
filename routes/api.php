@@ -51,4 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Ruta para marcar una notificación como vista
     Route::post('/notifications/{id}/mark-as-viewed', [NotificationsController::class, 'markAsViewed']);
+
+    Route::get('/folios/{id}/reporte', [FolioRequisicionController::class, 'generateReport']);
 });

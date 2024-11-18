@@ -30,7 +30,7 @@ const Folios = () => {
             let url = `/folios/usuario/${user.id}`;
 
             // Determina la ruta según el rol del usuario
-            if (['financiero', 'vinculacion', 'direccion', 'materiales'].includes(user.rol)) {
+            if (['subdireccion', 'vinculacion', 'direccion', 'materiales'].includes(user.rol)) {
                 url = '/folio-requisicion/user-role';
             }
 
@@ -94,7 +94,7 @@ const Folios = () => {
 
     const getNextEstado = (rol) => {
         switch (rol) {
-            case 'financiero':
+            case 'subdireccion':
                 return 'primera_autorizacion';
             case 'vinculacion':
                 return 'segunda_autorizacion';
@@ -104,6 +104,30 @@ const Folios = () => {
                 return '';
         }
     };
+
+
+    const handleShowReport = async (folioId) => {
+        try {
+            const response = await axiosClient.get(`/folios/${folioId}/reporte`, { responseType: 'blob' });
+    
+            // Crear un objeto URL para el Blob
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+            
+            // Abrir una nueva ventana con el PDF
+            const newWindow = window.open(url, '_blank');
+    
+            // Verificar si la ventana se abrió correctamente
+            if (!newWindow) {
+                Swal.fire('Error', 'No se pudo abrir la ventana del reporte. Verifica las configuraciones del navegador.', 'error');
+            }
+        } catch (err) {
+            setError(err.response ? err.response.data.message : 'Error al obtener el reporte');
+            Swal.fire('Error', 'Hubo un problema al obtener el reporte', 'error');
+        }
+    };
+    
+
+
 
     const handleModalAccept = (folioId) => {
 
@@ -266,7 +290,7 @@ const Folios = () => {
                                                         {folio.estado}
                                                     </span>
                                                     <div className="btn-group">
-                                                        {['financiero', 'vinculacion', 'direccion'].includes(user.rol) && (
+                                                        {['subdireccion', 'vinculacion', 'direccion'].includes(user.rol) && (
                                                             <>
                                                                 <button
                                                                     className="btn btn-outline-primary"
@@ -293,6 +317,16 @@ const Folios = () => {
                                                                 <FaPlus className="me-2" />
                                                                 Crear orden de compra
                                                             </Link>
+                                                        )}
+
+                                                        {['materiales'].includes(user.rol) && (
+                                                            <button
+                                                                className="btn btn-outline-success"
+                                                                onClick={() => handleShowReport(folio.folio)}
+                                                            >
+                                                                <FaFile className="me-2" />
+                                                                Mostrar Reporte
+                                                            </button>
                                                         )}
                                                     </div>
                                                 </div>

@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
         $users = [
             ['name' => 'admin', 'email' => 'admin@gmail.com', 'rol' => 'admin', 'clave_departamento' => 'ADM'],
             ['name' => 'user', 'email' => 'user@gmail.com', 'rol' => 'user', 'clave_departamento' => 'D001'],
-            ['name' => 'financiero', 'email' => 'financiero@gmail.com', 'rol' => 'financiero', 'clave_departamento' => 'D002'],
+            ['name' => 'subdireccion', 'email' => 'subdireccion@gmail.com', 'rol' => 'subdireccion', 'clave_departamento' => 'D002'],
             ['name' => 'vinculacion', 'email' => 'vinculacion@gmail.com', 'rol' => 'vinculacion', 'clave_departamento' => 'D003'],
             ['name' => 'direccion', 'email' => 'direccion@gmail.com', 'rol' => 'direccion', 'clave_departamento' => 'D004'],
             ['name' => 'materiales', 'email' => 'materiales@gmail.com', 'rol' => 'materiales', 'clave_departamento' => 'D005'],
