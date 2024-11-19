@@ -28,24 +28,7 @@ const Requisiciones = () => {
         user_id: ''
     });
 
-    useEffect(() => {
 
-        if (user.clave_departamento !== undefined) {
-            const fechaSolicitud = new Date();
-            const fechaEntrega = new Date(fechaSolicitud);
-            fechaEntrega.setDate(fechaEntrega.getDate() + 10);
-
-            setFolioData({
-                folio: `${user.clave_departamento}${year}-00`,
-                fecha_solicitud: fechaSolicitud.toISOString().substr(0, 10),
-                fecha_entrega: fechaEntrega.toISOString().substr(0, 10),
-                total_estimado: '',
-                estado: 'enviada',
-                clave_departamento: user.clave_departamento,
-                user_id: user.id
-            });
-        }
-    }, [user, year]);
 
     const [requisiciones, setRequisiciones] = useState([]);
     const [newRequisicion, setNewRequisicion] = useState({
@@ -55,6 +38,41 @@ const Requisiciones = () => {
         descripcion_bienes_servicios: '',
         costo_estimado: ''
     });
+
+    useEffect(() => {
+        const newTotal = calculateTotal(requisiciones);
+        setFolioData(prev => ({
+            ...prev,
+            total_estimado: newTotal
+        }));
+    }, [requisiciones]);
+
+    useEffect(() => {
+        if (user.clave_departamento !== undefined) {
+            const fechaSolicitud = new Date();
+            const fechaEntrega = new Date(fechaSolicitud);
+            fechaEntrega.setDate(fechaEntrega.getDate() + 10);
+
+            setFolioData({
+                folio: `${user.clave_departamento}${year}-00`,
+                fecha_solicitud: fechaSolicitud.toISOString().substr(0, 10),
+                fecha_entrega: fechaEntrega.toISOString().substr(0, 10),
+                total_estimado: '0.00',
+                estado: 'enviada',
+                clave_departamento: user.clave_departamento,
+                user_id: user.id
+            });
+        }
+    }, [user, year]);
+
+    // Función para calcular el total
+    const calculateTotal = (requisiciones) => {
+        return requisiciones.reduce((total, req) => {
+            const cantidad = parseFloat(req.cantidad) || 0;
+            const costo = parseFloat(req.costo_estimado) || 0;
+            return total + (cantidad * costo);
+        }, 0).toFixed(2);
+    };
 
     const handleChangeRequisicion = (e) => {
         setNewRequisicion({
@@ -451,14 +469,11 @@ const Requisiciones = () => {
                                             <div className="form-floating">
                                                 <input
                                                     type="number"
-                                                    className={`form-control ${errors.total_estimado ? 'is-invalid' : ''}`}
+                                                    className="form-control"
                                                     id="total_estimado"
                                                     name="total_estimado"
-                                                    placeholder="0.00"
                                                     value={folioData.total_estimado}
-                                                    onChange={(e) => setFolioData({ ...folioData, total_estimado: e.target.value })}
-                                                    min="0"
-                                                    aria-describedby="totalEstimadoHelp"
+                                                    readOnly
                                                 />
                                                 <label htmlFor="total_estimado">
                                                     <FaDollarSign className="me-2" />
