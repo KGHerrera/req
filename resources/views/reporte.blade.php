@@ -6,20 +6,19 @@
     <style>
         @page {
             size: landscape;
-            margin: 20mm;
+            margin: 15mm; /* Reducir márgenes generales */
         }
 
         body {
             font-family: Arial, sans-serif;
             max-width: 1200px;
             margin: 0 auto;
-            font-size: 12px;
+            font-size: 12px; /* Reducir tamaño de fuente */
         }
 
         .header {
-            margin-bottom: 15px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
+            margin-bottom: 5px; /* Reducir espacio debajo del encabezado */
+            padding-bottom: 5px; /* Reducir padding del header */
         }
 
         .header-logos {
@@ -30,6 +29,7 @@
         .header-logos td {
             border: none;
             vertical-align: middle;
+            padding: 0; /* Eliminar padding para reducir espacio */
         }
 
         .logo-cell {
@@ -37,111 +37,60 @@
         }
 
         .header-logos img {
-            width: 100px;
+            width: 80px; /* Ajustar tamaño de logo */
         }
 
         .title-cell {
             text-align: center;
-            padding: 0 20px;
+            padding: 0 10px; /* Reducir padding */
         }
 
-        /* Tabla principal más compacta */
         .main-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 5px 0;
             box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-            font-size: 12px;
-            table-layout: fixed; /* Establece un diseño fijo para la tabla */
+            font-size: 12px; /* Reducir tamaño de fuente */
+            table-layout: fixed;
         }
 
-        .main-table th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-            padding: 6px;
-            font-size: 12px;
-        }
-
-        .main-table td {
-            padding: 6px;
-            font-size: 12px;
-        }
-
-        .main-table,
         .main-table th,
         .main-table td {
             border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        .signatures {
-            width: 100%;
-            margin-top: 30px;
+            padding: 4px; /* Reducir padding en celdas */
+            font-size: 12px; /* Reducir tamaño de fuente */
         }
 
         .signatures-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 10px;
         }
 
         .signature-cell {
             width: 33.33%;
             text-align: center;
-            padding: 15px;
+            padding: 12px; /* Reducir padding */
             border: none;
         }
 
         .signature-line {
             border-top: 1px solid #000;
             width: 80%;
-            margin: 30px auto 10px auto;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            margin-top: 3px;
-            margin-bottom: 3px;
-        }
-
-        p {
-            font-size: 12px;
-            margin: 5px 0;
-        }
-
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 5px 0;
+            margin: 10px auto; /* Reducir margen */
         }
 
         .info-table td {
             border: none;
             padding: 3px;
-            font-size: 12px;
+            font-size: 12px; /* Reducir tamaño de fuente */
         }
 
-        /* Nuevo estilo para el total */
-        .total-container {
-            width: 100%;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
 
-        .total-box {
-            float: right;
-            border: 1px solid #ddd;
-            padding: 6px 12px;
-            background-color: #f4f4f4;
-            width: auto;
-        }
-
-        /* Estilo para el área de observaciones */
-        .observations-box {
-            width: 100%;
-            height: 14px; /* Ajustamos la altura a 14px */
-            border: 1px solid #ddd;
-            margin-top: 40px;
-            padding: 6px;
-            box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+        h1, h2, h3, h4, h5, h6, p {
+            margin-bottom: 3px;
+            margin-top: 0;
+            padding: 0;
         }
     </style>
 </head>
@@ -174,26 +123,44 @@
 
     <div class="header-info">
         <h4>Reporte de Folio: {{ $folio->folio }}</h4>
-        <p>NOMBRE DEL JEFE(A) ÁREA SOLICITANTE: MMMD. MANUEL IVAN GALLEGOS PÉREZ</p>
-        <p>FECHA DE ENTREGA Y AREA SOLICITANTE: {{ $folio->fecha_entrega }} DEPARTAMENTO DE DESARROLLO ACADÉMICO</p>
-        <p>Los Bienes o Servicios están contemplados en el Programa Operativo Anual: Si [ * ] No [  ]</p>
+        <!-- mostrarlo en mayusculas -->
+        <p>NOMBRE DEL JEFE(A) ÁREA SOLICITANTE: {{ strtoupper($nombreJefeArea)}}</p>
+        <p>FECHA DE ENTREGA Y AREA SOLICITANTE: {{ $folio->fecha_entrega }} {{ strtoupper($nombreAreaSolicitante) }}</p>
+        <p>Los Bienes o Servicios están contemplados en el Programa Operativo Anual: Si [ * ] No [ ]</p>
     </div>
 
     <main>
         <table class="main-table">
             <thead>
                 <tr>
+                    <th>PROYECTO, ACTIVIDAD y ACCIÓN</th>
                     <th>Partida Presupuestal</th>
                     <th>Cantidad</th>
                     <th>Unidad</th>
                     <th>Descripción de los bienes o servicios</th>
                     <th>Costo Estimado TOTAL + IVA</th>
-                    <th>Firma de confirmidad de entregado</th>
+                    <th>Firma de conformidad de entregado</th>
                 </tr>
             </thead>
             <tbody>
+                @php
+                    // Contamos cuántas requisiciones hay para saber cuántas filas van a compartir el mismo Proyecto/Acción/etc.
+                    $totalRequisiciones = count($requisiciones);
+                    $currentIndex = 0;
+                    $totalCostoEstimado = 0; // Variable para calcular el total de costos estimados
+                    $totalCantidad = 0; // Variable para calcular el total de cantidades
+                @endphp
+
                 @foreach ($requisiciones as $requisicion)
                     <tr>
+                        @if ($currentIndex == 0) <!-- Para la primera requisición -->
+                            <td rowspan="{{ $totalRequisiciones }}">
+                                <p><strong>Objetivo:</strong> {{ $objetivo }}</p>
+                                <p><strong>Línea de Acción:</strong> {{ $lineaAccion }}</p>
+                                <p><strong>Proyecto:</strong> {{ $proyecto }}</p>
+                                <p><strong>Acción:</strong> {{ $accion }}</p>
+                            </td>
+                        @endif
                         <td>{{ $requisicion->partida_presupuestal }}</td>
                         <td>{{ $requisicion->cantidad }}</td>
                         <td>{{ $requisicion->unidad }}</td>
@@ -201,45 +168,45 @@
                         <td>${{ number_format($requisicion->costo_estimado, 2) }}</td>
                         <td></td>
                     </tr>
+
+                    @php
+                        // Acumulamos los valores para el total
+                        $totalCostoEstimado += $requisicion->costo_estimado;
+                        $totalCantidad += $requisicion->cantidad;
+                        $currentIndex++;
+                    @endphp
                 @endforeach
+
+                <!-- Agregamos la fila con el total y la cantidad -->
+                <tr>
+                    <td colspan="4"></td>
+                    <td><strong>Total</strong></td>
+                    <td><strong>${{ number_format($totalCostoEstimado, 2) }}</strong></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
 
-        <div class="total-container">
-            <div class="total-box">
-                <strong>Total: ${{ number_format($folio->total_estimado, 2) }}</strong>
-            </div>
-        </div>
-
-        <div class="observations-box"></div>
+        <table class="main-table">
+            <tbody>
+                <tr>
+                    <td>LO ANTERIOR PARA SER UTILIZADO EN: {{ strtoupper($loAnterior) }}</td> <!-- Mostrar el dato recibido -->
+                </tr>
+            </tbody>
+        </table>
     </main>
 
     <div class="signatures">
         <table class="signatures-table">
             <tr>
-               
+                @foreach ($firmas as $firma)
                     <td class="signature-cell">
                         <p>REVISA</p>
                         <p> NOMBRE Y FIRMA</p>
                         <div class="signature-line"></div>
-                        <p>SUBDIRECTOR DE PLANEACIÓN Y VINCULACIÓN <br/>
-                        MTRO, CRISTÓBAL HERNÁNDEZ GUERRA</p>
+                        <p>{!! $firma !!}</p>
                     </td>
-                    <td class="signature-cell">
-                        <p>REVISA</p>
-                        <p> NOMBRE Y FIRMA</p>
-                        <div class="signature-line"></div>
-                        <p>SUBDIRECTOR DE SERVICIOS ADMINISTRATIVOS <br/>
-                        LIC. CARLOS ISRAEL HERNÁNDEZ GUERRA</p>
-                    </td>
-                    <td class="signature-cell">
-                        <p>REVISA</p>
-                        <p> NOMBRE Y FIRMA</p>
-                        <div class="signature-line"></div>
-                        <p>DIRECTOR GENERAL <br/>
-                        </p>
-                    </td>
-
+                @endforeach
             </tr>
         </table>
     </div>

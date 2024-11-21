@@ -166,9 +166,14 @@ const Requisiciones = () => {
 
         setLoading(true);
 
+        console.log(folioData)
+
         axiosClient.post('/folio-requisicion', data)
             .then(() => {
 
+                console.log(folioData);
+
+                console.log(user);
                 Swal.fire({
                     icon: 'success',
                     title: 'Éxito',
@@ -192,12 +197,25 @@ const Requisiciones = () => {
                     });
                     setErrors({});
                 });
+
+                
             })
             .catch((err) => {
                 const response = err.response;
                 if (response && response.status === 422) {
                     console.log(response.data.errors);
                 }
+
+                // mostrar swal alert con error de conexion al servidor
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al enviar la solicitud',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                });
+
             }).finally(() => {
                 setLoading(false);
             });

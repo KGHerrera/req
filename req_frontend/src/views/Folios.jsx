@@ -51,6 +51,8 @@ const Folios = () => {
         if (user.id !== undefined) {
             fetchFolios();
             setNewEstado(getNextEstado(user.rol));
+
+
         }
 
     }, [user, currentPage]);
@@ -107,32 +109,115 @@ const Folios = () => {
 
 
     const handleShowReport = async (folioId) => {
-        try {
-            const response = await axiosClient.get(`/folios/${folioId}/reporte`, { responseType: 'blob' });
+        // CSS personalizado para el formulario
+        const customStyle = `
+            <style>
+                .form-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                    padding: 10px;
+                }
+                .form-grid input {
+                    margin: 0 !important;
+                    width: 100%;
+                }
+                .form-group {
+                    margin-bottom: 10px;
+                }
+                .form-group label {
+                    display: block;
+                    margin-bottom: 5px;
+                    text-align: left;
+                    font-size: 0.9em;
+                    color: #555;
+                }
+            </style>
+        `;
     
-            // Crear un objeto URL para el Blob
-            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-            
-            // Abrir una nueva ventana con el PDF
-            const newWindow = window.open(url, '_blank');
-    
-            // Verificar si la ventana se abrió correctamente
-            if (!newWindow) {
-                Swal.fire('Error', 'No se pudo abrir la ventana del reporte. Verifica las configuraciones del navegador.', 'error');
+        const { value: formData } = await Swal.fire({
+            title: 'Ingrese los datos requeridos',
+            html: `
+                ${customStyle}
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nombreJefeArea">Nombre Jefe de Área</label>
+                        <input id="nombreJefeArea" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreAreaSolicitante">Nombre del Área Solicitante</label>
+                        <input id="nombreAreaSolicitante" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="proyecto">Proyecto</label>
+                        <input id="proyecto" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="actividad">Actividad</label>
+                        <input id="actividad" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="accion">Acción</label>
+                        <input id="accion" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="objetivo">Objetivo</label>
+                        <input id="objetivo" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="lineaAccion">Línea de Acción</label>
+                        <input id="lineaAccion" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="loAnterior">Para ser utilizado en</label>
+                        <input id="loAnterior" class="swal2-input" type="text">
+                    </div>
+                </div>
+            `,
+            focusConfirm: false,
+            width: '800px', // Aumentamos el ancho del modal
+            preConfirm: () => {
+                return {
+                    nombreJefeArea: document.getElementById('nombreJefeArea').value,
+                    nombreAreaSolicitante: document.getElementById('nombreAreaSolicitante').value,
+                    proyecto: document.getElementById('proyecto').value,
+                    actividad: document.getElementById('actividad').value,
+                    accion: document.getElementById('accion').value,
+                    objetivo: document.getElementById('objetivo').value,
+                    lineaAccion: document.getElementById('lineaAccion').value,
+                    loAnterior: document.getElementById('loAnterior').value
+                };
             }
-        } catch (err) {
-            setError(err.response ? err.response.data.message : 'Error al obtener el reporte');
-            Swal.fire('Error', 'Hubo un problema al obtener el reporte', 'error');
+        });
+    
+        if (formData) {
+            try {
+                const response = await axiosClient.get(`/folios/${folioId}/reporte`, {
+                    params: formData,
+                    responseType: 'blob'
+                });
+    
+                const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+                const newWindow = window.open(url, '_blank');
+    
+                if (!newWindow) {
+                    Swal.fire('Error', 'No se pudo abrir la ventana del reporte. Verifica las configuraciones del navegador.', 'error');
+                }
+            } catch (err) {
+                setError(err.response ? err.response.data.message : 'Error al obtener el reporte');
+                Swal.fire('Error', 'Hubo un problema al obtener el reporte', 'error');
+            }
+        } else {
+            Swal.fire('Error', 'Por favor, complete todos los campos del formulario.', 'error');
         }
     };
     
 
 
 
+
+
     const handleModalAccept = (folioId) => {
-
-
-
 
         Swal.fire({
             title: 'Aceptar Folio',
@@ -151,7 +236,6 @@ const Folios = () => {
     };
 
     const handleModalReject = (folioId) => {
-
 
         Swal.fire({
             title: 'Rechazar Folio',
@@ -289,7 +373,7 @@ const Folios = () => {
                                                     <span className="badge bg-primary px-3 py-2">
                                                         {folio.estado}
                                                     </span>
-                                                    <div className="btn-group">
+                                                    <div className="btn-group btn-group-sm">
                                                         {['subdireccion', 'vinculacion', 'direccion'].includes(user.rol) && (
                                                             <>
                                                                 <button
@@ -315,7 +399,7 @@ const Folios = () => {
                                                                 className="btn btn-outline-primary"
                                                             >
                                                                 <FaPlus className="me-2" />
-                                                                Crear orden de compra
+                                                                Crear orden
                                                             </Link>
                                                         )}
 

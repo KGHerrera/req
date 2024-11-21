@@ -98,6 +98,7 @@ const CrearUsuario = () => {
         });
         setErrors({});
         setShowForm(false);
+        
     };
 
 
@@ -246,7 +247,7 @@ const CrearUsuario = () => {
 
                                     </div>
 
-                                    <button type="submit" className={`btn btn-primary ${userData.id ? 'col-12' : 'col-12'} d-flex align-items-center justify-content-center hover-effect`} disabled={isLoading}>
+                                    <button type="submit" className={`btn btn-primary py-3  ${userData.id ? 'col-12' : 'col-12'} d-flex align-items-center justify-content-center hover-effect`} disabled={isLoading}>
                                         {isLoading ? (
                                             <span className="spinner-border spinner-border-sm mt-1" role="status" aria-hidden="true"></span>
                                         ) : (
@@ -257,7 +258,7 @@ const CrearUsuario = () => {
                                     </button>
 
                                     {userData.id &&
-                                        <button type="button" className="btn btn-secondary mt-3 col-12" onClick={handleCancel}>Cancelar</button>
+                                        <button type="button" className="btn btn-warning mt-3 py-3 col-12" onClick={handleCancel}>Cancelar</button>
                                     }
 
 

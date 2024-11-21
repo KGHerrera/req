@@ -213,7 +213,7 @@ class FolioRequisicionController extends Controller
     }
 
 
-    public function generateReport($id)
+    public function generateReport($id, Request $request)
     {
         try {
             $folio = Folio::with('requisiciones')->findOrFail($id);
@@ -221,13 +221,23 @@ class FolioRequisicionController extends Controller
             $data = [
                 'folio' => $folio,
                 'requisiciones' => $folio->requisiciones,
-                'logoPath' => public_path('img/logo.png'), // Usa la ruta directa del archivo
+                'logoPath' => public_path('img/logo.png'),
                 'logoPath2' => public_path('img/itsj.png'),
                 'firmas' => [
-                    'Nombre de Firma 1',
-                    'Nombre de Firma 2',
-                    'Nombre de Firma 3'
-                ]
+                    'MTRO. CRISTÓBAL HERNÁNDEZ GUERRA<br>SUBDIRECTOR DE PLANEACION Y VINCULACIÓN',
+                    'LIC. CARLOS ISRAEL HERNÁNDEZ GUERRA<br>SUBDIRECTOR DE SERVICIOS ADMINISTRATIVOS',
+                    'L.C. JUAN ANTONIO RANGEL TRUJILLO<br>DIRECTOR GENERAL'
+                ],
+
+                // Recibiendo los parámetros enviados desde React
+                'nombreJefeArea' => $request->input('nombreJefeArea'),
+                'nombreAreaSolicitante' => $request->input('nombreAreaSolicitante'),
+                'proyecto' => $request->input('proyecto'),
+                'actividad' => $request->input('actividad'),
+                'accion' => $request->input('accion'),
+                'objetivo' => $request->input('objetivo'),
+                'lineaAccion' => $request->input('lineaAccion'),
+                'loAnterior' => $request->input('loAnterior') // Nuevo dato recibido
             ];
 
             $pdf = app('dompdf.wrapper')->loadView('reporte', $data);
@@ -241,7 +251,10 @@ class FolioRequisicionController extends Controller
 
 
 
-    
+
+
+
+
 
 
 

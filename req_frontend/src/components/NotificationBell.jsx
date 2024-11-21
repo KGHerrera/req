@@ -12,6 +12,7 @@ const NotificationBell = () => {
   const { user } = useStateContext();
 
   const fetchUnreadCount = async () => {
+    console.log("notificacion enviada");
     if (!user?.id) return; // Asegurarse de que existe el usuario
 
     try {
@@ -40,7 +41,7 @@ const NotificationBell = () => {
 
   const markAsRead = async (notificationId) => {
     if (!user?.id) return;
-
+    
     try {
       await axiosClient.post(`/notifications/${notificationId}/mark-as-viewed`);
       setNotifications(prev =>

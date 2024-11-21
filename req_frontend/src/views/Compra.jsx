@@ -62,7 +62,6 @@ const Compra = () => {
     const handleShowEvidence = async (evidenceUrl) => {
         // Reemplazar 'public' por 'storage' en la URL
         const modifiedUrl = evidenceUrl.replace('/public/', '/storage/');
-
         Swal.fire({
             imageUrl: modifiedUrl,
             imageAlt: 'Evidencia de Entrega',
@@ -75,6 +74,7 @@ const Compra = () => {
 
     // Función para manejar la subida de evidencia
     const handleUploadEvidence = (compraId) => {
+        console.log('evidencia subida')
         Swal.fire({
             title: 'Subir Evidencia',
             html: '<input type="file" id="fileInput" accept="image/*" class="form-control">',
@@ -239,7 +239,7 @@ const Compra = () => {
 
                                                                                 <button className="btn btn-danger btn-sm ms-2" onClick={() => handleDeleteEvidence(orden.id_compra)}>
                                                                                     <FaTrashAlt className='m-1' />
-                                                                                    
+
                                                                                 </button>
                                                                             </div>
                                                                         ) : (

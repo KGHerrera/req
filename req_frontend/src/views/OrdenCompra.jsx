@@ -126,6 +126,8 @@ const OrdenCompra = () => {
 
         setIsLoading(true);
 
+        console.log(compraData);
+
         axiosClient.post('/orden-compra', data)
             .then(() => {
                 Swal.fire({
