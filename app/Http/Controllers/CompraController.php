@@ -190,4 +190,42 @@ class CompraController extends Controller
         }
     }
 
+    public function generateReport($id, Request $request)
+    {
+        try {
+            $compra = Compra::with('ordenesCompra.requisicion')->findOrFail($id);
+            $fechaActual = now()->format('d-m-Y');
+
+            \Log::info('Compra Data:', [
+                'compra' => $compra->toArray(),
+                'areaSolicitante' => $request->input('areaSolicitante'),
+                'noOrdenCompra' => $request->input('noOrdenCompra')
+            ]);
+
+            $data = [
+                'compra' => $compra,
+                'ordenes_compra' => $compra->ordenesCompra,
+                'logoPath' => public_path('img/logo.png'),
+                'logoPath2' => public_path('img/itsj.png'),
+                'firmas' => [
+                    'MMMD. MANUEL IVAN GALLEGOS PÉREZ<br>JEFE DE DEPARTAMENTO DE RECURSOS MATERIALES',
+                    'LIC. CARLOS ISRAEL HERNÁNDEZ GUERRA<br>SUBDIRECTOR DE SERVICIOS ADMINISTRATIVOS'
+                ],
+                'areaSolicitante' => $request->input('areaSolicitante'),
+                'noOrdenCompra' => $request->input('noOrdenCompra'),
+                'proveedor' => $compra->proveedor ?? 'N/A',
+                'fechaActual' => $fechaActual,
+                'fechaEntrega' => $compra->fecha_entrega ?? 'N/A',
+            ];
+
+            $pdf = app('dompdf.wrapper')->loadView('reportecompra', $data);
+            return $pdf->download('reporte_compra_' . $compra->id . '.pdf');
+        } catch (\Exception $e) {
+            \Log::error('Error generating report: ' . $e->getMessage());
+            return response()->json(['message' => 'Error al generar el reporte'], 500);
+        }
+    }
+
+
+
 }

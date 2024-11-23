@@ -141,6 +141,83 @@ const Compra = () => {
     };
 
 
+    const handleShowPurchaseDetails = async (compraId) => {
+        // CSS personalizado para el formulario
+        const customStyle = `
+            <style>
+                .form-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                    padding: 10px;
+                }
+                .form-grid input {
+                    margin: 0 !important;
+                    width: 100%;
+                }
+                .form-group {
+                    margin-bottom: 10px;
+                }
+                .form-group label {
+                    display: block;
+                    margin-bottom: 5px;
+                    text-align: left;
+                    font-size: 0.9em;
+                    color: #555;
+                }
+            </style>
+        `;
+
+        const { value: formData } = await Swal.fire({
+            title: 'Ingrese los datos de la compra',
+            html: `
+                ${customStyle}
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="areaSolicitante">Área Solicitante</label>
+                        <input id="areaSolicitante" class="swal2-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="noOrdenCompra">Número de Orden de Compra</label>
+                        <input id="noOrdenCompra" class="swal2-input" type="text">
+                    </div>
+                </div>
+            `,
+            focusConfirm: false,
+            width: '800px',
+            preConfirm: () => {
+                return {
+                    areaSolicitante: document.getElementById('areaSolicitante').value,
+                    noOrdenCompra: document.getElementById('noOrdenCompra').value
+                };
+            }
+        });
+
+        if (formData) {
+            try {
+                const response = await axiosClient.get(`/ordencompra/${compraId}/reporte`, {
+                    params: formData,
+                    responseType: 'blob'  // Agregado para manejar PDF
+                });
+
+                // Crear URL del blob y abrir en nueva ventana
+                const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+                const newWindow = window.open(url, '_blank');
+
+                if (!newWindow) {
+                    Swal.fire('Error', 'No se pudo abrir la ventana del reporte. Verifica las configuraciones del navegador.', 'error');
+                }
+            } catch (err) {
+                setError(err.response ? err.response.data.message : 'Error al obtener el reporte');
+                Swal.fire('Error', 'Hubo un problema al obtener el reporte', 'error');
+            }
+        } else {
+            Swal.fire('Error', 'Por favor, complete todos los campos del formulario.', 'error');
+        }
+    };
+
+
+
     return (
         <>
             <Navbar />
@@ -250,7 +327,17 @@ const Compra = () => {
                                                                                 <FaUpload className='me-2' />
                                                                                 Agregar
                                                                             </button>
+
+
                                                                         )}
+
+                                                                        <button
+                                                                            className="btn btn-secondary btn-sm ms-2"
+                                                                            onClick={() => handleShowPurchaseDetails(orden.id_compra)}
+                                                                        >
+                                                                            <FaEye className='me-2' />
+                                                                            Detalles
+                                                                        </button>
                                                                     </td>
                                                                 </tr>
                                                             ))}

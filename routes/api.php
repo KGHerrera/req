@@ -53,4 +53,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/{id}/mark-as-viewed', [NotificationsController::class, 'markAsViewed']);
 
     Route::get('/folios/{id}/reporte', [FolioRequisicionController::class, 'generateReport']);
+    Route::get('/ordencompra/{id}/reporte', [CompraController::class, 'generateReport']);
 });

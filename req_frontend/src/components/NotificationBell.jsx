@@ -12,7 +12,6 @@ const NotificationBell = () => {
   const { user } = useStateContext();
 
   const fetchUnreadCount = async () => {
-    console.log("notificacion enviada");
     if (!user?.id) return; // Asegurarse de que existe el usuario
 
     try {
