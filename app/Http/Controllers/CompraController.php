@@ -105,6 +105,7 @@ class CompraController extends Controller
                             'precio_unitario' => $orden->precio_unitario,
                             'importe_parcial' => $orden->importe_parcial,
                             'id_requisicion' => $orden->id_requisicion,
+                            'folio' => optional($orden->requisicion)->folio,
                             'evidencia_de_entrega' => $orden->evidencia_de_entrega,
                         ];
                     }),
@@ -127,6 +128,7 @@ class CompraController extends Controller
             return response()->json(['message' => 'Hubo un problema al obtener las compras.'], 500);
         }
     }
+
 
 
     public function subirEvidencia($id_compra, Request $request)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
-import { FaEye, FaSearch, FaTrashAlt, FaUpload } from 'react-icons/fa';
+import { FaBook, FaEye, FaSearch, FaTrashAlt, FaUpload } from 'react-icons/fa';
 
 const Compra = () => {
     const [compras, setCompras] = useState([]);
@@ -287,7 +287,9 @@ const Compra = () => {
                                                 <small><p className='mb-2'><strong>Fecha de Entrega:</strong> {compra.fecha_entrega}</p></small>
                                                 <small><p className='mb-2'><strong>IVA:</strong> {compra.IVA}</p>     </small>
                                                 <small><p className='mb-2'><strong>Total:</strong> {compra.total}</p>   </small>
+                                                <small><p className='mb-2'><strong>Folio:</strong> {compra.ordenes_compra[0].folio}</p></small>
                                                 <small><p className='fw-bold mb-2' >Órdenes de Compra:</p> </small>
+                                               
                                                 <div className="table-responsive">
                                                     <table className="table small table-hover table-bordered">
                                                         <thead className="table-light">
@@ -318,26 +320,38 @@ const Compra = () => {
                                                                                     <FaTrashAlt className='m-1' />
 
                                                                                 </button>
+
+                                                                                <button
+                                                                                    className="btn btn-warning btn-sm ms-2"
+                                                                                    onClick={() => handleShowPurchaseDetails(orden.id_compra)}
+                                                                                >
+                                                                                    <FaBook className='m-1' />
+                                                                                </button>
                                                                             </div>
                                                                         ) : (
-                                                                            <button
-                                                                                className="btn btn-primary btn-sm"
-                                                                                onClick={() => handleUploadEvidence(orden.id_compra)}
-                                                                            >
-                                                                                <FaUpload className='me-2' />
-                                                                                Agregar
-                                                                            </button>
+
+                                                                            <div className="text-center">
+                                                                                <button
+                                                                                    className="btn btn-primary btn-sm"
+                                                                                    onClick={() => handleUploadEvidence(orden.id_compra)}
+                                                                                >
+                                                                                    <FaUpload className='m-1' />
+                                                                                    Evidencia
+                                                                                </button>
+
+                                                                                <button
+                                                                                    className="btn btn-warning btn-sm ms-2"
+                                                                                    onClick={() => handleShowPurchaseDetails(orden.id_compra)}
+                                                                                >
+                                                                                    <FaBook className='m-1' />
+                                                                                </button>
+
+                                                                            </div>
 
 
                                                                         )}
 
-                                                                        <button
-                                                                            className="btn btn-secondary btn-sm ms-2"
-                                                                            onClick={() => handleShowPurchaseDetails(orden.id_compra)}
-                                                                        >
-                                                                            <FaEye className='me-2' />
-                                                                            Detalles
-                                                                        </button>
+
                                                                     </td>
                                                                 </tr>
                                                             ))}

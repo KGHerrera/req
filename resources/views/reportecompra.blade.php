@@ -171,9 +171,9 @@
                                     $counter++;
                                 @endphp
                 @endforeach
-
+ 
                 <tr>
-                    <td colspan="7" style="text-align: right;"><strong>Total</strong></td>
+                    <td colspan="7" style="text-align: right;"><strong>Importe Total:</strong></td>
                     <td><strong>${{ number_format($totalImporte, 2) }}</strong></td>
                 </tr>
             </tbody>

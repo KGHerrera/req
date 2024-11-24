@@ -5,7 +5,7 @@ import axiosClient from '../axiosClient';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
-import { FaSearch, FaFile, FaCheck, FaTimes, FaPlus } from 'react-icons/fa';
+import { FaSearch, FaFile, FaCheck, FaTimes, FaPlus, FaBook } from 'react-icons/fa';
 
 
 const Folios = () => {
@@ -377,14 +377,14 @@ const Folios = () => {
                                                         {['subdireccion', 'vinculacion', 'direccion'].includes(user.rol) && (
                                                             <>
                                                                 <button
-                                                                    className="btn btn-outline-primary"
+                                                                    className="btn btn-primary"
                                                                     onClick={() => handleModalAccept(folio.folio)}
                                                                 >
                                                                     <FaCheck className="me-2" />
                                                                     Aceptar
                                                                 </button>
                                                                 <button
-                                                                    className="btn btn-outline-danger"
+                                                                    className="btn btn-danger"
                                                                     onClick={() => handleModalReject(folio.folio)}
                                                                 >
                                                                     <FaTimes className="me-2" />
@@ -396,20 +396,20 @@ const Folios = () => {
                                                             <Link
                                                                 to={`/orden_compra`}
                                                                 state={{ folio }}
-                                                                className="btn btn-outline-primary"
+                                                                className="btn btn-primary"
                                                             >
-                                                                <FaPlus className="me-2" />
+                                                                <FaPlus className="m-1" />
                                                                 Crear orden
                                                             </Link>
                                                         )}
 
                                                         {['materiales'].includes(user.rol) && (
                                                             <button
-                                                                className="btn btn-outline-success"
+                                                                className="btn btn-success"
                                                                 onClick={() => handleShowReport(folio.folio)}
                                                             >
-                                                                <FaFile className="me-2" />
-                                                                Mostrar Reporte
+                                                                <FaBook className="m-1" />
+                                                                Reporte
                                                             </button>
                                                         )}
                                                     </div>
